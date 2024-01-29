@@ -10,15 +10,11 @@ import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 
-class StaffModeActionBarHandler : BukkitRunnable()
-{
+class StaffModeActionBarHandler : BukkitRunnable() {
 
-    override fun run()
-    {
-        for (player in Bukkit.getOnlinePlayers())
-        {
-            if (StaffSuiteManager.isModMode(player))
-            {
+    override fun run() {
+        for (player in Bukkit.getOnlinePlayers()) {
+            if (StaffSuiteManager.isModMode(player)) {
                 AlchemistSpigotPlugin.instance.audience.player(player).sendActionBar(
                     Component.text(
                         Chat.format(
@@ -35,27 +31,23 @@ class StaffModeActionBarHandler : BukkitRunnable()
     }
 
 
-    fun getChatString(): String
-    {
+    fun getChatString(): String {
         if (ChatService.muted) return "&cMuted"
         if (ChatService.slowed) return "&6Slowed"
 
         return "&fNormal"
     }
 
-    fun getVanishString(player: Player): String
-    {
+    fun getVanishString(player: Player): String {
         if (player.hasMetadata("vanish")) return "&aInvisible"
 
         return "&cVisible"
     }
 
-    fun getStaffChat(player: Player): String
-    {
+    fun getStaffChat(player: Player): String {
         val profile = player.getProfile() ?: return "&cDisabled"
 
-        if (player.hasPermission("alchemist.staff") && profile.hasMetadata("allMSGSC"))
-        {
+        if (player.hasPermission("alchemist.staff") && profile.hasMetadata("allMSGSC")) {
             return "&aEnabled"
         }
 

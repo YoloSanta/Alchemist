@@ -9,8 +9,7 @@ import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
-object StaffItems
-{
+object StaffItems {
 
     val COMPASS = ItemBuilder.of(Material.COMPASS).name("&bCompass").build()
     val INVENTORY_INSPECT = ItemBuilder.of(Material.BOOK).name("&bInspect Inventory").build()
@@ -38,27 +37,23 @@ object StaffItems
 
     var lastPvP: Location? = null
 
-    fun equip(player: Player)
-    {
+    fun equip(player: Player) {
         val resource = RedisPacketManager.pool.resource
 
         resource.use {
             val item = it.hget("Alchemist:ModMode:", player.uniqueId.toString())
 
-            if (item != null)
-            {
+            if (item != null) {
                 val items = ItemStackAdapter.itemStackArrayFromBase64(item)
 
                 player.inventory.contents = items
-            } else
-            {
+            } else {
                 player.inventory.setItem(0, COMPASS)
                 player.inventory.setItem(1, INVENTORY_INSPECT)
                 player.inventory.setItem(2, RANDOMTP)
                 player.inventory.setItem(3, BETTER_VIEW)
 
-                if (player.hasPermission("alchemist.staffmode.worldedit"))
-                {
+                if (player.hasPermission("alchemist.staffmode.worldedit")) {
                     player.inventory.setItem(4, WORLDEDIT_AXE)
                 }
 

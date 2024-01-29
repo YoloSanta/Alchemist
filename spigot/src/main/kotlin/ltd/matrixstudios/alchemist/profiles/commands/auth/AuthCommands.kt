@@ -20,19 +20,16 @@ import java.util.concurrent.TimeUnit
 
 @CommandAlias("auth|2fa")
 @CommandPermission("alchemist.auth")
-class AuthCommands : BaseCommand()
-{
+class AuthCommands : BaseCommand() {
 
     @HelpCommand
-    fun help(help: CommandHelp)
-    {
+    fun help(help: CommandHelp) {
         help.showHelp()
     }
 
     @Subcommand("status")
     @Description("View your current authentication status.")
-    fun onAuthStatus(player: Player)
-    {
+    fun onAuthStatus(player: Player) {
         val profile = player.getProfile() ?: return
 
         player.sendMessage(" ")
@@ -56,30 +53,25 @@ class AuthCommands : BaseCommand()
     @Subcommand("bypass")
     @Description("Allow a user to bypass authentication.")
     @CommandPermission("alchemist.auth.admin")
-    fun onBypass(player: CommandSender, @Name("target") gameProfile: AsyncGameProfile)
-    {
+    fun onBypass(player: CommandSender, @Name("target") gameProfile: AsyncGameProfile) {
         gameProfile.use(player) {
-            if (player is Player && it.uuid == player.uniqueId)
-            {
+            if (player is Player && it.uuid == player.uniqueId) {
                 player.sendMessage(Chat.format("&cFor security reasons, you are not able to change your authentication bypass."))
                 return@use
             }
 
             val authStatus = it.getAuthStatus()
 
-            if (it.hasMetadata("needsAuthetication"))
-            {
+            if (it.hasMetadata("needsAuthetication")) {
                 it.metadata.remove("needsAuthetication")
             }
 
-            if (!authStatus.authBypassed)
-            {
+            if (!authStatus.authBypassed) {
                 authStatus.authBypassed = true
                 it.authStatus = authStatus
 
                 player.sendMessage(Chat.format("&eYou have set ${it.getRankDisplay()}'s &eauthentication bypass to true"))
-            } else
-            {
+            } else {
                 authStatus.authBypassed = false
                 it.authStatus = authStatus
                 player.sendMessage(Chat.format("&eYou have removed ${it.getRankDisplay()}'s &eauthentication bypass"))
@@ -92,15 +84,13 @@ class AuthCommands : BaseCommand()
     @Subcommand("reset")
     @Description("Reset a user's authentication status.")
     @CommandPermission("alchemist.auth.admin")
-    fun onReset(commandSender: CommandSender, @Name("target") target: AsyncGameProfile): CompletableFuture<Void>
-    {
+    fun onReset(commandSender: CommandSender, @Name("target") target: AsyncGameProfile): CompletableFuture<Void> {
         return target.use(commandSender) {
             val authStatus = it.getAuthStatus()
 
             authStatus.lastAuthenticated = 0L
 
-            if (it.hasMetadata("needsAuthetication"))
-            {
+            if (it.hasMetadata("needsAuthetication")) {
                 it.metadata.remove("needsAuthetication")
             }
 
@@ -114,13 +104,11 @@ class AuthCommands : BaseCommand()
 
     @Subcommand("verify")
     @Description("Verify with your code in order to gain access to the server.")
-    fun onVerify(player: Player, @Name("code") code: String): CompletableFuture<Void>
-    {
+    fun onVerify(player: Player, @Name("code") code: String): CompletableFuture<Void> {
         return CompletableFuture.runAsync {
             val profile = player.getProfile()
 
-            if (profile == null)
-            {
+            if (profile == null) {
                 player.sendMessage(Chat.format("&cYour profile cannot be null."))
                 return@runAsync
             }
@@ -128,44 +116,36 @@ class AuthCommands : BaseCommand()
             val parse = code.replace(" ", "")
             val int: Int
 
-            try
-            {
+            try {
                 int = Integer.parseInt(parse)
-            } catch (e: NumberFormatException)
-            {
+            } catch (e: NumberFormatException) {
                 player.sendMessage(Chat.format("&cInvalid integer. Cannot parse to code."))
                 return@runAsync
             }
 
             val authProfile = profile.getAuthStatus()
 
-            if (!BukkitProfileAdaptation.playerNeedsAuthenticating(profile, player))
-            {
+            if (!BukkitProfileAdaptation.playerNeedsAuthenticating(profile, player)) {
                 player.sendMessage(Chat.format("&cYou have already authenticated in the last 3 days."))
                 return@runAsync
             }
 
-            if (authProfile.secret == "")
-            {
+            if (authProfile.secret == "") {
                 player.sendMessage(Chat.format("&cCannot setup authentication on a blank secret key."))
                 return@runAsync
             }
 
-            try
-            {
+            try {
                 val codeIsCorrect = TOTPUtil.validateCurrentNumber(authProfile.secret, int, 250)
 
-                if (!codeIsCorrect)
-                {
+                if (!codeIsCorrect) {
                     player.sendMessage(Chat.format("&cThe code &e${code} &cis incorrect. Cannot authenticate you."))
                     return@runAsync
-                } else
-                {
+                } else {
 
                     authProfile.lastAuthenticated = System.currentTimeMillis()
 
-                    if (!authProfile.hasSetup2fa)
-                    {
+                    if (!authProfile.hasSetup2fa) {
                         authProfile.hasSetup2fa = true
                     }
 
@@ -173,14 +153,12 @@ class AuthCommands : BaseCommand()
                     //im sorry, but if you get your account hijacked
                     //and let them get your 2fa code too ur just dumb
                     val ip = SHA.toHexString(player.address.hostString)
-                    if (ip != null && !authProfile.allowedIps.contains(ip))
-                    {
+                    if (ip != null && !authProfile.allowedIps.contains(ip)) {
                         authProfile.allowedIps.add(ip)
                     }
 
                     profile.authStatus = authProfile
-                    if (profile.hasMetadata("needsAuthetication"))
-                    {
+                    if (profile.hasMetadata("needsAuthetication")) {
                         profile.metadata.remove("needsAuthetication")
                     }
 
@@ -188,8 +166,7 @@ class AuthCommands : BaseCommand()
                     player.sendMessage(Chat.format("&aYou have been successfully authenticated! Thank you for keeping the server safe :)"))
                 }
 
-            } catch (e: GeneralSecurityException)
-            {
+            } catch (e: GeneralSecurityException) {
                 player.sendMessage(Chat.format("&cDecryption error occurred. Contact an administrator."))
                 return@runAsync
             }
@@ -198,23 +175,19 @@ class AuthCommands : BaseCommand()
 
     @Subcommand("setup")
     @Description("Set up your current Authentication Profile to match your needs.")
-    fun onAuthSetup(player: Player)
-    {
+    fun onAuthSetup(player: Player) {
         val profile = player.getProfile()
 
-        if (profile == null)
-        {
+        if (profile == null) {
             player.sendMessage(Chat.format("&cYou must have a profile in order to use this."))
             return
         }
 
         val authStatus = profile.getAuthStatus()
-        if (authStatus.secret == "")
-        {
+        if (authStatus.secret == "") {
             val secret = TOTPUtil.generateSecret()
 
-            if (secret != null)
-            {
+            if (secret != null) {
                 authStatus.secret = secret
                 profile.authStatus = authStatus
             }

@@ -15,12 +15,10 @@ class BroadcastMessage(
     var id: String,
     var lines: MutableList<String> = mutableListOf(),
     val conditions: MutableList<BroadcastCondition> = mutableListOf()
-)
-{
+) {
     fun canBeSentToPlayer(player: Player) = conditions.all { it.shouldShowToPlayer(player) }
 
-    fun save()
-    {
+    fun save() {
         val cached = BroadcastService.cached()
             ?: return
 

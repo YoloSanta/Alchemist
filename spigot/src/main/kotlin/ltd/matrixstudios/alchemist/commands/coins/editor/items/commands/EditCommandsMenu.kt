@@ -18,23 +18,19 @@ import org.bukkit.event.inventory.ClickType
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class EditCommandsMenu(val player: Player, val item: CoinShopItem) : PaginatedMenu(18, player)
-{
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
-    {
+class EditCommandsMenu(val player: Player, val item: CoinShopItem) : PaginatedMenu(18, player) {
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
         var i = 0
 
-        for (cmd in item.commands)
-        {
+        for (cmd in item.commands) {
             buttons[i++] = CommandButton(cmd, item)
         }
 
         return buttons
     }
 
-    override fun getHeaderItems(player: Player): MutableMap<Int, Button>
-    {
+    override fun getHeaderItems(player: Player): MutableMap<Int, Button> {
         return mutableMapOf(
             4 to SimpleActionButton(
                 Material.NETHER_STAR,
@@ -53,20 +49,16 @@ class EditCommandsMenu(val player: Player, val item: CoinShopItem) : PaginatedMe
         )
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return "Edit Commands"
     }
 
-    class CommandButton(val cmd: String, val item: CoinShopItem) : Button()
-    {
-        override fun getMaterial(player: Player): Material
-        {
+    class CommandButton(val cmd: String, val item: CoinShopItem) : Button() {
+        override fun getMaterial(player: Player): Material {
             return Material.SIGN
         }
 
-        override fun getDescription(player: Player): MutableList<String>
-        {
+        override fun getDescription(player: Player): MutableList<String> {
             return mutableListOf(
                 " ",
                 Chat.format("&cClick to delete this command from the item!"),
@@ -74,18 +66,15 @@ class EditCommandsMenu(val player: Player, val item: CoinShopItem) : PaginatedMe
             )
         }
 
-        override fun getDisplayName(player: Player): String
-        {
+        override fun getDisplayName(player: Player): String {
             return Chat.format("&e${cmd}")
         }
 
-        override fun getData(player: Player): Short
-        {
+        override fun getData(player: Player): Short {
             return 0
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType)
-        {
+        override fun onClick(player: Player, slot: Int, type: ClickType) {
             item.commands.remove(cmd)
             CoinShopManager.saveItem(item)
             player.sendMessage(Chat.format("&aRemoved &f${cmd} &afrom &r${item.displayName}"))

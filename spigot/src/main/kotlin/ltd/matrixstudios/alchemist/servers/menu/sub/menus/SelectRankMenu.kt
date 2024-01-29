@@ -14,51 +14,41 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 
-class SelectRankMenu(val player: Player, val server: UniqueServer) : PaginatedMenu(27, player)
-{
+class SelectRankMenu(val player: Player, val server: UniqueServer) : PaginatedMenu(27, player) {
 
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
-    {
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
         var index = 0
 
-        for (rank in RankService.getAllRanksInOrder())
-        {
+        for (rank in RankService.getAllRanksInOrder()) {
             buttons[index++] = RankSelectButton(server, rank)
         }
 
         return buttons
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return "Select a Rank"
     }
 
-    class RankSelectButton(val server: UniqueServer, val rank: Rank) : Button()
-    {
-        override fun getMaterial(player: Player): Material
-        {
+    class RankSelectButton(val server: UniqueServer, val rank: Rank) : Button() {
+        override fun getMaterial(player: Player): Material {
             return Material.WOOL
         }
 
-        override fun getDescription(player: Player): MutableList<String>
-        {
+        override fun getDescription(player: Player): MutableList<String> {
             return mutableListOf()
         }
 
-        override fun getDisplayName(player: Player): String
-        {
+        override fun getDisplayName(player: Player): String {
             return Chat.format(rank.color + rank.displayName)
         }
 
-        override fun getData(player: Player): Short
-        {
+        override fun getData(player: Player): Short {
             return Chat.getDyeColor(rank.color).woolData.toShort()
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType)
-        {
+        override fun onClick(player: Player, slot: Int, type: ClickType) {
             server.lockRank = rank.id
 
             UniqueServerService.save(server)

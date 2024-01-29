@@ -1,19 +1,13 @@
 package ltd.matrixstudios.alchemist.mongo
 
-import com.mongodb.client.MongoCollection
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.UpdateOptions
-import io.github.nosequel.data.DataStoreType
 import ltd.matrixstudios.alchemist.Alchemist
-import ltd.matrixstudios.alchemist.models.party.Party
 import ltd.matrixstudios.alchemist.mongo.extensions.deserialize
 import ltd.matrixstudios.alchemist.mongo.extensions.eq
 import org.bson.Document
 import org.bson.conversions.Bson
-import java.util.*
 import java.util.concurrent.CompletableFuture
-import java.util.concurrent.ForkJoinPool
-import kotlin.properties.Delegates
 import kotlin.reflect.KProperty
 
 /**
@@ -31,19 +25,16 @@ class MongoStorageController<K, V>(
 
     fun retrieve(
         key: K
-    ): CompletableFuture<V?>
-    {
+    ): CompletableFuture<V?> {
         return CompletableFuture.supplyAsync {
             val cursor = collection
                 .find(Filters.eq("_id", key.toString()))
                 .cursor()
 
-            while (cursor.hasNext())
-            {
+            while (cursor.hasNext()) {
                 val obj = cursor.next() deserialize serialClass
 
-                if (obj != null)
-                {
+                if (obj != null) {
                     return@supplyAsync obj
                 }
             }
@@ -66,8 +57,7 @@ class MongoStorageController<K, V>(
 
     fun aggregate(
         constraints: List<Bson>
-    ): CompletableFuture<MutableList<V>>
-    {
+    ): CompletableFuture<MutableList<V>> {
         return CompletableFuture.supplyAsync {
             val items = mutableListOf<V>()
 
@@ -75,12 +65,10 @@ class MongoStorageController<K, V>(
                 .aggregate(constraints)
                 .cursor()
 
-            while (cursor.hasNext())
-            {
+            while (cursor.hasNext()) {
                 val obj = cursor.next() deserialize serialClass
 
-                if (obj != null)
-                {
+                if (obj != null) {
                     items.add(obj)
                 }
             }
@@ -89,8 +77,7 @@ class MongoStorageController<K, V>(
         }
     }
 
-    fun getAll(): CompletableFuture<MutableList<V>>
-    {
+    fun getAll(): CompletableFuture<MutableList<V>> {
         return CompletableFuture.supplyAsync {
             val items = mutableListOf<V>()
 
@@ -98,12 +85,10 @@ class MongoStorageController<K, V>(
                 .find()
                 .cursor()
 
-            while (cursor.hasNext())
-            {
+            while (cursor.hasNext()) {
                 val obj = cursor.next() deserialize serialClass
 
-                if (obj != null)
-                {
+                if (obj != null) {
                     items.add(obj)
                 }
             }
@@ -137,8 +122,7 @@ class MongoStorageController<K, V>(
     fun <T> filter(
         property: KProperty<T>,
         value: String
-    ): CompletableFuture<MutableList<V>>
-    {
+    ): CompletableFuture<MutableList<V>> {
         return CompletableFuture.supplyAsync {
             val items = mutableListOf<V>()
 
@@ -146,15 +130,13 @@ class MongoStorageController<K, V>(
                 .find(property eq value)
                 .cursor()
 
-            while (cursor.hasNext())
-            {
+            while (cursor.hasNext()) {
                 val obj = Alchemist.gson.fromJson(
                     cursor.next().toJson(),
                     serialClass
                 )
 
-                if (obj != null)
-                {
+                if (obj != null) {
                     items.add(obj)
                 }
             }

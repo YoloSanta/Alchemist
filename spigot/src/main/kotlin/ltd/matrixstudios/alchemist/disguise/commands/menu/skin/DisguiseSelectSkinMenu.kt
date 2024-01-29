@@ -14,15 +14,12 @@ import net.pinger.disguise.skin.Skin
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
-class DisguiseSelectSkinMenu(val player: Player, val name: String) : BorderedPaginatedMenu(player)
-{
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
-    {
+class DisguiseSelectSkinMenu(val player: Player, val name: String) : BorderedPaginatedMenu(player) {
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
         var i = 0
 
-        for (skin in DisguiseService.commonSkins.entries)
-        {
+        for (skin in DisguiseService.commonSkins.entries) {
             buttons[i++] = SkullButton(
                 skin.value.value,
                 mutableListOf(),
@@ -36,13 +33,11 @@ class DisguiseSelectSkinMenu(val player: Player, val name: String) : BorderedPag
         return buttons
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return "Select a Skin..."
     }
 
-    override fun getButtonPositions(): List<Int>
-    {
+    override fun getButtonPositions(): List<Int> {
         return listOf(
             10, 11, 12, 13, 14, 15, 16,
             19, 20, 21, 22, 23, 24, 25,
@@ -50,8 +45,7 @@ class DisguiseSelectSkinMenu(val player: Player, val name: String) : BorderedPag
         )
     }
 
-    override fun getHeaderItems(player: Player): MutableMap<Int, Button>
-    {
+    override fun getHeaderItems(player: Player): MutableMap<Int, Button> {
         return mutableMapOf(
             1 to Button.placeholder(),
             2 to SkullButtonOnlyName(
@@ -62,8 +56,7 @@ class DisguiseSelectSkinMenu(val player: Player, val name: String) : BorderedPag
                 player.closeInventory()
                 val skin = DisguiseAPI.getSkinManager().getFromMojang(player.name)
 
-                if (skin == null || skin.value == null)
-                {
+                if (skin == null || skin.value == null) {
                     player.sendMessage(Chat.format("&cUnable to contact MojangAPI"))
                     return@setBody
                 }
@@ -79,8 +72,7 @@ class DisguiseSelectSkinMenu(val player: Player, val name: String) : BorderedPag
                 player.closeInventory()
                 val skin = DisguiseAPI.getSkinManager().getFromMojang(player.name)
 
-                if (skin == null || skin.value == null)
-                {
+                if (skin == null || skin.value == null) {
                     player.sendMessage(Chat.format("&cUnable to contact MojangAPI"))
                     return@setBody
                 }
@@ -99,11 +91,9 @@ class DisguiseSelectSkinMenu(val player: Player, val name: String) : BorderedPag
                     .acceptInput {
                         player.closeInventory()
                         val skin: Skin?
-                        try
-                        {
+                        try {
                             skin = DisguiseAPI.getSkinManager().getFromMojang(it)
-                        } catch (e: UserNotFoundException)
-                        {
+                        } catch (e: UserNotFoundException) {
                             player.sendMessage(Chat.format("&cThis player does not exist! Please check the spelling of the name."))
                             return@acceptInput
                         }

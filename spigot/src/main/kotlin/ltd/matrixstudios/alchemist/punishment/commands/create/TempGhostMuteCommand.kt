@@ -26,8 +26,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.*
 
-class TempGhostMuteCommand : BaseCommand()
-{
+class TempGhostMuteCommand : BaseCommand() {
 
     @CommandAlias("tempghostmute|tempgmute")
     @CommandPermission("alchemist.punishments.tempghostmute")
@@ -38,8 +37,7 @@ class TempGhostMuteCommand : BaseCommand()
         @Name("target") gameProfile: GameProfile,
         @Name("duration") duration: String,
         @Name("reason") reason: String
-    )
-    {
+    ) {
         val punishment = Punishment(
             PunishmentType.GHOST_MUTE.name,
             UUID.randomUUID().toString().substring(0, 4),
@@ -57,21 +55,18 @@ class TempGhostMuteCommand : BaseCommand()
 
         val hasPunishment = gameProfile.hasActivePunishment(PunishmentType.GHOST_MUTE)
 
-        if (hasPunishment)
-        {
+        if (hasPunishment) {
             sender.sendMessage(Chat.format("&cPlayer is already ghost muted!"))
             return
         }
 
-        if (sender is Player)
-        {
+        if (sender is Player) {
 
             val profile = AlchemistAPI.syncFindProfile(sender.uniqueId)!!
             val canExecute =
                 PunishmentLimitationUnderstander.canApplyPunishment(sender.uniqueId)
 
-            if (!canExecute)
-            {
+            if (!canExecute) {
                 sender.sendMessage(Chat.format("&cYou are currently on punishment cooldown."))
                 sender.sendMessage(
                     Chat.format(
@@ -84,8 +79,7 @@ class TempGhostMuteCommand : BaseCommand()
                 return
             }
 
-            if (!BukkitPunishmentFunctions.playerCanPunishOther(profile, gameProfile))
-            {
+            if (!BukkitPunishmentFunctions.playerCanPunishOther(profile, gameProfile)) {
                 sender.sendMessage(Chat.format("&cYou are not eligible to punish this player!"))
                 AsynchronousRedisSender.send(OwnershipMessagePacket("&b[S] &3[${Alchemist.globalServer.displayName}] ${profile.getRankDisplay()} &3tried punishing a player with a rank weight higher than theirs"))
                 return

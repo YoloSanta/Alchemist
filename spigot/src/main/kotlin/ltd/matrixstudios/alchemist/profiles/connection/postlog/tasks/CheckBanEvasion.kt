@@ -15,10 +15,8 @@ import org.bukkit.entity.Player
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object CheckBanEvasion : BukkitPostLoginTask
-{
-    override fun run(player: Player)
-    {
+object CheckBanEvasion : BukkitPostLoginTask {
+    override fun run(player: Player) {
         val profileId = player.uniqueId
         val profile = AlchemistAPI.syncFindProfile(profileId) ?: return
         profile.getAltAccounts().thenAcceptAsync { alts ->
@@ -28,8 +26,7 @@ object CheckBanEvasion : BukkitPostLoginTask
                 )
             }
 
-            if (isBanEvading)
-            {
+            if (isBanEvading) {
                 AsynchronousRedisSender.send(
                     StaffGeneralMessagePacket(
                         "&b[S] &3[${Alchemist.globalServer.displayName}] ${

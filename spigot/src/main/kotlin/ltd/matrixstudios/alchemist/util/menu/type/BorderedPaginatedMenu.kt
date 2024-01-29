@@ -11,11 +11,9 @@ import org.bukkit.entity.Player
  * @project Alchemist
  * @website https://solo.to/redis
  */
-abstract class BorderedPaginatedMenu(other: Player) : PaginatedMenu(36, other)
-{
+abstract class BorderedPaginatedMenu(other: Player) : PaginatedMenu(36, other) {
 
-    override fun getButtonPositions(): List<Int>
-    {
+    override fun getButtonPositions(): List<Int> {
         return listOf(
             10, 11, 12, 13, 14, 15, 16,
             19, 20, 21, 22, 23, 24, 25,
@@ -23,8 +21,7 @@ abstract class BorderedPaginatedMenu(other: Player) : PaginatedMenu(36, other)
         )
     }
 
-    override fun getHeaderItems(player: Player): MutableMap<Int, Button>
-    {
+    override fun getHeaderItems(player: Player): MutableMap<Int, Button> {
         return mutableMapOf(
             1 to Button.placeholder(),
             2 to Button.placeholder(),
@@ -51,8 +48,7 @@ abstract class BorderedPaginatedMenu(other: Player) : PaginatedMenu(36, other)
         )
     }
 
-    override fun getButtonsPerPage(): Int
-    {
+    override fun getButtonsPerPage(): Int {
         return 21
     }
 }

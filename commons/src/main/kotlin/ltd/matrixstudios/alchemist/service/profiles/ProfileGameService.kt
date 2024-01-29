@@ -1,17 +1,13 @@
 package ltd.matrixstudios.alchemist.service.profiles
 
 import com.google.gson.JsonObject
-import com.mongodb.BasicDBObject
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.Indexes
 import io.github.nosequel.data.DataStoreType
 import ltd.matrixstudios.alchemist.Alchemist
-import ltd.matrixstudios.alchemist.cache.types.UUIDCache
 import ltd.matrixstudios.alchemist.models.grant.types.RankGrant
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.models.ranks.Rank
-import ltd.matrixstudios.alchemist.mongo.MongoStorageCache
-import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.service.GeneralizedService
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.service.ranks.RankService
@@ -32,13 +28,11 @@ object ProfileGameService : GeneralizedService {
 
     var cache = ConcurrentHashMap<UUID, GameProfile?>()
 
-    fun loadIndexes()
-    {
+    fun loadIndexes() {
 
         val fields = listOf("ip", "lowercasedUsername")
 
-        for (f in fields)
-        {
+        for (f in fields) {
             collection.createIndex(Indexes.descending(f))
         }
     }
@@ -83,7 +77,7 @@ object ProfileGameService : GeneralizedService {
             for (d in mongoProfile) {
                 val prof = (Alchemist.gson.fromJson(d.toJson(), GameProfile::class.java))
 
-                if (entries.any { it.uuid == prof.uuid}) continue
+                if (entries.any { it.uuid == prof.uuid }) continue
 
                 entries.add(prof)
             }
@@ -92,8 +86,7 @@ object ProfileGameService : GeneralizedService {
         }
     }
 
-    fun getAllOutgoingFriendRequests(prof: GameProfile) : CompletableFuture<MutableList<GameProfile>>
-    {
+    fun getAllOutgoingFriendRequests(prof: GameProfile): CompletableFuture<MutableList<GameProfile>> {
         return CompletableFuture.supplyAsync {
             val queryFilter = Document("friendInvites", Document("\$in", listOf(prof.uuid.toString())))
             val search = collection.find(queryFilter)
@@ -109,7 +102,7 @@ object ProfileGameService : GeneralizedService {
         }
     }
 
-    fun save(gameProfile: GameProfile) : CompletableFuture<Void> {
+    fun save(gameProfile: GameProfile): CompletableFuture<Void> {
         cache[gameProfile.uuid] = gameProfile
 
         return CompletableFuture.runAsync {

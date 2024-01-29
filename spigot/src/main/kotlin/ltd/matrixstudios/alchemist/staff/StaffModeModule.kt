@@ -17,15 +17,12 @@ import ltd.matrixstudios.alchemist.staff.settings.edit.EditModModeCommand
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object StaffModeModule : PluginModule
-{
-    override fun onLoad()
-    {
+object StaffModeModule : PluginModule {
+    override fun onLoad() {
         StaffModeActionBarHandler().runTaskTimer(AlchemistSpigotPlugin.instance, 20L, 20L)
     }
 
-    override fun getCommands(): MutableList<BaseCommand>
-    {
+    override fun getCommands(): MutableList<BaseCommand> {
         val list = mutableListOf<BaseCommand>()
 
         list.add(FreezeCommand())
@@ -34,8 +31,7 @@ object StaffModeModule : PluginModule
 
         list.add(EditModModeCommand())
 
-        if (AlchemistSpigotPlugin.instance.config.getBoolean("staffmode.invseeCommand"))
-        {
+        if (AlchemistSpigotPlugin.instance.config.getBoolean("staffmode.invseeCommand")) {
             list.add(InventoryViewCommand())
         }
 
@@ -43,8 +39,7 @@ object StaffModeModule : PluginModule
 
     }
 
-    override fun getModularConfigOption(): Boolean
-    {
+    override fun getModularConfigOption(): Boolean {
         return AlchemistSpigotPlugin.instance.config.getBoolean("modules.staffmode")
     }
 }

@@ -17,11 +17,9 @@ class FilterBroadcastWithTooltipPacket(
     var bans: Int,
     var alreadyPunished: Boolean,
     var message: String
-) : RedisPacket("filter-broadcast-packet")
-{
+) : RedisPacket("filter-broadcast-packet") {
 
-    override fun action()
-    {
+    override fun action() {
         val target = AlchemistAPI.syncFindProfile(target) ?: return
         val hoverComponent = Component.text(Chat.format("&6&m-------------------------"))
             .appendNewline()

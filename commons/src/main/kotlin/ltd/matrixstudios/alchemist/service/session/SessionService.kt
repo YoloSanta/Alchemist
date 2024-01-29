@@ -24,15 +24,13 @@ object SessionService : GeneralizedService {
     }
 
 
-    fun loadIntoCache(profile: GameProfile)
-    {
+    fun loadIntoCache(profile: GameProfile) {
         val filter = Document("player", profile.uuid.toString())
 
         val documents = rawCollection.find(filter)
         val sessions = mutableListOf<Session>()
 
-        for (document in documents)
-        {
+        for (document in documents) {
             sessions.add(Alchemist.gson.fromJson(document.toJson(), Session::class.java))
         }
 

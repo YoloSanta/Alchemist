@@ -6,11 +6,9 @@ data class BroadcastCondition(
     var logicGate: LogicGate,
     var condition: String,
     val reference: String? = null
-)
-{
+) {
 
-    fun shouldShowToPlayer(player: Player): Boolean
-    {
+    fun shouldShowToPlayer(player: Player): Boolean {
         val split = condition.split(":")
         val key = split[0]
         val value = split[1]
@@ -18,19 +16,16 @@ data class BroadcastCondition(
         val conditionType = ConditionTypeService.allTypes[key]
             ?: return false
 
-        when (logicGate)
-        {
-            LogicGate.And ->
-            {
+        when (logicGate) {
+            LogicGate.And -> {
                 return conditionType.testFor(player, value)
             }
 
-            LogicGate.Not ->
-            {
+            LogicGate.Not -> {
                 return !conditionType.testFor(player, value)
             }
-            LogicGate.Or ->
-            {
+
+            LogicGate.Or -> {
 
             }
         }
@@ -38,8 +33,7 @@ data class BroadcastCondition(
         return true
     }
 
-    enum class LogicGate(val chatColor: String, val displayName: String)
-    {
+    enum class LogicGate(val chatColor: String, val displayName: String) {
         And("&a", "And"),
         Not("&c", "Not"),
         Or("&9", "Or")

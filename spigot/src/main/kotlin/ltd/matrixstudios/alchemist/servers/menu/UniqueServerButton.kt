@@ -10,16 +10,13 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 
-class UniqueServerButton(var server: UniqueServer) : Button()
-{
+class UniqueServerButton(var server: UniqueServer) : Button() {
 
-    override fun getMaterial(player: Player): Material
-    {
+    override fun getMaterial(player: Player): Material {
         return (if (server.online) Material.EMERALD_BLOCK else Material.REDSTONE_BLOCK)
     }
 
-    override fun getDescription(player: Player): MutableList<String>
-    {
+    override fun getDescription(player: Player): MutableList<String> {
         val desc = arrayListOf<String>()
         desc.add(Chat.format("&6&m-------------------------------------"))
         desc.add(Chat.format("&eId: &f" + server.id))
@@ -45,14 +42,12 @@ class UniqueServerButton(var server: UniqueServer) : Button()
         return desc
     }
 
-    fun getFormattedLockRank(): String
-    {
+    fun getFormattedLockRank(): String {
         if (server.lockRank == "") return "&cNone"
 
         val rank = RankService.byId(server.lockRank)
 
-        if (rank != null)
-        {
+        if (rank != null) {
             return rank.color + rank.displayName
         }
 
@@ -60,18 +55,15 @@ class UniqueServerButton(var server: UniqueServer) : Button()
     }
 
 
-    override fun getDisplayName(player: Player): String
-    {
+    override fun getDisplayName(player: Player): String {
         return Chat.format((if (server.online) "&a" else "&c") + server.displayName)
     }
 
-    override fun getData(player: Player): Short
-    {
+    override fun getData(player: Player): Short {
         return 0
     }
 
-    override fun onClick(player: Player, slot: Int, type: ClickType)
-    {
+    override fun onClick(player: Player, slot: Int, type: ClickType) {
         ServerOptionsMenu(player, server).openMenu()
     }
 }

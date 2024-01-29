@@ -1,6 +1,6 @@
 package ltd.matrixstudios.alchemist.models.vouchers
 
-import java.util.UUID
+import java.util.*
 
 data class VoucherGrant(
     var uniqueId: UUID,

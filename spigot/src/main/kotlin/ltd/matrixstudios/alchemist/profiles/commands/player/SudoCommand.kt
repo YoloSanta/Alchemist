@@ -7,15 +7,12 @@ import co.aikar.commands.annotation.Name
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
-import java.util.*
 
-class SudoCommand : BaseCommand()
-{
+class SudoCommand : BaseCommand() {
 
     @CommandAlias("sudoall")
     @CommandPermission("alchemist.sudoall")
-    fun sudoAll(sender: CommandSender, @Name("message") message: String)
-    {
+    fun sudoAll(sender: CommandSender, @Name("message") message: String) {
         Bukkit.getOnlinePlayers().forEach {
             it.chat(message)
         }

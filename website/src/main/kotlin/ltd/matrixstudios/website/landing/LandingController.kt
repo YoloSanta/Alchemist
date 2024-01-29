@@ -25,10 +25,10 @@ class LandingController @Autowired constructor(private val rankRepository: RankR
     fun onLandRequest(): ModelAndView = ModelAndView("login")
 
     @RequestMapping(value = ["/dashboard", "/panel"], method = [RequestMethod.GET])
-    fun onDashboardRequest(request: HttpServletRequest) : ModelAndView
-    {
+    fun onDashboardRequest(request: HttpServletRequest): ModelAndView {
         val modelAndView = ModelAndView("home")
-        val profile = request.session.getAttribute("user") as AlchemistUser? ?: throw ResponseStatusException(HttpStatus.FORBIDDEN, "You must be logged in to view this page")
+        val profile = request.session.getAttribute("user") as AlchemistUser?
+            ?: throw ResponseStatusException(HttpStatus.FORBIDDEN, "You must be logged in to view this page")
 
         modelAndView.addObject("user", profile)
         modelAndView.addObject("rankSize", rankRepository.findAll().size)

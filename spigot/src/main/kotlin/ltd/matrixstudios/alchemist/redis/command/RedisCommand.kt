@@ -12,13 +12,11 @@ import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.TimeUtil
 import org.bukkit.command.CommandSender
 
-object RedisCommand : BaseCommand()
-{
+object RedisCommand : BaseCommand() {
 
     @CommandAlias("redis")
     @CommandPermission("alchemist.owner")
-    fun redis(player: CommandSender)
-    {
+    fun redis(player: CommandSender) {
         player.sendMessage(Chat.format("&7&m--------------------------"))
         player.sendMessage(Chat.format("&4&lRedis &7❘ &fInformation"))
         player.sendMessage(Chat.format("&7&m--------------------------"))

@@ -24,45 +24,37 @@ import org.bukkit.event.player.PlayerQuitEvent
 import java.util.*
 
 
-class ProfileJoinListener : Listener
-{
+class ProfileJoinListener : Listener {
 
     @EventHandler
-    fun autoFormatChat(event: AsyncPlayerChatEvent)
-    {
+    fun autoFormatChat(event: AsyncPlayerChatEvent) {
         var prefixString = ""
 
         val profile = AlchemistAPI.quickFindProfile(event.player.uniqueId).join() ?: return
 
         var colorString = ""
 
-        if (profile.hasActivePrefix())
-        {
+        if (profile.hasActivePrefix()) {
 
             val prefix = profile.getActivePrefix()
 
-            if (prefix != null)
-            {
+            if (prefix != null) {
                 prefixString = prefix.prefix
             }
         }
 
-        if (profile.activeColor != null)
-        {
+        if (profile.activeColor != null) {
             colorString = profile.activeColor!!.chatColor
         }
 
         var rank = RankService.FALLBACK_RANK
 
-        if (profile.rankDisguiseAttribute != null)
-        {
+        if (profile.rankDisguiseAttribute != null) {
             val curr = RankService.byId(profile.rankDisguiseAttribute!!.rank)
-            if (curr != null)
-            {
+            if (curr != null) {
                 rank = curr
             }
-        } else
-        {
+        } else {
             rank = profile.getCurrentRank()
         }
 
@@ -78,14 +70,12 @@ class ProfileJoinListener : Listener
                 .replace("<message>", "%2\$s")
         )
 
-        if (AlchemistSpigotPlugin.instance.server.pluginManager.isPluginEnabled("PlaceholderAPI"))
-        {
+        if (AlchemistSpigotPlugin.instance.server.pluginManager.isPluginEnabled("PlaceholderAPI")) {
             PlaceholderAPI.setPlaceholders(event.player, format)
         }
 
         //player has explicit staff chat on
-        if (event.player.hasPermission("alchemist.staff") && profile.hasMetadata("allMSGSC"))
-        {
+        if (event.player.hasPermission("alchemist.staff") && profile.hasMetadata("allMSGSC")) {
             event.isCancelled = true
             val message = event.message
             AsynchronousRedisSender.send(
@@ -100,8 +90,7 @@ class ProfileJoinListener : Listener
         }
 
         //player is ghostmuted
-        if (profile.hasActivePunishment(PunishmentType.GHOST_MUTE))
-        {
+        if (profile.hasActivePunishment(PunishmentType.GHOST_MUTE)) {
             event.isCancelled = true
             event.player.sendMessage(
                 Chat.format(
@@ -112,8 +101,7 @@ class ProfileJoinListener : Listener
         }
 
         //player is muted
-        if (profile.hasActivePunishment(PunishmentType.MUTE))
-        {
+        if (profile.hasActivePunishment(PunishmentType.MUTE)) {
             val mute = profile.getActivePunishments(PunishmentType.MUTE).first()
             event.isCancelled = true
 
@@ -132,10 +120,8 @@ class ProfileJoinListener : Listener
         }
 
         //chat is muted
-        if (ChatService.muted)
-        {
-            if (!event.player.hasPermission("alchemist.mutechat.bypass"))
-            {
+        if (ChatService.muted) {
+            if (!event.player.hasPermission("alchemist.mutechat.bypass")) {
                 val message = ChatService.MUTE_MESSAGE
 
                 event.player.sendMessage(Chat.format(message))
@@ -148,17 +134,13 @@ class ProfileJoinListener : Listener
 
 
         //chat is slowed
-        if (ChatService.slowed)
-        {
-            if (!event.player.hasPermission("alchemist.slowchat.bypass"))
-            {
+        if (ChatService.slowed) {
+            if (!event.player.hasPermission("alchemist.slowchat.bypass")) {
                 val message = ChatService.SLOW_MESSAGE
 
-                if (ChatService.isOnCooldown(event.player))
-                {
+                if (ChatService.isOnCooldown(event.player)) {
                     val rem = ChatService.getCooldownRemaining(event.player)
-                    if (rem != 0)
-                    {
+                    if (rem != 0) {
                         event.player.sendMessage(
                             Chat.format(
                                 message.replace(
@@ -171,26 +153,22 @@ class ProfileJoinListener : Listener
 
                         return
                     }
-                } else
-                {
+                } else {
                     ChatService.addCooldown(event.player)
                 }
             }
         }
 
         //player sends a link
-        if (ChatService.LINK_LIMIT_ENABLED)
-        {
+        if (ChatService.LINK_LIMIT_ENABLED) {
             val msg = event.message
 
             //website sending
-            if (msg.contains("http://") || msg.contains("https://"))
-            {
+            if (msg.contains("http://") || msg.contains("https://")) {
                 val rank = RankService.byId(ChatService.MINIMUM_LINK_SEND_RANK.lowercase(Locale.getDefault())) ?: return
                 val theirRank = event.player.getCurrentRank()
 
-                if (theirRank.weight < rank.weight)
-                {
+                if (theirRank.weight < rank.weight) {
                     event.player.sendMessage(Chat.format("&eYou must be at least " + rank.color + rank.displayName + " &erank to send links"))
                     event.isCancelled = true
                     return
@@ -203,36 +181,31 @@ class ProfileJoinListener : Listener
     }
 
     @EventHandler
-    fun applyPerms(event: PlayerJoinEvent)
-    {
+    fun applyPerms(event: PlayerJoinEvent) {
         val player = event.player
 
         val allCallbacks = mutableListOf<(Player) -> Unit>().also {
             it.addAll(BukkitPostLoginConnection.allCallbacks + BukkitPostLoginConnection.allLazyCallbacks)
         }
 
-        for (cback in allCallbacks)
-        {
+        for (cback in allCallbacks) {
             cback.invoke(player)
         }
     }
 
     @EventHandler
-    fun join(event: AsyncPlayerPreLoginEvent)
-    {
+    fun join(event: AsyncPlayerPreLoginEvent) {
         val allCallbacks = mutableListOf<(AsyncPlayerPreLoginEvent) -> Unit>().also {
             it.addAll(BukkitPreLoginConnection.allCallbacks + BukkitPreLoginConnection.allLazyCallbacks)
         }
 
-        for (cback in allCallbacks)
-        {
+        for (cback in allCallbacks) {
             cback.invoke(event)
         }
     }
 
     @EventHandler
-    fun leave(event: PlayerQuitEvent)
-    {
+    fun leave(event: PlayerQuitEvent) {
         val player = event.player
 
         AccessiblePermissionHandler.remove(player)

@@ -14,15 +14,12 @@ import java.util.concurrent.CompletableFuture
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object EnsureTOTP : BukkitPostLoginTask
-{
-    override fun run(player: Player)
-    {
+object EnsureTOTP : BukkitPostLoginTask {
+    override fun run(player: Player) {
         CompletableFuture.runAsync {
             val profile = player.getProfile() ?: return@runAsync
 
-            if (BukkitProfileAdaptation.playerNeedsAuthenticating(profile, player))
-            {
+            if (BukkitProfileAdaptation.playerNeedsAuthenticating(profile, player)) {
                 profile.metadata.addProperty("needsAuthetication", "true")
                 ProfileGameService.saveSync(profile)
             }

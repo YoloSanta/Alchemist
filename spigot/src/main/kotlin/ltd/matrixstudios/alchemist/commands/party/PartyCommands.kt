@@ -16,16 +16,13 @@ import java.util.*
 import java.util.concurrent.CompletableFuture
 
 @CommandAlias("party|p")
-class PartyCommands : BaseCommand()
-{
+class PartyCommands : BaseCommand() {
 
     @Subcommand("create")
     @Description("Creates a new party.")
-    fun create(player: Player): CompletableFuture<Void>
-    {
+    fun create(player: Player): CompletableFuture<Void> {
         return PartyService.getParty(player.uniqueId).thenAccept {
-            if (it != null)
-            {
+            if (it != null) {
                 throw ConditionFailedException(
                     "You are already in a party!"
                 )
@@ -54,11 +51,9 @@ class PartyCommands : BaseCommand()
     @Description("Disbands your current party. Only works if you are a leader.")
     fun onDisband(
         player: Player
-    ): CompletableFuture<Void>
-    {
+    ): CompletableFuture<Void> {
         return PartyService.getParty(player.uniqueId).thenAccept { party ->
-            if (party == null)
-            {
+            if (party == null) {
                 throw ConditionFailedException(
                     "You are not currently in a party!"
                 )
@@ -66,8 +61,7 @@ class PartyCommands : BaseCommand()
 
             val leader = party.leader
 
-            if (leader != player.uniqueId)
-            {
+            if (leader != player.uniqueId) {
                 throw ConditionFailedException(
                     Chat.format("&cOnly the party &eLeader &cis able to disband the party.")
                 )
@@ -86,11 +80,9 @@ class PartyCommands : BaseCommand()
     fun onInvite(
         player: Player,
         @Name("target") target: AsyncGameProfile
-    ): CompletableFuture<Void>
-    {
+    ): CompletableFuture<Void> {
         return target.use(player) { gameProfile ->
-            if (!gameProfile.isOnline())
-            {
+            if (!gameProfile.isOnline()) {
                 throw ConditionFailedException(
                     Chat.format("&cThe user &e${gameProfile.username} &cis not currently on the network")
                 )
@@ -101,8 +93,7 @@ class PartyCommands : BaseCommand()
                     "You are not currently in a party!"
                 )
 
-            if (currentParty.invited.containsKey(gameProfile.uuid) || currentParty.isMember(gameProfile.uuid))
-            {
+            if (currentParty.invited.containsKey(gameProfile.uuid) || currentParty.isMember(gameProfile.uuid)) {
                 throw ConditionFailedException(
                     "Unable to send invite. Player is either in your party or already invited."
                 )
@@ -114,8 +105,7 @@ class PartyCommands : BaseCommand()
                 it.key == player.uniqueId && it.value == PartyElevation.OFFICER
             } != null
 
-            if (!hasEligibility)
-            {
+            if (!hasEligibility) {
                 throw ConditionFailedException(
                     "You do not have the sufficient permissions to do this!"
                 )
@@ -136,8 +126,7 @@ class PartyCommands : BaseCommand()
     fun onPromote(
         player: Player,
         @Name("target") target: AsyncGameProfile
-    ): CompletableFuture<Void>
-    {
+    ): CompletableFuture<Void> {
         return target.use(player) {
             val myParty = PartyService.getParty(player.uniqueId).get()
                 ?: throw ConditionFailedException(
@@ -149,8 +138,7 @@ class PartyCommands : BaseCommand()
                     Chat.format("&e${it.username} &cis not currently in a party!")
                 )
 
-            if (otherPlayerParty.leader != myParty.leader)
-            {
+            if (otherPlayerParty.leader != myParty.leader) {
                 throw ConditionFailedException(
                     "This player must be in the same party as you to promote them!"
                 )
@@ -161,8 +149,7 @@ class PartyCommands : BaseCommand()
                     "Unable to verify that this player is in your party!"
                 )
 
-            if (roleInThisParty == PartyElevation.OFFICER || roleInThisParty == PartyElevation.LEADER)
-            {
+            if (roleInThisParty == PartyElevation.OFFICER || roleInThisParty == PartyElevation.LEADER) {
                 throw ConditionFailedException(
                     "This player has already been promoted to the highest rank!"
                 )
@@ -181,11 +168,9 @@ class PartyCommands : BaseCommand()
 
     @Subcommand("info")
     @Description("View detailed information about your party.")
-    fun onInfo(player: Player): CompletableFuture<Void>
-    {
+    fun onInfo(player: Player): CompletableFuture<Void> {
         return PartyService.getParty(player.uniqueId).thenAccept { party ->
-            if (party == null)
-            {
+            if (party == null) {
                 throw ConditionFailedException(
                     "You are not currently in a party!"
                 )
@@ -215,8 +200,7 @@ class PartyCommands : BaseCommand()
 
     @HelpCommand
     @Description("Displays the command help.")
-    fun help(help: CommandHelp)
-    {
+    fun help(help: CommandHelp) {
         help.showHelp()
     }
 

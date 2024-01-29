@@ -13,18 +13,15 @@ import org.bukkit.command.CommandSender
 
 @CommandAlias("disguisecache")
 @CommandPermission("alchemist.disguise.admin")
-object DisguiseCacheCommands : BaseCommand()
-{
+object DisguiseCacheCommands : BaseCommand() {
     @HelpCommand
-    fun help(helpCommand: CommandHelp)
-    {
+    fun help(helpCommand: CommandHelp) {
         helpCommand.showHelp()
     }
 
     @Subcommand("skin clear")
     @Description("Remove all skins from the disguise skin cache")
-    fun clearSkins(sender: CommandSender)
-    {
+    fun clearSkins(sender: CommandSender) {
         DisguiseService.commonSkins = mutableMapOf()
         DisguiseService.saveAll()
         sender.sendMessage(Chat.format("&aYou have just wiped every skin from the skin cache!"))
@@ -32,21 +29,17 @@ object DisguiseCacheCommands : BaseCommand()
 
     @Subcommand("skin add")
     @Description("Add a skin to the disguise skin cache")
-    fun addSkin(sender: CommandSender, @Name("skin") skinName: String)
-    {
+    fun addSkin(sender: CommandSender, @Name("skin") skinName: String) {
         val skin: Skin?
-        try
-        {
+        try {
             skin = DisguiseAPI.getSkinManager().getFromMojang(skinName)
-        } catch (e: UserNotFoundException)
-        {
+        } catch (e: UserNotFoundException) {
             throw ConditionFailedException(
                 "This user does not have a Minecraft account!"
             )
         }
 
-        if (skin!!.value == null)
-        {
+        if (skin!!.value == null) {
             throw ConditionFailedException(
                 "Contents of this skin is blank!"
             )

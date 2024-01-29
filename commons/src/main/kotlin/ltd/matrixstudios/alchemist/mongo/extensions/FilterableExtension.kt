@@ -14,4 +14,4 @@ import kotlin.reflect.KProperty
  * @website https://solo.to/redis
  */
 infix fun <V> KProperty<V?>.eq(value: V?): Bson = Filters.eq(this.name, value)
-infix fun <V> Document.deserialize(clazz: Class<V>) : V? = Alchemist.gson.fromJson(this.toJson(), clazz)
+infix fun <V> Document.deserialize(clazz: Class<V>): V? = Alchemist.gson.fromJson(this.toJson(), clazz)

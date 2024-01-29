@@ -3,12 +3,7 @@ package ltd.matrixstudios.alchemist.broadcasts.commands
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.CommandHelp
 import co.aikar.commands.ConditionFailedException
-import co.aikar.commands.annotation.CommandAlias
-import co.aikar.commands.annotation.CommandPermission
-import co.aikar.commands.annotation.HelpCommand
-import co.aikar.commands.annotation.Name
-import co.aikar.commands.annotation.Subcommand
-import co.aikar.commands.annotation.Syntax
+import co.aikar.commands.annotation.*
 import ltd.matrixstudios.alchemist.broadcasts.BroadcastContainer
 import ltd.matrixstudios.alchemist.broadcasts.BroadcastService
 import ltd.matrixstudios.alchemist.broadcasts.menu.BroadcastsEditMenu
@@ -19,33 +14,27 @@ import org.bukkit.entity.Player
 
 @CommandAlias("auto-broadcasts")
 @CommandPermission("alchemist.autobroadcasts")
-object AutoBroadcastCommands : BaseCommand()
-{
+object AutoBroadcastCommands : BaseCommand() {
 
     @HelpCommand
     @Syntax("[page]")
-    fun onHelp(command: CommandHelp)
-    {
+    fun onHelp(command: CommandHelp) {
         command.showHelp()
     }
 
     @Subcommand("create")
-    fun onCreate(sender: CommandSender, @Name("id") id: String)
-    {
-        if (BroadcastService.cached() == null)
-        {
+    fun onCreate(sender: CommandSender, @Name("id") id: String) {
+        if (BroadcastService.cached() == null) {
             BroadcastService.cache(BroadcastContainer())
         }
-        
+
         val cached = BroadcastService.cached()!!
 
-        if (cached.getBroadcastMessage(id) != null)
-        {
+        if (cached.getBroadcastMessage(id) != null) {
             throw ConditionFailedException(
                 "A broadcast with this id already exists"
             )
-        } else
-        {
+        } else {
             cached.broadcasts[id] = BroadcastMessage(id)
 
             BroadcastService.cache(cached)
@@ -54,8 +43,7 @@ object AutoBroadcastCommands : BaseCommand()
     }
 
     @Subcommand("editor")
-    fun onEditor(sender: Player)
-    {
+    fun onEditor(sender: Player) {
         BroadcastsEditMenu(sender).updateMenu()
     }
 }

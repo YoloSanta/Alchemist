@@ -11,14 +11,11 @@ import ltd.matrixstudios.alchemist.staff.requests.packets.RequestPacket
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.entity.Player
 
-class RequestCommand : BaseCommand()
-{
+class RequestCommand : BaseCommand() {
 
     @CommandAlias("request|helpop")
-    fun request(player: Player, @Name("reason") rzn: String)
-    {
-        if (RequestHandler.isOnRequestCooldown(player))
-        {
+    fun request(player: Player, @Name("reason") rzn: String) {
+        if (RequestHandler.isOnRequestCooldown(player)) {
             player.sendMessage(Chat.format("&cPlease wait before trying this again!"))
             return
         }

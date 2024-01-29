@@ -11,17 +11,14 @@ import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 import java.util.*
 
-class TagGrantsButton(var tag: TagGrant) : Button()
-{
+class TagGrantsButton(var tag: TagGrant) : Button() {
 
 
-    override fun getMaterial(player: Player): Material
-    {
+    override fun getMaterial(player: Player): Material {
         return Material.WOOL
     }
 
-    override fun getDescription(player: Player): MutableList<String>
-    {
+    override fun getDescription(player: Player): MutableList<String> {
         val desc = arrayListOf<String>()
 
         desc.add(Chat.format("&6&m-------------------------------------"))
@@ -34,8 +31,7 @@ class TagGrantsButton(var tag: TagGrant) : Button()
         desc.add(Chat.format("&6&m-------------------------------------"))
         desc.add(Chat.format("&eAdded By: &f${AlchemistAPI.getRankDisplay(tag.executor)}"))
         desc.add(Chat.format("&eAdded Reason: &f${tag.reason}"))
-        if (!tag.expirable.isActive())
-        {
+        if (!tag.expirable.isActive()) {
             desc.add(Chat.format("&6&m-------------------------------------"))
             desc.add(Chat.format("&eRemoved Reason: &f" + (tag.removedReason ?: "Unknown")))
             desc.add(Chat.format("&eRemoved By: &f" + AlchemistAPI.getRankDisplay(tag.removedBy!!)))
@@ -45,17 +41,14 @@ class TagGrantsButton(var tag: TagGrant) : Button()
         return desc
     }
 
-    override fun getDisplayName(player: Player): String
-    {
+    override fun getDisplayName(player: Player): String {
         return Chat.format((if (tag.expirable.isActive()) "&a&l(Active) " else "&c&l(Inactive) ") + Date(tag.expirable.addedAt))
     }
 
-    override fun getData(player: Player): Short
-    {
+    override fun getData(player: Player): Short {
         return (if (tag.expirable.isActive()) DyeColor.GREEN.woolData.toShort() else DyeColor.RED.woolData.toShort())
     }
 
-    override fun onClick(player: Player, slot: Int, type: ClickType)
-    {
+    override fun onClick(player: Player, slot: Int, type: ClickType) {
     }
 }

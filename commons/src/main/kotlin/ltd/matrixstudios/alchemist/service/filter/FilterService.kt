@@ -41,12 +41,9 @@ object FilterService : GeneralizedService {
         return Alchemist.gson.fromJson(finder.toJson(), Filter::class.java)
     }
 
-    fun findInMessage(message: String) : Filter?
-    {
-        for (filter in cache.values)
-        {
-            if (message.toLowerCase().contains(filter.word.toLowerCase()))
-            {
+    fun findInMessage(message: String): Filter? {
+        for (filter in cache.values) {
+            if (message.toLowerCase().contains(filter.word.toLowerCase())) {
                 return filter
             }
         }

@@ -17,23 +17,19 @@ import org.bukkit.command.CommandSender
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object BroadcastCommand : BaseCommand()
-{
+object BroadcastCommand : BaseCommand() {
 
     @CommandAlias("bc|broadcast|raw")
     @CommandPermission("alchemist.broadcast")
     @Syntax("[-p❘-s] <message...>")
-    fun bc(sender: CommandSender, @Name("message...") msg: String)
-    {
+    fun bc(sender: CommandSender, @Name("message...") msg: String) {
         val newMessage = StringBuilder()
 
-        if (msg.startsWith("-p"))
-        {
+        if (msg.startsWith("-p")) {
             newMessage.append("&8[&4Alert&8] ")
         }
 
-        if (msg.startsWith("-s"))
-        {
+        if (msg.startsWith("-s")) {
             newMessage.append("&7(${Alchemist.globalServer.displayName}) ")
         }
 

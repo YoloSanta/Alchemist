@@ -9,13 +9,11 @@ import ltd.matrixstudios.alchemist.packets.AdminChatPacket
 import ltd.matrixstudios.alchemist.redis.AsynchronousRedisSender
 import org.bukkit.entity.Player
 
-class AdminChatCommand : BaseCommand()
-{
+class AdminChatCommand : BaseCommand() {
 
     @CommandAlias("ac|adminchat")
     @CommandPermission("alchemist.adminchat")
-    fun adminChat(player: Player, @Name("message") message: String)
-    {
+    fun adminChat(player: Player, @Name("message") message: String) {
         AsynchronousRedisSender.send(AdminChatPacket(message, Alchemist.globalServer.displayName, player.uniqueId))
     }
 }

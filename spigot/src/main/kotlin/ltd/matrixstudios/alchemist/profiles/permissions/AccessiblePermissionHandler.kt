@@ -12,8 +12,7 @@ import java.lang.reflect.Field
 import java.util.*
 
 
-object AccessiblePermissionHandler
-{
+object AccessiblePermissionHandler {
 
     private val permissionAttachmentMap: MutableMap<UUID, PermissionAttachment> = HashMap()
 
@@ -21,47 +20,37 @@ object AccessiblePermissionHandler
 
     var pendingLoadPermissions = hashMapOf<UUID, Map<String?, Boolean?>>()
 
-    fun load()
-    {
-        try
-        {
+    fun load() {
+        try {
             permissionField = PermissionAttachment::class.java.getDeclaredField("permissions")
             permissionField.isAccessible = true
-        } catch (e: NoSuchFieldException)
-        {
+        } catch (e: NoSuchFieldException) {
             e.printStackTrace()
         }
 
     }
 
-    fun setupPlayer(uuid: UUID, perms: Map<String?, Boolean?>)
-    {
+    fun setupPlayer(uuid: UUID, perms: Map<String?, Boolean?>) {
         pendingLoadPermissions[uuid] = perms
     }
 
-    fun remove(player: Player)
-    {
+    fun remove(player: Player) {
         permissionAttachmentMap.remove(player.uniqueId)
     }
 
-    fun findRankWeight(player: Player): Int
-    {
-        return if (player.hasMetadata("AlchemistRankWeight"))
-        {
+    fun findRankWeight(player: Player): Int {
+        return if (player.hasMetadata("AlchemistRankWeight")) {
             player.getMetadata("AlchemistRankWeight").first().asInt()
         } else 0
     }
 
-    fun update(player: Player, perms: Map<String, Boolean>)
-    {
+    fun update(player: Player, perms: Map<String, Boolean>) {
         permissionAttachmentMap.putIfAbsent(player.uniqueId, player.addAttachment(AlchemistSpigotPlugin.instance))
-        try
-        {
+        try {
             val attachment = permissionAttachmentMap[player.uniqueId]
             permissionField.set(attachment, perms)
             player.recalculatePermissions()
-        } catch (e: IllegalAccessException)
-        {
+        } catch (e: IllegalAccessException) {
             e.printStackTrace()
         }
 

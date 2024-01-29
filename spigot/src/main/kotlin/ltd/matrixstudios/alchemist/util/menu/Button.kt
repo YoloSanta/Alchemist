@@ -7,8 +7,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.inventory.ItemStack
 
-abstract class Button
-{
+abstract class Button {
 
     abstract fun getMaterial(player: Player): Material
     abstract fun getDescription(player: Player): MutableList<String>?
@@ -17,28 +16,22 @@ abstract class Button
 
     abstract fun onClick(player: Player, slot: Int, type: ClickType)
 
-    open fun getButtonItem(player: Player): ItemStack?
-    {
+    open fun getButtonItem(player: Player): ItemStack? {
         return null
     }
 
-    open fun setCustomAmount(player: Player): Int
-    {
+    open fun setCustomAmount(player: Player): Int {
         return 1
     }
 
-    companion object
-    {
-        fun placeholder(): Button
-        {
+    companion object {
+        fun placeholder(): Button {
             return PlaceholderButton(Material.STAINED_GLASS_PANE, mutableListOf(), Chat.format("&f"), 7)
         }
     }
 
-    fun constructItemStack(player: Player): ItemStack
-    {
-        if (getButtonItem(player) != null)
-        {
+    fun constructItemStack(player: Player): ItemStack {
+        if (getButtonItem(player) != null) {
             return getButtonItem(player)!!
         }
 

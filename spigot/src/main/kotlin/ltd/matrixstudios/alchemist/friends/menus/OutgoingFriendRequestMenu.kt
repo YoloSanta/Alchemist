@@ -16,34 +16,27 @@ import org.bukkit.inventory.ItemStack
 import java.util.*
 
 class OutgoingFriendRequestMenu(val player: Player, val profile: GameProfile, val toShow: MutableList<GameProfile>) :
-    BorderedPaginatedMenu(player)
-{
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
-    {
+    BorderedPaginatedMenu(player) {
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
         var i = 0
 
-        for (profile in toShow)
-        {
+        for (profile in toShow) {
             buttons[i++] = OutFriendRequestButton(profile.uuid)
         }
 
         return buttons
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return "All Outgoing Requests"
     }
 
-    class OutFriendRequestButton(val uuid: UUID) : Button()
-    {
+    class OutFriendRequestButton(val uuid: UUID) : Button() {
         val profile = ProfileGameService.byId(uuid)
 
-        override fun getButtonItem(player: Player): ItemStack
-        {
-            if (profile != null)
-            {
+        override fun getButtonItem(player: Player): ItemStack {
+            if (profile != null) {
                 return ItemBuilder.copyOf(
                     SkullUtil.generate(
                         profile.username,
@@ -56,16 +49,13 @@ class OutgoingFriendRequestMenu(val player: Player, val profile: GameProfile, va
                 .setLore(getDescription(player).toList()).build()
         }
 
-        override fun getMaterial(player: Player): Material
-        {
+        override fun getMaterial(player: Player): Material {
             return Material.DIRT
         }
 
-        override fun getDescription(player: Player): MutableList<String>
-        {
+        override fun getDescription(player: Player): MutableList<String> {
             val desc = mutableListOf<String>()
-            if (profile != null)
-            {
+            if (profile != null) {
                 desc.add(
                     Chat.format(
                         "&7Last Seen: &f" + if (profile.isOnline()) "&aOnline" else TimeUtil.formatDuration(
@@ -74,42 +64,35 @@ class OutgoingFriendRequestMenu(val player: Player, val profile: GameProfile, va
                     )
                 )
                 desc.add(Chat.format("&7Rank: &f" + profile.getCurrentRank().color + profile.getCurrentRank().displayName))
-            } else
-            {
+            } else {
                 desc.add(Chat.format("&cProfile not found!"))
             }
 
             return desc
         }
 
-        override fun getDisplayName(player: Player): String
-        {
+        override fun getDisplayName(player: Player): String {
             return "a"
         }
 
-        override fun getData(player: Player): Short
-        {
+        override fun getData(player: Player): Short {
             return 0
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType)
-        {
+        override fun onClick(player: Player, slot: Int, type: ClickType) {
             val gameProfile = player.getProfile()
 
-            if (gameProfile == null)
-            {
+            if (gameProfile == null) {
                 player.sendMessage(Chat.format("&cYour profile doesn't exist"))
                 return
             }
 
-            if (profile == null)
-            {
+            if (profile == null) {
                 player.sendMessage(Chat.format("&cOther profile doesn't exist!"))
                 return
             }
 
-            if (!profile.friendInvites.contains(gameProfile.uuid))
-            {
+            if (!profile.friendInvites.contains(gameProfile.uuid)) {
                 player.sendMessage(Chat.format("&cApparently you have never sent a friend request to this player"))
                 return
             }

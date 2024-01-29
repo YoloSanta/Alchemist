@@ -20,15 +20,13 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.*
 
-class BlacklistCommand : BaseCommand()
-{
+class BlacklistCommand : BaseCommand() {
 
     @CommandAlias("blacklist|bl")
     @CommandPermission("alchemist.punishments.blacklist")
     @CommandCompletion("@gameprofile")
     @Syntax("<target> [-a] <reason>")
-    fun ban(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("reason") reason: String)
-    {
+    fun ban(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("reason") reason: String) {
         val punishment = Punishment(
             PunishmentType.BLACKLIST.name,
             UUID.randomUUID().toString().substring(0, 4),
@@ -46,21 +44,18 @@ class BlacklistCommand : BaseCommand()
 
         val hasPunishment = gameProfile.hasActivePunishment(PunishmentType.BLACKLIST)
 
-        if (hasPunishment)
-        {
+        if (hasPunishment) {
             sender.sendMessage(Chat.format("&cPlayer is already blacklisted!"))
             return
         }
 
-        if (sender is Player)
-        {
+        if (sender is Player) {
 
             val profile = AlchemistAPI.syncFindProfile(sender.uniqueId)!!
             val canExecute =
                 PunishmentLimitationUnderstander.canApplyPunishment(sender.uniqueId)
 
-            if (!canExecute)
-            {
+            if (!canExecute) {
                 sender.sendMessage(Chat.format("&cYou are currently on punishment cooldown."))
                 sender.sendMessage(
                     Chat.format(
@@ -73,8 +68,7 @@ class BlacklistCommand : BaseCommand()
                 return
             }
 
-            if (!BukkitPunishmentFunctions.playerCanPunishOther(profile, gameProfile))
-            {
+            if (!BukkitPunishmentFunctions.playerCanPunishOther(profile, gameProfile)) {
                 sender.sendMessage(Chat.format("&cYou are not eligible to punish this player!"))
                 AsynchronousRedisSender.send(OwnershipMessagePacket("&b[S] &3[${Alchemist.globalServer.displayName}] ${profile.getRankDisplay()} &3tried punishing a player with a rank weight higher than theirs"))
                 return

@@ -21,17 +21,14 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import java.util.*
 
-class EditCategoryAttributesMenu(val player: Player, val item: CoinShopCategory) : Menu(player)
-{
+class EditCategoryAttributesMenu(val player: Player, val item: CoinShopCategory) : Menu(player) {
 
-    init
-    {
+    init {
         placeholder = true
         staticSize = 27
     }
 
-    override fun getButtons(player: Player): MutableMap<Int, Button>
-    {
+    override fun getButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
 
         buttons[10] = SimpleActionButton(
@@ -52,11 +49,9 @@ class EditCategoryAttributesMenu(val player: Player, val item: CoinShopCategory)
                 .acceptInput {
                     var newPrice = 0
 
-                    try
-                    {
+                    try {
                         newPrice = Integer.parseInt(it)
-                    } catch (e: java.lang.NumberFormatException)
-                    {
+                    } catch (e: java.lang.NumberFormatException) {
                         player.sendMessage(Chat.format("&cThis is not a number!"))
                         return@acceptInput
                     }
@@ -171,11 +166,9 @@ class EditCategoryAttributesMenu(val player: Player, val item: CoinShopCategory)
                 .acceptInput {
                     var newPrice = 0
 
-                    try
-                    {
+                    try {
                         newPrice = Integer.parseInt(it)
-                    } catch (e: java.lang.NumberFormatException)
-                    {
+                    } catch (e: java.lang.NumberFormatException) {
                         player.sendMessage(Chat.format("&cThis is not a number!"))
                         return@acceptInput
                     }
@@ -208,8 +201,7 @@ class EditCategoryAttributesMenu(val player: Player, val item: CoinShopCategory)
         return buttons
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return Chat.format("&7[Editor] ${item.displayName}")
     }
 }

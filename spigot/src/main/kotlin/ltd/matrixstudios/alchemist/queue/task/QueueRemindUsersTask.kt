@@ -7,22 +7,17 @@ import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.Bukkit
 import org.bukkit.scheduler.BukkitRunnable
 
-class QueueRemindUsersTask : BukkitRunnable()
-{
+class QueueRemindUsersTask : BukkitRunnable() {
 
-    override fun run()
-    {
-        for (queue in QueueService.cache.values)
-        {
-            for (entry in queue.playersInQueue)
-            {
+    override fun run() {
+        for (queue in QueueService.cache.values) {
+            for (entry in queue.playersInQueue) {
                 val uuid = entry.id
                 val bukkitPlayer = Bukkit.getPlayer(uuid) ?: return
 
                 val message = AlchemistSpigotPlugin.instance.config.getStringList("queue-message")
 
-                for (line in message)
-                {
+                for (line in message) {
                     val toSend = Chat.format(
                         line
                             .replace("<pos>", queue.getPosition(uuid).toString())

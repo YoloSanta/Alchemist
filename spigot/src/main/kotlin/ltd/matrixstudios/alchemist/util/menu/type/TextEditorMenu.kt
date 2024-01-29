@@ -23,8 +23,7 @@ abstract class TextEditorMenu(private val lines: LinkedList<String>, val player:
 
         var index = 0
 
-        for (line in lines)
-        {
+        for (line in lines) {
             buttons[index++] = LineButton(line, lines, this)
         }
 
@@ -45,8 +44,7 @@ abstract class TextEditorMenu(private val lines: LinkedList<String>, val player:
         return buttons
     }
 
-    class LineButton(val line: String, val totalStrings: LinkedList<String>, val menu: TextEditorMenu) : Button()
-    {
+    class LineButton(val line: String, val totalStrings: LinkedList<String>, val menu: TextEditorMenu) : Button() {
         override fun getMaterial(player: Player): Material {
             return Material.PAPER
         }
@@ -71,8 +69,7 @@ abstract class TextEditorMenu(private val lines: LinkedList<String>, val player:
         }
 
         override fun onClick(player: Player, slot: Int, type: ClickType) {
-            if (type == ClickType.DROP)
-            {
+            if (type == ClickType.DROP) {
                 totalStrings.remove(line)
 
                 menu.onSave(player, totalStrings)
@@ -109,8 +106,7 @@ abstract class TextEditorMenu(private val lines: LinkedList<String>, val player:
 
     }
 
-    class CreateNewLineButton(val lines: LinkedList<String>, val menu: TextEditorMenu) : Button()
-    {
+    class CreateNewLineButton(val lines: LinkedList<String>, val menu: TextEditorMenu) : Button() {
         override fun getMaterial(player: Player): Material {
             return Material.NETHER_STAR
         }

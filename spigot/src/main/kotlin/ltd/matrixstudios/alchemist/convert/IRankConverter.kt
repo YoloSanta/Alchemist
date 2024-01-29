@@ -9,8 +9,7 @@ import org.bukkit.entity.Player
  * @project Alchemist
  * @website https://solo.to/redis
  */
-interface IRankConverter
-{
+interface IRankConverter {
 
     fun convert(player: Player)
 }

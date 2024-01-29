@@ -16,31 +16,26 @@ import org.bukkit.entity.Player
 import java.util.*
 
 @CommandAlias("voucher|vouchers")
-class VoucherCommand : BaseCommand()
-{
+class VoucherCommand : BaseCommand() {
 
     @Default
-    fun openMenu(player: Player)
-    {
+    fun openMenu(player: Player) {
         VoucherGrantsMenu(player, VoucherService.allGrantsFromPlayer(player.uniqueId)).updateMenu()
     }
 
     @Subcommand("help")
     @CommandPermission("alchemist.vouchers.admin")
     @HelpCommand
-    fun help(help: CommandHelp)
-    {
+    fun help(help: CommandHelp) {
         help.showHelp()
     }
 
     @Subcommand("template setprize")
     @CommandPermission("alchemist.vouchers.admin")
-    fun create(sender: CommandSender, @Name("id") id: String, @Name("prize") prize: String)
-    {
+    fun create(sender: CommandSender, @Name("id") id: String, @Name("prize") prize: String) {
         val template = VoucherService.findVoucherTemplate(id.lowercase())
 
-        if (template == null)
-        {
+        if (template == null) {
             sender.sendMessage(Chat.format("&cA voucher with this id does not exist"))
             return
         }
@@ -52,12 +47,10 @@ class VoucherCommand : BaseCommand()
 
     @Subcommand("template setcommand")
     @CommandPermission("alchemist.vouchers.admin")
-    fun setcommand(sender: CommandSender, @Name("id") id: String, @Name("command") command: String)
-    {
+    fun setcommand(sender: CommandSender, @Name("id") id: String, @Name("command") command: String) {
         val template = VoucherService.findVoucherTemplate(id.lowercase())
 
-        if (template == null)
-        {
+        if (template == null) {
             sender.sendMessage(Chat.format("&cA voucher with this id does not exist"))
             return
         }
@@ -74,11 +67,9 @@ class VoucherCommand : BaseCommand()
         @Name("id") id: String,
         @Name("target") target: GameProfile,
         @Name("duration") duration: String
-    )
-    {
+    ) {
         val template = VoucherService.findVoucherTemplate(id.lowercase())
-        if (template == null)
-        {
+        if (template == null) {
             sender.sendMessage(Chat.format("&cA voucher with this id does not exist"))
             return
         }
@@ -86,7 +77,8 @@ class VoucherCommand : BaseCommand()
             UUID.randomUUID(),
             template,
             !duration.equals("perm", ignoreCase = true),
-            if (!duration.equals("perm", ignoreCase = true)) System.currentTimeMillis().plus(TimeUtil.parseTime(duration) * 1000L) else Long.MAX_VALUE,
+            if (!duration.equals("perm", ignoreCase = true)) System.currentTimeMillis()
+                .plus(TimeUtil.parseTime(duration) * 1000L) else Long.MAX_VALUE,
             false,
             BukkitPunishmentFunctions.getSenderUUID(sender),
             target.uuid
@@ -97,12 +89,10 @@ class VoucherCommand : BaseCommand()
 
     @Subcommand("template create")
     @CommandPermission("alchemist.vouchers.admin")
-    fun create(sender: CommandSender, @Name("id") id: String)
-    {
+    fun create(sender: CommandSender, @Name("id") id: String) {
         val template = VoucherService.findVoucherTemplate(id.lowercase())
 
-        if (template != null)
-        {
+        if (template != null) {
             sender.sendMessage(Chat.format("&cA voucher with this id already exists"))
             return
         }
@@ -114,12 +104,10 @@ class VoucherCommand : BaseCommand()
 
     @Subcommand("template delete")
     @CommandPermission("alchemist.vouchers.admin")
-    fun delete(sender: CommandSender, @Name("id") id: String)
-    {
+    fun delete(sender: CommandSender, @Name("id") id: String) {
         val template = VoucherService.findVoucherTemplate(id.lowercase())
 
-        if (template == null)
-        {
+        if (template == null) {
             sender.sendMessage(Chat.format("&cA voucher with this id does not exist"))
             return
         }

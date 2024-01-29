@@ -14,11 +14,9 @@ import java.util.*
 import java.util.concurrent.CompletableFuture
 
 
-object WebUtil
-{
+object WebUtil {
 
-    fun playerHasLiked(uuid: UUID): CompletableFuture<Boolean>
-    {
+    fun playerHasLiked(uuid: UUID): CompletableFuture<Boolean> {
         return CompletableFuture.supplyAsync {
             val serverLikes = URL("https://api.namemc.com/server/${AlchemistAPI.SERVER_NAME}/likes")
             val urlConn: URLConnection = serverLikes.openConnection()
@@ -30,8 +28,7 @@ object WebUtil
             BufferedReader(InputStreamReader(urlConn.getInputStream())).use { reader ->
                 val obj = Alchemist.gson.fromJson(reader, Array<String>::class.java)
 
-                if (obj.contains(uuid.toString()))
-                {
+                if (obj.contains(uuid.toString())) {
                     return@supplyAsync true
                 }
             }
@@ -40,8 +37,7 @@ object WebUtil
         }
     }
 
-    fun requestMojangService(name: String): CompletableFuture<UUID?>
-    {
+    fun requestMojangService(name: String): CompletableFuture<UUID?> {
         return CompletableFuture.supplyAsync {
             val urlConn: URLConnection = URL("https://api.mojang.com/users/profiles/minecraft/$name").openConnection()
             urlConn.setRequestProperty(
@@ -58,12 +54,10 @@ object WebUtil
         }
     }
 
-    fun evaluateMojangUser(sender: CommandSender, name: String): CompletableFuture<GameProfile?>
-    {
+    fun evaluateMojangUser(sender: CommandSender, name: String): CompletableFuture<GameProfile?> {
         return requestMojangService(name).thenApply { uuid ->
             println("evaluate mojang user ${Bukkit.isPrimaryThread()}")
-            if (uuid == null)
-            {
+            if (uuid == null) {
                 sender.sendMessage(Chat.format("&cThe username &e${name} &cwas not found in Mojang or the database"))
                 return@thenApply null
             }

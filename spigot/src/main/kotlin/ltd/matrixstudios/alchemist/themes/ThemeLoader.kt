@@ -3,14 +3,12 @@ package ltd.matrixstudios.alchemist.themes
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.themes.types.*
 
-object ThemeLoader
-{
+object ThemeLoader {
     var themes = mutableMapOf<String, Theme>()
 
     lateinit var defaultTheme: Theme
 
-    fun loadAllThemes()
-    {
+    fun loadAllThemes() {
         themes["MMC"] = MMC()
         themes["hydrogen"] = Hydrogen()
         themes["neutron"] = Neutron()
@@ -26,8 +24,7 @@ object ThemeLoader
         this.defaultTheme = foundTheme
     }
 
-    fun setFallbackTheme(theme: Theme)
-    {
+    fun setFallbackTheme(theme: Theme) {
         defaultTheme = theme
 
         val config = AlchemistSpigotPlugin.instance.config

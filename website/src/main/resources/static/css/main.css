@@ -87,9 +87,9 @@ label {
 }
 
 .badge {
-	padding: 0.5em 0.65em;
-	font-size: 0.65em;
-	text-shadow: 0 0 4px rgba(0, 0, 0, 1);
+    padding: 0.5em 0.65em;
+    font-size: 0.65em;
+    text-shadow: 0 0 4px rgba(0, 0, 0, 1);
 }
 
 .form-control-label {
@@ -135,93 +135,99 @@ label {
 
 /* Alert Information */
 
- .alert {
-     margin: 1rem 0;
+.alert {
+    margin: 1rem 0;
     border-radius: .25rem
- }
+}
 
- .alert img {
-     width: 75px;
-     position: absolute;
-     top: 50%;
-     left: -25px;
-     transform: translateY(-50%)
- }
+.alert img {
+    width: 75px;
+    position: absolute;
+    top: 50%;
+    left: -25px;
+    transform: translateY(-50%)
+}
 
- .alert .mirrored-item {
-     width: 125px!important;
-     opacity: .5!important
- }
+.alert .mirrored-item {
+    width: 125px !important;
+    opacity: .5 !important
+}
 
- .alert span {
-     z-index: 1;
-     position: relative;
-     line-height: 1!important;
-     display: block;
-     padding-top: .1rem!important;
-     color: rgba(255,255,255,.75)!important
- }
+.alert span {
+    z-index: 1;
+    position: relative;
+    line-height: 1 !important;
+    display: block;
+    padding-top: .1rem !important;
+    color: rgba(255, 255, 255, .75) !important
+}
 
- .alert-danger,.alert-error{
-     background:var(--alert-color)
- }
- .btn-danger{
-     background:var(--alert-color);
-     border-color:var(--alert-color)
- }
- .alert-dismissable .close{
-     color:#fff;
-     opacity:1;
-     font-weight:100
- }
- .alert-danger,.btn-danger,.label-danger{
-     background:var(--alert-color);
-     border-color:var(--alert-color)
- }
+.alert-danger,
+.alert-error {
+    background: var(--alert-color)
+}
+
+.btn-danger {
+    background: var(--alert-color);
+    border-color: var(--alert-color)
+}
+
+.alert-dismissable .close {
+    color: #fff;
+    opacity: 1;
+    font-weight: 100
+}
+
+.alert-danger,
+.btn-danger,
+.label-danger {
+    background: var(--alert-color);
+    border-color: var(--alert-color)
+}
 
 /* Tables */
 
 .table-container {
-	border: solid 1px rgba(255, 255, 255, 0.1);
-	border-radius: 0.5rem;
+    border: solid 1px rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
 }
 
 .table {
-	background: var(--background-primary);
-	min-width: 700px;
-	margin: 0;
-	table-layout: fixed;
+    background: var(--background-primary);
+    min-width: 700px;
+    margin: 0;
+    table-layout: fixed;
 }
 
 .table thead {
-	border: none !important;
+    border: none !important;
 }
 
 .table thead th {
-	background: var(--background-secondary);
-	padding: 1rem 1.25rem;
-	border: none;
-	border-bottom: solid 1px rgba(255, 255, 255, 0.1);
-	color: var(--text-primary);
-	font-size: 1rem;
-	font-weight: 500;
+    background: var(--background-secondary);
+    padding: 1rem 1.25rem;
+    border: none;
+    border-bottom: solid 1px rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 500;
 }
 
 .table tbody {
-	border: none !important;
+    border: none !important;
 }
 
 .table tbody td {
-	vertical-align: middle;
-	padding: 1rem 1.25rem;
-	border: none;
-	color: var(--text-primary);
-	font-size: 1rem;
-	font-weight: 400;
+    vertical-align: middle;
+    padding: 1rem 1.25rem;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 400;
 }
 
 .table tbody tr:not(:first-child) td {
-	border-top: solid 1px rgba(255, 255, 255, 0.1);
+    border-top: solid 1px rgba(255, 255, 255, 0.1);
 }
 
 .thread-reply-action {
@@ -232,7 +238,7 @@ label {
 }
 
 :root {
-    --alert-color:#E74D4D;
-    --stongerBackgroundColor:#222D32;
+    --alert-color: #E74D4D;
+    --stongerBackgroundColor: #222D32;
     --backgroundColor: #222D32;
 }

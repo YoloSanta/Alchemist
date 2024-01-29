@@ -35,21 +35,20 @@ data class RankGrant(
     var scope: GrantScope? = constructorScope
 
 
-    fun verifyGrantScope() : GrantScope {
+    fun verifyGrantScope(): GrantScope {
         if (scope == null) return RankGrantService.global
 
         return scope!!
     }
 
-    fun getIssuedByName() : String
-    {
+    fun getIssuedByName(): String {
         val profile = ProfileGameService.byId(this.executor) ?: return "Console"
 
         return profile.username
     }
 
     override fun getGrantable(): Rank {
-       val optional = RankService.byId(rank)
+        val optional = RankService.byId(rank)
 
         if (optional != null) {
             return optional

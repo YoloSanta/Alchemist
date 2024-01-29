@@ -17,11 +17,9 @@ import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 import java.util.*
 
-class ProofMenu(val player: Player, val punishment: Punishment) : PaginatedMenu(18, player)
-{
+class ProofMenu(val player: Player, val punishment: Punishment) : PaginatedMenu(18, player) {
 
-    override fun getHeaderItems(player: Player): MutableMap<Int, Button>
-    {
+    override fun getHeaderItems(player: Player): MutableMap<Int, Button> {
         val buttons = hashMapOf<Int, Button>()
         buttons[3] = SimpleActionButton(
             Material.NETHER_STAR,
@@ -36,8 +34,7 @@ class ProofMenu(val player: Player, val punishment: Punishment) : PaginatedMenu(
             SimpleActionButton(Material.FEATHER, mutableListOf(), "&cGo Back", 0).setBody { player, i, clickType ->
                 val prof = punishment.getTargetProfile()
 
-                if (prof == null)
-                {
+                if (prof == null) {
                     player.closeInventory()
                     player.sendMessage(Chat.format("&cCould not open this menu. Profile doesn't exist."))
                     return@setBody
@@ -54,42 +51,34 @@ class ProofMenu(val player: Player, val punishment: Punishment) : PaginatedMenu(
         return buttons
     }
 
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
-    {
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
 
         var index = 0
-        for (proof in punishment.proof)
-        {
+        for (proof in punishment.proof) {
             buttons[index++] = ProofButton(proof, punishment)
         }
 
         return buttons
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return "Proof of: ${punishment.easyFindId}"
     }
 
-    class ProofButton(val proofEntry: ProofEntry, val punishment: Punishment) : Button()
-    {
-        override fun getMaterial(player: Player): Material
-        {
+    class ProofButton(val proofEntry: ProofEntry, val punishment: Punishment) : Button() {
+        override fun getMaterial(player: Player): Material {
             return Material.PAPER
         }
 
-        override fun getDescription(player: Player): MutableList<String>
-        {
+        override fun getDescription(player: Player): MutableList<String> {
             val desc = mutableListOf<String>()
-            if (!proofEntry.shouldBeConfidential)
-            {
+            if (!proofEntry.shouldBeConfidential) {
                 desc.add(Chat.format("&6&m---------------------------------"))
                 desc.add(Chat.format("&eType: " + proofEntry.type.displayName))
                 desc.add(Chat.format("&eAdded At: &f" + Date(proofEntry.addedAt)))
                 desc.add(Chat.format("&eAdded By: &f" + AlchemistAPI.getRankDisplay(proofEntry.whoAdded)))
-                if (proofEntry.reviewStatus != null)
-                {
+                if (proofEntry.reviewStatus != null) {
                     desc.add(" ")
                     desc.add(Chat.format("&eReviewed By: &f${AlchemistAPI.getRankDisplay(proofEntry.reviewer!!)}"))
                     desc.add(Chat.format("&eReviewed At: &f${Date(proofEntry.reviewedAt!!)}"))
@@ -98,35 +87,29 @@ class ProofMenu(val player: Player, val punishment: Punishment) : PaginatedMenu(
                 desc.add(" ")
 
                 desc.add(Chat.format("&aLeft-Click to view the proof"))
-                if (player.hasPermission("alchemist.punishments.proof.reviewer"))
-                {
+                if (player.hasPermission("alchemist.punishments.proof.reviewer")) {
                     desc.add(Chat.format("&eRight-Click to review proof"))
                 }
                 desc.add(Chat.format("&6&m---------------------------------"))
-            } else
-            {
+            } else {
                 desc.add(Chat.format("&6&m---------------------------------"))
                 desc.add(Chat.format("&eType: &f" + proofEntry.type.displayName))
                 desc.add(Chat.format("&eAdded At: &f" + Date(proofEntry.addedAt)))
                 desc.add(Chat.format("&eAdded By: &f" + AlchemistAPI.getRankDisplay(proofEntry.whoAdded)))
-                if (proofEntry.reviewStatus != null)
-                {
+                if (proofEntry.reviewStatus != null) {
                     desc.add(" ")
                     desc.add(Chat.format("&eReviewed By: &f${AlchemistAPI.getRankDisplay(proofEntry.reviewer!!)}"))
                     desc.add(Chat.format("&eReviewed At: &f${Date(proofEntry.reviewedAt!!)}"))
                     desc.add(Chat.format("&eOutcome: &f${proofEntry.reviewStatus!!.displayName}"))
                 }
                 desc.add(" ")
-                if (player.hasPermission("alchemist.punishments.proof.elevation"))
-                {
+                if (player.hasPermission("alchemist.punishments.proof.elevation")) {
                     desc.add(Chat.format("&aLeft-Click to view the proof"))
 
-                    if (player.hasPermission("alchemist.punishments.proof.reviewer"))
-                    {
+                    if (player.hasPermission("alchemist.punishments.proof.reviewer")) {
                         desc.add(Chat.format("&eRight-Click to review proof"))
                     }
-                } else
-                {
+                } else {
                     desc.add(Chat.format("&c&lConfidential Proof"))
                 }
                 desc.add(Chat.format("&6&m---------------------------------"))
@@ -135,34 +118,25 @@ class ProofMenu(val player: Player, val punishment: Punishment) : PaginatedMenu(
             return desc
         }
 
-        override fun getDisplayName(player: Player): String
-        {
+        override fun getDisplayName(player: Player): String {
             return Chat.format(AlchemistAPI.getRankDisplay(proofEntry.whoAdded))
         }
 
-        override fun getData(player: Player): Short
-        {
+        override fun getData(player: Player): Short {
             return 0
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType)
-        {
-            if (type.isLeftClick)
-            {
-                if (!proofEntry.shouldBeConfidential)
-                {
+        override fun onClick(player: Player, slot: Int, type: ClickType) {
+            if (type.isLeftClick) {
+                if (!proofEntry.shouldBeConfidential) {
                     player.sendMessage(proofEntry.link)
-                } else
-                {
-                    if (player.hasPermission("alchemist.punishments.proof"))
-                    {
+                } else {
+                    if (player.hasPermission("alchemist.punishments.proof")) {
                         player.sendMessage(proofEntry.link)
                     }
                 }
-            } else
-            {
-                if (player.hasPermission("alchemist.punishments.proof.reviewer"))
-                {
+            } else {
+                if (player.hasPermission("alchemist.punishments.proof.reviewer")) {
                     ProofInspectionMenu(player, punishment, proofEntry).openMenu()
                 }
             }

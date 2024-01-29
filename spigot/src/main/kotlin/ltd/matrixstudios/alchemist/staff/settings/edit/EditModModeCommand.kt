@@ -12,13 +12,11 @@ import ltd.matrixstudios.alchemist.staff.settings.edit.menu.EditModModeMenu
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.entity.Player
 
-class EditModModeCommand : BaseCommand()
-{
+class EditModModeCommand : BaseCommand() {
 
     @CommandAlias("editmodmode")
     @CommandPermission("alchemist.staffmode")
-    fun editmodMode(player: Player)
-    {
+    fun editmodMode(player: Player) {
         EditModModeMenu(player).openMenu()
         player.sendMessage(Chat.format("&eYou are now editing your &amod mode"))
         player.sendMessage(Chat.format("&7&oTo save any changes, execute /savemodmode"))
@@ -27,8 +25,7 @@ class EditModModeCommand : BaseCommand()
 
     @CommandAlias("savemodmode")
     @CommandPermission("alchemist.staffmode")
-    fun savemodmode(player: Player)
-    {
+    fun savemodmode(player: Player) {
         RedisPacketManager.pool.resource.use {
             it.hset(
                 "Alchemist:ModMode:",
@@ -43,8 +40,7 @@ class EditModModeCommand : BaseCommand()
     @CommandAlias("wipemodmode")
     @CommandPermission("alchemist.staffmode.admin")
     @CommandCompletion("@players")
-    fun wipeModMode(player: Player, @Name("target") target: OnlinePlayer)
-    {
+    fun wipeModMode(player: Player, @Name("target") target: OnlinePlayer) {
         RedisPacketManager.pool.resource.use {
             it.hdel("Alchemist:ModMode:", target.player.uniqueId.toString())
         }

@@ -12,11 +12,9 @@ import java.util.*
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class UUIDContextResolver : ContextResolver<UUID, BukkitCommandExecutionContext>
-{
+class UUIDContextResolver : ContextResolver<UUID, BukkitCommandExecutionContext> {
 
-    override fun getContext(c: BukkitCommandExecutionContext?): UUID?
-    {
+    override fun getContext(c: BukkitCommandExecutionContext?): UUID? {
         val firstArg = c!!.popFirstArg() ?: return null
 
         val uuid = UUID.fromString(firstArg)

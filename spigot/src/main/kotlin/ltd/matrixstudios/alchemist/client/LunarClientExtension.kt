@@ -14,22 +14,18 @@ import org.bukkit.Bukkit
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object LunarClientExtension : PluginModule
-{
-    override fun onLoad()
-    {
+object LunarClientExtension : PluginModule {
+    override fun onLoad() {
         NameTagFeature.startNametagUpdateTask()
     }
 
-    override fun getCommands(): MutableList<BaseCommand>
-    {
+    override fun getCommands(): MutableList<BaseCommand> {
         return mutableListOf(
             LunarClientCommands
         )
     }
 
-    override fun getModularConfigOption(): Boolean
-    {
+    override fun getModularConfigOption(): Boolean {
         return Bukkit.getPluginManager().isPluginEnabled(
             "LunarClient-API"
         ) && AlchemistSpigotPlugin.instance.config.getBoolean(

@@ -15,8 +15,7 @@ import java.util.*
 enum class GrantFilter(
     val displayName: String,
     val lambda: (Collection<RankGrant>) -> List<RankGrant>
-)
-{
+) {
     ALL("Every Grant", { rankGrants -> rankGrants.sortedByDescending { it.expirable.addedAt }.toList() }),
     ACTIVE("Active", { rankGrant -> rankGrant.filter { it.expirable.isActive() } }),
     REMOVED(

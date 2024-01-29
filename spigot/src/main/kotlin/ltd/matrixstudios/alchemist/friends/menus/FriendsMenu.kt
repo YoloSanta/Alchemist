@@ -13,17 +13,14 @@ import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
-class FriendsMenu(val player: Player, val profile: GameProfile) : Menu(player)
-{
+class FriendsMenu(val player: Player, val profile: GameProfile) : Menu(player) {
 
-    init
-    {
+    init {
         staticSize = 27
         placeholder = true
     }
 
-    override fun getButtons(player: Player): MutableMap<Int, Button>
-    {
+    override fun getButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
 
         buttons[11] = SimpleActionButton(
@@ -53,14 +50,12 @@ class FriendsMenu(val player: Player, val profile: GameProfile) : Menu(player)
                     ProfileGameService.byUsernameWithList(s).thenAcceptAsync { profiles ->
                         val it = profiles.firstOrNull()
 
-                        if (it == null)
-                        {
+                        if (it == null) {
                             player.sendMessage(Chat.format("&cThis player does not exist!"))
                             return@thenAcceptAsync
                         }
 
-                        if (it.friendInvites.contains(player.uniqueId))
-                        {
+                        if (it.friendInvites.contains(player.uniqueId)) {
                             player.sendMessage(Chat.format("&cYou already have an outgoing friend request to this player!"))
                             return@thenAcceptAsync
                         }
@@ -101,8 +96,7 @@ class FriendsMenu(val player: Player, val profile: GameProfile) : Menu(player)
         return buttons
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return "Configure Friends"
     }
 }

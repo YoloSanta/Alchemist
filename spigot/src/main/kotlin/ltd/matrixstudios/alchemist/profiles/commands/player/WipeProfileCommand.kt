@@ -13,14 +13,12 @@ import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.entity.Player
 
-class WipeProfileCommand : BaseCommand()
-{
+class WipeProfileCommand : BaseCommand() {
 
     @CommandAlias("wipeprofile")
     @CommandPermission("alchemist.profiles.admin")
     @CommandCompletion("@gameprofile")
-    fun wipe(player: Player, @Name("target") profile: GameProfile)
-    {
+    fun wipe(player: Player, @Name("target") profile: GameProfile) {
         AsynchronousRedisSender.send(PlayerKickPacket(profile.uuid, "&cYour profile is being wiped!"))
 
         ProfileGameService.handler.deleteAsync(profile.uuid)

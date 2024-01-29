@@ -10,16 +10,13 @@ import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.entity.Player
 
 @CommandAlias("coins|coin")
-class CoinsCommand : BaseCommand()
-{
+class CoinsCommand : BaseCommand() {
 
     @Default
-    fun coinsCommand(player: Player)
-    {
+    fun coinsCommand(player: Player) {
         val profile = AlchemistAPI.syncFindProfile(player.uniqueId)
 
-        if (profile == null)
-        {
+        if (profile == null) {
             player.sendMessage(Chat.format("&cYou must have a profile to use this command!"))
             return
         }
@@ -29,15 +26,13 @@ class CoinsCommand : BaseCommand()
 
     @Subcommand("editor")
     @CommandPermission("alchemist.coins.owner")
-    fun coinsEditor(player: Player)
-    {
+    fun coinsEditor(player: Player) {
         CoinShopEditorMenu(player).openMenu()
     }
 
     @Subcommand("set")
     @CommandPermission("alchemist.coins.admin")
-    fun coinsSetCommand(player: Player, @Name("target") target: GameProfile, @Name("amount") amount: Int)
-    {
+    fun coinsSetCommand(player: Player, @Name("target") target: GameProfile, @Name("amount") amount: Int) {
         target.coins = amount
         ProfileGameService.save(target)
 
@@ -46,8 +41,7 @@ class CoinsCommand : BaseCommand()
 
     @Subcommand("give")
     @CommandPermission("alchemist.coins.admin")
-    fun coinsGiveCommand(player: Player, @Name("target") target: GameProfile, @Name("amount") amount: Int)
-    {
+    fun coinsGiveCommand(player: Player, @Name("target") target: GameProfile, @Name("amount") amount: Int) {
         target.coins = amount
         ProfileGameService.save(target)
 

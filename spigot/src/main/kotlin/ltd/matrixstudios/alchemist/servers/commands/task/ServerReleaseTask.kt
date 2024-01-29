@@ -8,15 +8,12 @@ import ltd.matrixstudios.alchemist.service.server.UniqueServerService
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.scheduler.BukkitRunnable
 
-class ServerReleaseTask : BukkitRunnable()
-{
+class ServerReleaseTask : BukkitRunnable() {
 
-    override fun run()
-    {
+    override fun run() {
         val server = Alchemist.globalServer
 
-        if (server.setToRelease != -1L && (server.setToRelease - System.currentTimeMillis()) <= 0L)
-        {
+        if (server.setToRelease != -1L && (server.setToRelease - System.currentTimeMillis()) <= 0L) {
             AsynchronousRedisSender.send(StaffGeneralMessagePacket(Chat.format("&8[&eServer Monitor&8] &fInstance &a" + server.displayName + " &fhas been automatically &eunwhitelisted")))
             server.setToRelease = -1L
             AsynchronousRedisSender.send(ExplicitServerWhitelistPacket(server.id, false))

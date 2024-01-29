@@ -1,12 +1,9 @@
 package ltd.matrixstudios.alchemist.service.queue
 
-import com.google.gson.reflect.TypeToken
 import io.github.nosequel.data.DataStoreType
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.models.queue.QueueModel
-import ltd.matrixstudios.alchemist.redis.RedisPacketManager
 import ltd.matrixstudios.alchemist.service.GeneralizedService
-import java.lang.reflect.Type
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ConcurrentHashMap

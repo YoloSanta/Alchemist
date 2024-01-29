@@ -11,33 +11,27 @@ import java.util.*
 
 @CommandAlias("uuidcache|uuid")
 @CommandPermission("alchemist.cache.uuid")
-object UUIDCacheCommands : BaseCommand()
-{
+object UUIDCacheCommands : BaseCommand() {
 
     @HelpCommand
     @CommandPermission("rank.admin")
-    fun help(help: CommandHelp)
-    {
+    fun help(help: CommandHelp) {
         help.showHelp()
     }
 
     @Subcommand("checkId")
-    fun checkId(sender: CommandSender, @Name("uuid") id: String)
-    {
+    fun checkId(sender: CommandSender, @Name("uuid") id: String) {
         val uuid: UUID
 
-        try
-        {
+        try {
             uuid = UUID.fromString(id)
-        } catch (e: IllegalArgumentException)
-        {
+        } catch (e: IllegalArgumentException) {
             sender.sendMessage(Chat.format("&cThe uuid &e$id &cis not valid"))
             return
         }
 
         UUIDCache.findById(uuid).thenAccept {
-            if (it == null)
-            {
+            if (it == null) {
                 sender.sendMessage(Chat.format("&cThe uuid &e$id &cwas never found in the cache!"))
                 return@thenAccept
             }
@@ -53,11 +47,9 @@ object UUIDCacheCommands : BaseCommand()
     }
 
     @Subcommand("checkname")
-    fun checkName(sender: CommandSender, @Name("name") name: String)
-    {
+    fun checkName(sender: CommandSender, @Name("name") name: String) {
         UUIDCache.findByUsername(name).thenAccept {
-            if (it == null)
-            {
+            if (it == null) {
                 sender.sendMessage(Chat.format("&cThe name &e$name &cwas never found in the cache!"))
                 return@thenAccept
             }

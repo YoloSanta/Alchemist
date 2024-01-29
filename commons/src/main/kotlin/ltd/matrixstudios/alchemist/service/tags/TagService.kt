@@ -20,7 +20,7 @@ object TagService : GeneralizedService {
         }
     }
 
-    fun getValues() : CompletableFuture<Collection<Tag>> {
+    fun getValues(): CompletableFuture<Collection<Tag>> {
         return handler.retrieveAllAsync()
     }
 
@@ -30,15 +30,14 @@ object TagService : GeneralizedService {
     }
 
 
-    fun byId(id: String) : Tag? {
+    fun byId(id: String): Tag? {
         if (cache.containsKey(id)) {
             return cache[id]
         }
 
         val future = getValues().thenApply {
             for (tag in it) {
-                if (tag.id.equals(id, ignoreCase = true))
-                {
+                if (tag.id.equals(id, ignoreCase = true)) {
                     return@thenApply tag
                 }
             }

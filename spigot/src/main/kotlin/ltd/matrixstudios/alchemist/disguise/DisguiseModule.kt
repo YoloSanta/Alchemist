@@ -8,12 +8,9 @@ import ltd.matrixstudios.alchemist.module.PluginModule
 import net.pinger.disguise.DisguiseAPI
 import org.bukkit.Bukkit
 
-object DisguiseModule : PluginModule
-{
-    override fun onLoad()
-    {
-        if (DisguiseAPI.getDefaultProvider() == null)
-        {
+object DisguiseModule : PluginModule {
+    override fun onLoad() {
+        if (DisguiseAPI.getDefaultProvider() == null) {
             Bukkit.getLogger().info("Failed to find the disguise API provider for this version!")
             Bukkit.getLogger().info("We are not going to enable the disguise module.")
             return
@@ -22,16 +19,14 @@ object DisguiseModule : PluginModule
         DisguiseService.loadAllSkins()
     }
 
-    override fun getCommands(): MutableList<BaseCommand>
-    {
+    override fun getCommands(): MutableList<BaseCommand> {
         return mutableListOf(
             DisguiseCommand,
             DisguiseCacheCommands
         )
     }
 
-    override fun getModularConfigOption(): Boolean
-    {
+    override fun getModularConfigOption(): Boolean {
         return Bukkit.getPluginManager().isPluginEnabled(
             "DisguiseAPI"
         ) && AlchemistSpigotPlugin.instance.config.getBoolean(

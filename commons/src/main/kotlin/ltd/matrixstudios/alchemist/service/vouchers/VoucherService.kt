@@ -7,7 +7,7 @@ import ltd.matrixstudios.alchemist.models.vouchers.VoucherGrant
 import ltd.matrixstudios.alchemist.models.vouchers.VoucherTemplate
 import ltd.matrixstudios.alchemist.service.GeneralizedService
 import org.bson.Document
-import java.util.UUID
+import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
 object VoucherService : GeneralizedService {
@@ -38,7 +38,7 @@ object VoucherService : GeneralizedService {
         }
     }
 
-    fun findVoucherTemplate(id: String) : VoucherTemplate? {
+    fun findVoucherTemplate(id: String): VoucherTemplate? {
         if (voucherTemplates.containsKey(id)) {
             return voucherTemplates[id]!!
         }
@@ -74,4 +74,4 @@ object VoucherService : GeneralizedService {
 
         return ret
     }
- }
+}

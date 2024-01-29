@@ -20,11 +20,9 @@ import ltd.matrixstudios.alchemist.util.Chat
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object ProfileModule : PluginModule
-{
+object ProfileModule : PluginModule {
 
-    override fun onLoad()
-    {
+    override fun onLoad() {
         val start = System.currentTimeMillis()
         BukkitProfileAdaptation.loadAllEvents()
 
@@ -33,12 +31,10 @@ object ProfileModule : PluginModule
         )
     }
 
-    override fun getCommands(): MutableList<BaseCommand>
-    {
+    override fun getCommands(): MutableList<BaseCommand> {
         val list = mutableListOf<BaseCommand>()
 
-        if (AlchemistSpigotPlugin.instance.config.getBoolean("freeRank.enabled"))
-        {
+        if (AlchemistSpigotPlugin.instance.config.getBoolean("freeRank.enabled")) {
             list.add(FreerankCommand())
         }
 
@@ -56,16 +52,14 @@ object ProfileModule : PluginModule
         list.add(TimelineCommand())
         list.add(StaffLeaderboardCommand)
 
-        if (AlchemistSpigotPlugin.instance.config.getBoolean("modules.websiteCommands"))
-        {
+        if (AlchemistSpigotPlugin.instance.config.getBoolean("modules.websiteCommands")) {
             list.add(RegisterCommand)
         }
 
         list.add(ReportCommand())
         list.add(RequestCommand())
 
-        if (AlchemistSpigotPlugin.instance.config.getBoolean("modules.2fa"))
-        {
+        if (AlchemistSpigotPlugin.instance.config.getBoolean("modules.2fa")) {
             list.add(AuthCommands())
         }
 
@@ -74,8 +68,7 @@ object ProfileModule : PluginModule
         return list
     }
 
-    override fun getModularConfigOption(): Boolean
-    {
+    override fun getModularConfigOption(): Boolean {
         return true
     }
 }

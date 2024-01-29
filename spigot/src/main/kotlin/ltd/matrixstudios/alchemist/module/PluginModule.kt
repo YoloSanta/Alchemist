@@ -9,8 +9,7 @@ import co.aikar.commands.BaseCommand
  * @project Alchemist
  * @website https://solo.to/redis
  */
-interface PluginModule
-{
+interface PluginModule {
 
     fun onLoad()
 

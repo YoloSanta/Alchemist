@@ -13,11 +13,9 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 
-class ChatColorMenu(val player: Player) : PaginatedMenu(18, player)
-{
+class ChatColorMenu(val player: Player) : PaginatedMenu(18, player) {
 
-    override fun getHeaderItems(player: Player): MutableMap<Int, Button>
-    {
+    override fun getHeaderItems(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
 
         val profile = player.getProfile() ?: return buttons
@@ -45,13 +43,11 @@ class ChatColorMenu(val player: Player) : PaginatedMenu(18, player)
         return buttons
     }
 
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
-    {
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
         var index = 0
 
-        for (color in ChatColorLoader.colors.values)
-        {
+        for (color in ChatColorLoader.colors.values) {
             buttons[index++] = ChatColorButton(color, player)
         }
 
@@ -59,20 +55,16 @@ class ChatColorMenu(val player: Player) : PaginatedMenu(18, player)
     }
 
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return "Select a Color"
     }
 
-    class ChatColorButton(val chatColor: ChatColor, val player: Player) : Button()
-    {
-        override fun getMaterial(player: Player): Material
-        {
+    class ChatColorButton(val chatColor: ChatColor, val player: Player) : Button() {
+        override fun getMaterial(player: Player): Material {
             return Material.WOOL
         }
 
-        override fun getDescription(player: Player): MutableList<String>
-        {
+        override fun getDescription(player: Player): MutableList<String> {
             val desc = mutableListOf<String>()
             desc.add(Chat.format("&6&m------------------"))
             desc.add(Chat.format("&eColor:"))
@@ -81,11 +73,9 @@ class ChatColorMenu(val player: Player) : PaginatedMenu(18, player)
             desc.add(Chat.format("&eExample:"))
             desc.add(Chat.format("&e│ &r" + AlchemistAPI.getRankWithPrefix(player.uniqueId) + "&7: &f" + chatColor.chatColor + "Hi!"))
             desc.add(" ")
-            if (player.hasPermission(chatColor.permission))
-            {
+            if (player.hasPermission(chatColor.permission)) {
                 desc.add(Chat.format("&aClick to select this color"))
-            } else
-            {
+            } else {
                 desc.add(Chat.format("&cYou do not own this color"))
             }
             desc.add(Chat.format("&6&m------------------"))
@@ -93,34 +83,28 @@ class ChatColorMenu(val player: Player) : PaginatedMenu(18, player)
             return desc
         }
 
-        override fun getDisplayName(player: Player): String
-        {
+        override fun getDisplayName(player: Player): String {
             return Chat.format(chatColor.chatColor + ChatColorLoader.proper(chatColor))
         }
 
-        override fun getData(player: Player): Short
-        {
+        override fun getData(player: Player): Short {
             return Chat.getDyeColor(chatColor.chatColor).woolData.toShort()
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType)
-        {
+        override fun onClick(player: Player, slot: Int, type: ClickType) {
             val profile = ProfileGameService.byId(player.uniqueId)
 
-            if (profile == null)
-            {
+            if (profile == null) {
                 player.sendMessage(Chat.format("&cNull Profile. Contact an admin"))
                 return
             }
 
-            if (player.hasPermission(chatColor.permission))
-            {
+            if (player.hasPermission(chatColor.permission)) {
                 profile.activeColor = chatColor
 
                 ProfileGameService.save(profile)
                 player.sendMessage(Chat.format("&aUpdated your chat color!"))
-            } else
-            {
+            } else {
                 player.sendMessage(Chat.format("&cYou do not have permission to use this!"))
             }
         }

@@ -14,18 +14,15 @@ import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
-class ThemeLooksMenu(val player: Player, val theme: Theme) : Menu(player)
-{
+class ThemeLooksMenu(val player: Player, val theme: Theme) : Menu(player) {
 
-    init
-    {
+    init {
         staticSize = 27
         placeholder = true
     }
 
 
-    override fun getButtons(player: Player): MutableMap<Int, Button>
-    {
+    override fun getButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
 
         buttons[4] = SimpleActionButton(
@@ -48,8 +45,7 @@ class ThemeLooksMenu(val player: Player, val theme: Theme) : Menu(player)
         return buttons
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return "Observe Looks"
     }
 }

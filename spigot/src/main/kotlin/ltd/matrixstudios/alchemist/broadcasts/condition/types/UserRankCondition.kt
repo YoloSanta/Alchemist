@@ -11,10 +11,8 @@ import org.bukkit.entity.Player
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class UserRankCondition : ConditionType()
-{
-    override fun testFor(player: Player, value: String): Boolean
-    {
+class UserRankCondition : ConditionType() {
+    override fun testFor(player: Player, value: String): Boolean {
         val rankWeight = value.toIntOrNull()
             ?: return false
 

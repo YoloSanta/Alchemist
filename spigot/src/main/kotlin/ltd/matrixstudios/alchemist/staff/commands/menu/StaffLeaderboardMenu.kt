@@ -17,39 +17,31 @@ import org.bukkit.event.inventory.ClickType
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class StaffLeaderboardMenu(val player: Player, val preLoadedButtons: MutableMap<Int, Button>) : Menu(player)
-{
+class StaffLeaderboardMenu(val player: Player, val preLoadedButtons: MutableMap<Int, Button>) : Menu(player) {
 
-    init
-    {
+    init {
         staticSize = 27
         placeholder = true
     }
 
-    override fun getButtons(player: Player): MutableMap<Int, Button>
-    {
+    override fun getButtons(player: Player): MutableMap<Int, Button> {
         return preLoadedButtons
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return "Viewing Staff Leaderboards"
     }
 
-    class LeaderboardPunishmentButton(val type: PunishmentType, val users: MutableList<GameProfile>) : Button()
-    {
-        override fun getMaterial(player: Player): Material
-        {
+    class LeaderboardPunishmentButton(val type: PunishmentType, val users: MutableList<GameProfile>) : Button() {
+        override fun getMaterial(player: Player): Material {
             return Material.WOOL
         }
 
-        override fun getDescription(player: Player): MutableList<String>
-        {
+        override fun getDescription(player: Player): MutableList<String> {
             val desc = mutableListOf<String>()
             var i = 1
             desc.add(Chat.format("&8&m---------------------------"))
-            for (profile in users)
-            {
+            for (profile in users) {
                 desc.add(
                     Chat.format(
                         getColoredSlot(i) + " &7- ${profile.getRankDisplay()} &8(${
@@ -66,8 +58,7 @@ class StaffLeaderboardMenu(val player: Player, val preLoadedButtons: MutableMap<
             return desc
         }
 
-        fun getColoredSlot(index: Int): String
-        {
+        fun getColoredSlot(index: Int): String {
             if (index == 1) return "&6#1"
             if (index == 2) return "&7#2"
             if (index == 3) return "&c#3"
@@ -75,18 +66,15 @@ class StaffLeaderboardMenu(val player: Player, val preLoadedButtons: MutableMap<
             return "&a#${index}"
         }
 
-        override fun getDisplayName(player: Player): String
-        {
+        override fun getDisplayName(player: Player): String {
             return Chat.format(type.color + type.niceName + " Leaderboard &7(Top 10)")
         }
 
-        override fun getData(player: Player): Short
-        {
+        override fun getData(player: Player): Short {
             return AlchemistAPI.getWoolColor(type.color).woolData.toShort()
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType)
-        {
+        override fun onClick(player: Player, slot: Int, type: ClickType) {
         }
 
     }

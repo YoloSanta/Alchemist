@@ -20,30 +20,24 @@ import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.metadata.FixedMetadataValue
 import java.util.*
 
-class StaffmodeFunctionalityListener : Listener
-{
+class StaffmodeFunctionalityListener : Listener {
     val timestamps = mutableMapOf<UUID, Long>()
     val entityInteractTimestamps = mutableMapOf<UUID, Long>()
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    fun interact(e: PlayerInteractEvent)
-    {
+    fun interact(e: PlayerInteractEvent) {
         val player = e.player
 
-        if (StaffSuiteManager.isModMode(player))
-        {
-            if (e.action == Action.RIGHT_CLICK_AIR || e.action == Action.RIGHT_CLICK_BLOCK)
-            {
+        if (StaffSuiteManager.isModMode(player)) {
+            if (e.action == Action.RIGHT_CLICK_AIR || e.action == Action.RIGHT_CLICK_BLOCK) {
 
                 val itemInHand = player.itemInHand
 
                 if (itemInHand == null || itemInHand.type == Material.AIR) return
 
                 val time = timestamps[player.uniqueId]
-                if (time != null)
-                {
-                    if (System.currentTimeMillis().minus(time) < 300L)
-                    {
+                if (time != null) {
+                    if (System.currentTimeMillis().minus(time) < 300L) {
                         e.isCancelled = true
                         timestamps.remove(player.uniqueId)
 
@@ -53,19 +47,16 @@ class StaffmodeFunctionalityListener : Listener
 
                 timestamps[player.uniqueId] = System.currentTimeMillis()
 
-                if (itemInHand.isSimilar(StaffItems.RANDOMTP))
-                {
+                if (itemInHand.isSimilar(StaffItems.RANDOMTP)) {
                     e.isCancelled = true
                     val actualPlayer = Bukkit.getOnlinePlayers().shuffled().first()
 
-                    if (actualPlayer == null)
-                    {
+                    if (actualPlayer == null) {
                         player.sendMessage(Chat.format("&cAcutal player nulled"))
                         return
                     }
 
-                    if (actualPlayer == player)
-                    {
+                    if (actualPlayer == player) {
                         player.sendMessage(Chat.format("&cYou cannot teleport to yourself"))
                         return
                     }
@@ -79,19 +70,16 @@ class StaffmodeFunctionalityListener : Listener
                 if (itemInHand.hasItemMeta() && itemInHand.itemMeta.hasDisplayName() && itemInHand.itemMeta.displayName.contains(
                         "Online Staff"
                     )
-                )
-                {
+                ) {
                     e.isCancelled = true
                     OnlineStaffMenu(player).updateMenu()
                 }
 
-                if (itemInHand.isSimilar(StaffItems.LAST_PVP))
-                {
+                if (itemInHand.isSimilar(StaffItems.LAST_PVP)) {
                     e.isCancelled = true
                     val location = StaffItems.lastPvP
 
-                    if (location == null)
-                    {
+                    if (location == null) {
                         player.sendMessage(Chat.format("&cNobody has fought anyone yet!"))
                         return
                     }
@@ -99,8 +87,7 @@ class StaffmodeFunctionalityListener : Listener
                     player.teleport(location)
                 }
 
-                if (itemInHand.isSimilar(StaffItems.VANISH))
-                {
+                if (itemInHand.isSimilar(StaffItems.VANISH)) {
                     player.inventory.itemInHand = StaffItems.UNVANISH
 
                     StaffSuiteVisibilityHandler.onDisableVisbility(player)
@@ -108,8 +95,7 @@ class StaffmodeFunctionalityListener : Listener
                     player.removeMetadata("vanish", AlchemistSpigotPlugin.instance)
                 }
 
-                if (itemInHand.isSimilar(StaffItems.UNVANISH))
-                {
+                if (itemInHand.isSimilar(StaffItems.UNVANISH)) {
                     player.inventory.itemInHand = StaffItems.VANISH
 
                     StaffSuiteVisibilityHandler.onEnableVisibility(player)
@@ -117,13 +103,11 @@ class StaffmodeFunctionalityListener : Listener
                     player.setMetadata("vanish", FixedMetadataValue(AlchemistSpigotPlugin.instance, true))
                 }
 
-                if (itemInHand.isSimilar(StaffItems.INVENTORY_INSPECT))
-                {
+                if (itemInHand.isSimilar(StaffItems.INVENTORY_INSPECT)) {
                     e.isCancelled = true
                 }
 
-                if (itemInHand.isSimilar(StaffItems.FREEZE))
-                {
+                if (itemInHand.isSimilar(StaffItems.FREEZE)) {
                     e.isCancelled = true
                 }
             }
@@ -131,16 +115,12 @@ class StaffmodeFunctionalityListener : Listener
     }
 
     @EventHandler
-    fun inventoryClickEvent(e: InventoryClickEvent)
-    {
+    fun inventoryClickEvent(e: InventoryClickEvent) {
         val player = e.whoClicked as Player
 
-        if (StaffSuiteManager.isModMode(player))
-        {
-            if (e.currentItem != null)
-            {
-                if (e.currentItem.isSimilar(StaffItems.EDIT_MOD_MODE))
-                {
+        if (StaffSuiteManager.isModMode(player)) {
+            if (e.currentItem != null) {
+                if (e.currentItem.isSimilar(StaffItems.EDIT_MOD_MODE)) {
                     EditModModeMenu(player).openMenu()
                     player.sendMessage(Chat.format("&eYou are now editing your &amod mode"))
                     player.sendMessage(Chat.format("&7&oTo save any changes, execute /savemodmode"))
@@ -151,23 +131,18 @@ class StaffmodeFunctionalityListener : Listener
     }
 
     @EventHandler
-    fun interactWithEntity(e: PlayerInteractEntityEvent)
-    {
+    fun interactWithEntity(e: PlayerInteractEntityEvent) {
         val player = e.player
 
-        if (StaffSuiteManager.isModMode(player))
-        {
+        if (StaffSuiteManager.isModMode(player)) {
             val itemInHand = player.itemInHand
 
             if (itemInHand == null || itemInHand.type == Material.AIR) return
 
-            if (e.rightClicked is Player)
-            {
+            if (e.rightClicked is Player) {
                 val time = entityInteractTimestamps[player.uniqueId]
-                if (time != null)
-                {
-                    if (System.currentTimeMillis().minus(time) < 300L)
-                    {
+                if (time != null) {
+                    if (System.currentTimeMillis().minus(time) < 300L) {
                         e.isCancelled = true
                         entityInteractTimestamps.remove(player.uniqueId)
 
@@ -177,14 +152,12 @@ class StaffmodeFunctionalityListener : Listener
 
                 entityInteractTimestamps[player.uniqueId] = System.currentTimeMillis()
 
-                if (itemInHand.isSimilar(StaffItems.INVENTORY_INSPECT))
-                {
+                if (itemInHand.isSimilar(StaffItems.INVENTORY_INSPECT)) {
                     player.performCommand("invsee ${e.rightClicked.name}")
                     e.isCancelled = true
                 }
 
-                if (itemInHand.isSimilar(StaffItems.FREEZE))
-                {
+                if (itemInHand.isSimilar(StaffItems.FREEZE)) {
                     player.performCommand("freeze ${e.rightClicked.name}")
                     e.isCancelled = true
                 }

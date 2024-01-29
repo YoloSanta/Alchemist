@@ -16,11 +16,9 @@ import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 import java.util.*
 
-class FilterEditorMenu(val player: Player) : PaginatedMenu(27, player)
-{
+class FilterEditorMenu(val player: Player) : PaginatedMenu(27, player) {
 
-    override fun getHeaderItems(player: Player): MutableMap<Int, Button>
-    {
+    override fun getHeaderItems(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
 
         buttons[4] = SkullButton(
@@ -45,33 +43,27 @@ class FilterEditorMenu(val player: Player) : PaginatedMenu(27, player)
         return buttons
     }
 
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
-    {
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
         val buttons = hashMapOf<Int, Button>()
         var index = 0
 
-        for (filter in FilterService.cache.values)
-        {
+        for (filter in FilterService.cache.values) {
             buttons[index++] = FilterButton(filter)
         }
 
         return buttons
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return "Viewing All Filters"
     }
 
-    class FilterButton(val filter: Filter) : Button()
-    {
-        override fun getMaterial(player: Player): Material
-        {
+    class FilterButton(val filter: Filter) : Button() {
+        override fun getMaterial(player: Player): Material {
             return Material.WOOL
         }
 
-        override fun getDescription(player: Player): MutableList<String>
-        {
+        override fun getDescription(player: Player): MutableList<String> {
             val desc = mutableListOf<String>()
 
             desc.add(Chat.format("&6&m-------------------------------------"))
@@ -91,27 +83,21 @@ class FilterEditorMenu(val player: Player) : PaginatedMenu(27, player)
             return desc
         }
 
-        override fun getDisplayName(player: Player): String
-        {
+        override fun getDisplayName(player: Player): String {
             return Chat.format("&6" + filter.word)
         }
 
-        override fun getData(player: Player): Short
-        {
-            return if (filter.silent)
-            {
+        override fun getData(player: Player): Short {
+            return if (filter.silent) {
                 7
-            } else if (filter.shouldPunish)
-            {
+            } else if (filter.shouldPunish) {
                 14
-            } else
-            {
+            } else {
                 5
             }
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType)
-        {
+        override fun onClick(player: Player, slot: Int, type: ClickType) {
             FilterSubEditorMenu(player, filter).openMenu()
         }
     }

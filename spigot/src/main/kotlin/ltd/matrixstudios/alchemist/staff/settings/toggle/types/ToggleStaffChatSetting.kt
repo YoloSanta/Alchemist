@@ -10,15 +10,12 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 
-class ToggleStaffChatSetting(val profile: GameProfile) : Button()
-{
-    override fun getMaterial(player: Player): Material
-    {
+class ToggleStaffChatSetting(val profile: GameProfile) : Button() {
+    override fun getMaterial(player: Player): Material {
         return Material.WOOL
     }
 
-    override fun getDescription(player: Player): MutableList<String>
-    {
+    override fun getDescription(player: Player): MutableList<String> {
         val desc = mutableListOf<String>()
         desc.add(" ")
         desc.add(Chat.format("&7Toggle this setting to make it so"))
@@ -26,11 +23,9 @@ class ToggleStaffChatSetting(val profile: GameProfile) : Button()
         desc.add(Chat.format("&7Great for &5Streamers &7and &cYou&fTubers"))
         desc.add("")
         val hasMetadata = profile.hasMetadata("toggleSC")
-        if (hasMetadata)
-        {
+        if (hasMetadata) {
             desc.add(Chat.format("&7► &eCurrently &coff"))
-        } else
-        {
+        } else {
             desc.add(Chat.format("&7► &eCurrently &aon"))
         }
         desc.add(" ")
@@ -39,27 +34,22 @@ class ToggleStaffChatSetting(val profile: GameProfile) : Button()
         return desc
     }
 
-    override fun getDisplayName(player: Player): String
-    {
+    override fun getDisplayName(player: Player): String {
         return Chat.format("&eToggle Staff Chat")
     }
 
-    override fun getData(player: Player): Short
-    {
+    override fun getData(player: Player): Short {
         return if (!profile.hasMetadata("toggleSC")) DyeColor.LIME.woolData.toShort() else DyeColor.RED.woolData.toShort()
     }
 
-    override fun onClick(player: Player, slot: Int, type: ClickType)
-    {
+    override fun onClick(player: Player, slot: Int, type: ClickType) {
         val hasMetadata = profile.hasMetadata("toggleSC")
 
-        if (hasMetadata)
-        {
+        if (hasMetadata) {
             profile.metadata.remove("toggleSC")
             player.sendMessage(Chat.format("&eYou have toggled your staff chat &aon"))
             ProfileGameService.save(profile)
-        } else
-        {
+        } else {
             profile.metadata.addProperty("toggleSC", true)
             player.sendMessage(Chat.format("&eYou have toggled your staff chat &coff"))
             ProfileGameService.save(profile)

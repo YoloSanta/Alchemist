@@ -11,11 +11,9 @@ import org.bukkit.Bukkit
 class ServerStatusChangePacket(
     var message: String,
     var server: UniqueServer
-) : RedisPacket("server-status-change-packet")
-{
+) : RedisPacket("server-status-change-packet") {
 
-    override fun action()
-    {
+    override fun action() {
         val hoverComponent = Component.text(Chat.format("&8&m-------------------------"))
             .appendNewline()
             .append(Component.text(Chat.format("&fServer: &e${server.displayName}")))

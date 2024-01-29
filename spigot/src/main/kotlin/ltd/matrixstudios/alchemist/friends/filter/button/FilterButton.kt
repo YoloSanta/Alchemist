@@ -9,26 +9,20 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 
-class FilterButton(val currentFilter: FriendFilter, val profile: GameProfile) : Button()
-{
+class FilterButton(val currentFilter: FriendFilter, val profile: GameProfile) : Button() {
     val values = FriendFilter.values()
 
-    override fun getMaterial(player: Player): Material
-    {
+    override fun getMaterial(player: Player): Material {
         return Material.HOPPER
     }
 
-    override fun getDescription(player: Player): MutableList<String>
-    {
+    override fun getDescription(player: Player): MutableList<String> {
         val desc = mutableListOf<String>()
         desc.add(" ")
-        for (filter in values)
-        {
-            if (currentFilter == filter)
-            {
+        for (filter in values) {
+            if (currentFilter == filter) {
                 desc.add(Chat.format("&7- &a" + currentFilter.displayName))
-            } else
-            {
+            } else {
                 desc.add(Chat.format("&7- &7" + filter.displayName))
             }
         }
@@ -39,24 +33,20 @@ class FilterButton(val currentFilter: FriendFilter, val profile: GameProfile) : 
         return desc
     }
 
-    override fun getDisplayName(player: Player): String
-    {
+    override fun getDisplayName(player: Player): String {
         return Chat.format("&eFilter")
     }
 
-    override fun getData(player: Player): Short
-    {
+    override fun getData(player: Player): Short {
         return 0
     }
 
-    override fun onClick(player: Player, slot: Int, type: ClickType)
-    {
+    override fun onClick(player: Player, slot: Int, type: ClickType) {
         val index = values.indexOf(currentFilter)
         val next = (index + 1)
         val limit = values.size - 1
 
-        if (next > limit)
-        {
+        if (next > limit) {
             FriendsListMenu(player, profile, values[0]).updateMenu()
 
             return

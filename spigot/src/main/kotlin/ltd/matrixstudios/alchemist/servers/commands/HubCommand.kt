@@ -9,28 +9,23 @@ import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.NetworkUtil
 import org.bukkit.entity.Player
 
-object HubCommand : BaseCommand()
-{
+object HubCommand : BaseCommand() {
 
     @CommandAlias("hub|lobby")
-    fun onHub(player: Player)
-    {
+    fun onHub(player: Player) {
         val selectedServer: UniqueServer?
         val available = AlchemistSpigotPlugin.instance.config.getStringList("hubCommand.priorities")
             .mapNotNull { UniqueServerService.byId(it.lowercase()) }
             .filter { it.online }
 
-        selectedServer = if (AlchemistSpigotPlugin.instance.config.getBoolean("hubCommand.loadBalance"))
-        {
+        selectedServer = if (AlchemistSpigotPlugin.instance.config.getBoolean("hubCommand.loadBalance")) {
             available
                 .minByOrNull { it.players.size }
-        } else
-        {
+        } else {
             available.random()
         }
 
-        if (selectedServer == null)
-        {
+        if (selectedServer == null) {
             player.sendMessage(Chat.format("&cUnable to connect you to a hub at this time!"))
             return
         }

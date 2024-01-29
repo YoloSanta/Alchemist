@@ -14,17 +14,14 @@ import org.bukkit.conversations.*
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 
-class ReasonMenu(val player: Player, val rank: Rank, val target: GameProfile, val duration: Long) : Menu(player)
-{
+class ReasonMenu(val player: Player, val rank: Rank, val target: GameProfile, val duration: Long) : Menu(player) {
 
-    init
-    {
+    init {
         staticSize = 27
         placeholder = true
     }
 
-    override fun getButtons(player: Player): MutableMap<Int, Button>
-    {
+    override fun getButtons(player: Player): MutableMap<Int, Button> {
         val buttons = hashMapOf<Int, Button>()
 
         buttons[4] =
@@ -32,8 +29,7 @@ class ReasonMenu(val player: Player, val rank: Rank, val target: GameProfile, va
                 DurationMenu(player, rank, target).openMenu()
             }
 
-        for (rzn in GrantConfigurationService.grantReasonModels.values)
-        {
+        for (rzn in GrantConfigurationService.grantReasonModels.values) {
             buttons[rzn.menuSlot] =
                 ReasonButton(rzn.reason, rzn.data.toShort(), rzn.displayName, rank, target, player, duration, rzn.item)
         }
@@ -41,8 +37,7 @@ class ReasonMenu(val player: Player, val rank: Rank, val target: GameProfile, va
         return buttons
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return "Select a Reason"
     }
 
@@ -56,51 +51,39 @@ class ReasonMenu(val player: Player, val rank: Rank, val target: GameProfile, va
         val player: Player,
         val duration: Long,
         val item: String
-    ) : Button()
-    {
-        override fun getMaterial(player: Player): Material
-        {
+    ) : Button() {
+        override fun getMaterial(player: Player): Material {
             return Material.getMaterial(item) ?: Material.WOOL
         }
 
-        override fun getDescription(player: Player): MutableList<String>
-        {
+        override fun getDescription(player: Player): MutableList<String> {
             return mutableListOf()
         }
 
-        override fun getDisplayName(player: Player): String
-        {
+        override fun getDisplayName(player: Player): String {
             return Chat.format(displayName)
         }
 
-        override fun getData(player: Player): Short
-        {
+        override fun getData(player: Player): Short {
             return data
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType)
-        {
-            if (reason.equals("Custom", ignoreCase = true))
-            {
+        override fun onClick(player: Player, slot: Int, type: ClickType) {
+            if (reason.equals("Custom", ignoreCase = true)) {
                 player.closeInventory()
                 val factory =
                     ConversationFactory(AlchemistSpigotPlugin.instance).withModality(true)
                         .withPrefix(NullConversationPrefix())
-                        .withFirstPrompt(object : StringPrompt()
-                        {
-                            override fun getPromptText(context: ConversationContext): String
-                            {
+                        .withFirstPrompt(object : StringPrompt() {
+                            override fun getPromptText(context: ConversationContext): String {
                                 return Chat.format("&ePlease type a reason for this grant, or type &ccancel &eto cancel.")
                             }
 
-                            override fun acceptInput(context: ConversationContext, input: String): Prompt?
-                            {
-                                if (input.equals("cancel", ignoreCase = true))
-                                {
+                            override fun acceptInput(context: ConversationContext, input: String): Prompt? {
+                                if (input.equals("cancel", ignoreCase = true)) {
                                     context.forWhom.sendRawMessage(Chat.format("&cGrant process aborted."))
                                     return Prompt.END_OF_CONVERSATION
-                                } else
-                                {
+                                } else {
                                     val internalreason = input
 
                                     ScopeSelectionMenu(
@@ -119,8 +102,7 @@ class ReasonMenu(val player: Player, val rank: Rank, val target: GameProfile, va
                         .thatExcludesNonPlayersWithMessage("Go away evil console!")
                 val con: Conversation = factory.buildConversation(player)
                 player.beginConversation(con)
-            } else
-            {
+            } else {
                 ScopeSelectionMenu(player, rank, target, duration, reason, mutableListOf(), false).updateMenu()
             }
         }

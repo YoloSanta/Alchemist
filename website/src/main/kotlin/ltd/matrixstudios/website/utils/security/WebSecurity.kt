@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher
@@ -28,8 +27,7 @@ import javax.servlet.http.Cookie
  */
 @Configuration
 @EnableWebSecurity
-open class WebSecurity : WebSecurityConfigurerAdapter()
-{
+open class WebSecurity : WebSecurityConfigurerAdapter() {
     @Autowired
     private val bCryptPasswordEncoder: BCryptPasswordEncoder? = null
 
@@ -37,14 +35,12 @@ open class WebSecurity : WebSecurityConfigurerAdapter()
     var customizeAuthenticationSuccessHandler: AuthSuccessHandler? = null
 
     @Bean
-    open fun constructUserDetails(): UserDetailsService
-    {
+    open fun constructUserDetails(): UserDetailsService {
         return UserServicesComponent.userService
     }
 
     @Throws(Exception::class)
-    override fun configure(auth: AuthenticationManagerBuilder)
-    {
+    override fun configure(auth: AuthenticationManagerBuilder) {
         val userDetailsService = constructUserDetails()
 
         auth
@@ -53,8 +49,7 @@ open class WebSecurity : WebSecurityConfigurerAdapter()
     }
 
     @Throws(Exception::class)
-    override fun configure(http: HttpSecurity)
-    {
+    override fun configure(http: HttpSecurity) {
         http
             .csrf().and()
             .authorizeRequests()
@@ -74,16 +69,14 @@ open class WebSecurity : WebSecurityConfigurerAdapter()
     }
 
     @Throws(Exception::class)
-    override fun configure(web: WebSecurity)
-    {
+    override fun configure(web: WebSecurity) {
         web
             .ignoring()
             .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/img/**")
     }
 
     @Bean
-    open fun corsConfigurationSource(): CorsConfigurationSource
-    {
+    open fun corsConfigurationSource(): CorsConfigurationSource {
         val configuration = CorsConfiguration()
         configuration.allowedOrigins = listOf("*")
         configuration.allowedMethods = listOf("*")

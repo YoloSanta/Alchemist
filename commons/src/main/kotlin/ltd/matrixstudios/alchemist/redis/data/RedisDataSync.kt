@@ -6,14 +6,12 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ForkJoinPool
 
 // thank u growlyx for the idea hes a great guy really
-abstract class RedisDataSync<V>(private val identifier: String, val clazz: Class<V>)
-{
+abstract class RedisDataSync<V>(private val identifier: String, val clazz: Class<V>) {
     abstract fun destination(): String
 
     abstract fun key(): String
 
-    fun cache(value: V)
-    {
+    fun cache(value: V) {
         RedisDataSyncService.syncModel(identifier, value)
 
         CompletableFuture.runAsync {
@@ -29,8 +27,7 @@ abstract class RedisDataSync<V>(private val identifier: String, val clazz: Class
         }
     }
 
-    fun load()
-    {
+    fun load() {
         var model: V?
 
         RedisPacketManager.pool.resource.use { jedis ->
@@ -38,15 +35,13 @@ abstract class RedisDataSync<V>(private val identifier: String, val clazz: Class
             model = RedisPacketManager.gson.fromJson(json, clazz)
         }
 
-        if (model != null)
-        {
+        if (model != null) {
             RedisDataSyncService.syncModel(identifier, model)
             RedisDataSyncService.syncServices[identifier] = this
         }
     }
 
-    fun sync()
-    {
+    fun sync() {
         val packet =
             RedisModelPopulationPacket(identifier)
 
@@ -58,13 +53,10 @@ abstract class RedisDataSync<V>(private val identifier: String, val clazz: Class
         }
     }
 
-    fun cached(): V?
-    {
-        return if (RedisDataSyncService.dataSyncModels[identifier] == null)
-        {
+    fun cached(): V? {
+        return if (RedisDataSyncService.dataSyncModels[identifier] == null) {
             null
-        } else
-        {
+        } else {
             RedisDataSyncService.dataSyncModels[identifier]!!.value!! as V
         }
 

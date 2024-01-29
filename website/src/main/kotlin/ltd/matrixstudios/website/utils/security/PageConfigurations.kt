@@ -9,23 +9,19 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 @Configuration
-open class PageConfigurations : WebMvcConfigurer
-{
-    override fun addViewControllers(registry: ViewControllerRegistry)
-    {
+open class PageConfigurations : WebMvcConfigurer {
+    override fun addViewControllers(registry: ViewControllerRegistry) {
         registry.addViewController("/home").setViewName("home")
         registry.addViewController("/").setViewName("home")
         registry.addViewController("/login").setViewName("login")
     }
 
     @Bean
-    open fun passwordEncoder(): BCryptPasswordEncoder
-    {
+    open fun passwordEncoder(): BCryptPasswordEncoder {
         return BCryptPasswordEncoder()
     }
 
-    override fun addInterceptors(registry: InterceptorRegistry)
-    {
+    override fun addInterceptors(registry: InterceptorRegistry) {
         registry.addInterceptor(ExplicitUserLoginInterceptor()).addPathPatterns("/register", "/login")
     }
 }

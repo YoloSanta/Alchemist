@@ -14,15 +14,11 @@ import org.bukkit.scheduler.BukkitRunnable
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class QueueSendTask : BukkitRunnable()
-{
+class QueueSendTask : BukkitRunnable() {
 
-    override fun run()
-    {
-        for (queue in QueueService.cache.values)
-        {
-            if (queue.playersInQueue.isEmpty() || queue.getPlayerAt(1) == null)
-            {
+    override fun run() {
+        for (queue in QueueService.cache.values) {
+            if (queue.playersInQueue.isEmpty() || queue.getPlayerAt(1) == null) {
                 continue
             }
 

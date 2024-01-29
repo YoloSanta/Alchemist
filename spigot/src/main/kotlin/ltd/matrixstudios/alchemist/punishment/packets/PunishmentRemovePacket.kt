@@ -19,11 +19,9 @@ class PunishmentRemovePacket(
     var reason: String
 ) : RedisPacket(
     "remove-punishment"
-)
-{
+) {
 
-    override fun action()
-    {
+    override fun action() {
         val profile = AlchemistAPI.syncFindProfile(executor)
         val target = AlchemistAPI.syncFindProfile(target)
         val hoverComponent = Component.text(Chat.format("&6&m-------------------------"))

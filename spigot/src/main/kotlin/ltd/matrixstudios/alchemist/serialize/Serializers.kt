@@ -2,23 +2,18 @@ package ltd.matrixstudios.alchemist.serialize
 
 import com.google.gson.*
 
-object Serializers
-{
+object Serializers {
     val GSON: Gson = GsonBuilder()
         .serializeNulls()
         .setPrettyPrinting()
         .setLongSerializationPolicy(LongSerializationPolicy.STRING)
-        .setExclusionStrategies(object : ExclusionStrategy
-        {
-            override fun shouldSkipField(p0: FieldAttributes): Boolean
-            {
+        .setExclusionStrategies(object : ExclusionStrategy {
+            override fun shouldSkipField(p0: FieldAttributes): Boolean {
                 return false
             }
 
-            override fun shouldSkipClass(p0: Class<*>): Boolean
-            {
-                if (p0.simpleName.equals("EntityItemFrame", ignoreCase = true))
-                {
+            override fun shouldSkipClass(p0: Class<*>): Boolean {
+                if (p0.simpleName.equals("EntityItemFrame", ignoreCase = true)) {
                     return true
                 }
 

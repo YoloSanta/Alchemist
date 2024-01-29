@@ -6,7 +6,6 @@ import co.aikar.commands.annotation.CommandPermission
 import com.google.common.base.Stopwatch
 import com.google.gson.JsonObject
 import ltd.matrixstudios.alchemist.Alchemist
-import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.commands.metrics.menu.MetricsMenu
 import ltd.matrixstudios.alchemist.metric.Metric
 import ltd.matrixstudios.alchemist.metric.MetricService
@@ -17,13 +16,11 @@ import org.bukkit.entity.Player
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class MetricCommand : BaseCommand()
-{
+class MetricCommand : BaseCommand() {
 
     @CommandAlias("metrics|mylaggyserver")
     @CommandPermission("alchemist.metrics")
-    fun metrics(player: Player)
-    {
+    fun metrics(player: Player) {
         val startMs = System.currentTimeMillis()
         //sends a decoy mongo request to know its working. If this takes long asf its my fault
         //for not being able to code :shrug:
@@ -39,10 +36,8 @@ class MetricCommand : BaseCommand()
 
     @CommandAlias("decoyprofiles")
     @CommandPermission("alchemist.owner")
-    fun decoy(player: Player, amt: Int)
-    {
-        for (int in 0 until amt)
-        {
+    fun decoy(player: Player, amt: Int) {
+        for (int in 0 until amt) {
             val profile = GameProfile(
                 UUID.randomUUID(),
                 "Profile_${int}",
@@ -86,8 +81,7 @@ class MetricCommand : BaseCommand()
 
     @CommandAlias("performancetest")
     @CommandPermission("alchemist.metrics")
-    fun performanceTest(player: Player)
-    {
+    fun performanceTest(player: Player) {
         player.sendMessage(Chat.format("&6&lPerformance Evaluation"))
         player.sendMessage(" ")
         val startProfile = Stopwatch.createStarted()

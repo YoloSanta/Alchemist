@@ -19,10 +19,8 @@ import org.bukkit.entity.Player
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class ConditionEditorMenu(val player: Player, private val broadcast: BroadcastMessage) : PaginatedMenu(18, player)
-{
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
-    {
+class ConditionEditorMenu(val player: Player, private val broadcast: BroadcastMessage) : PaginatedMenu(18, player) {
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
 
         broadcast.conditions.forEach { broadcastCondition ->
@@ -41,10 +39,8 @@ class ConditionEditorMenu(val player: Player, private val broadcast: BroadcastMe
                 Chat.format("&a&l${broadcastCondition.condition}"),
                 AlchemistAPI.getWoolColor(broadcastCondition.logicGate.chatColor).woolData.toShort()
             ).setBody { _, _, clickType ->
-                if (clickType.isLeftClick)
-                {
-                    if (clickType.isShiftClick)
-                    {
+                if (clickType.isLeftClick) {
+                    if (clickType.isShiftClick) {
                         InputPrompt()
                             .withText(
                                 Chat.format("&eEnter the logic gate that you want this condition to have. Currently there are &aAnd&e, &cNot&e, and &9Or&e.")
@@ -52,11 +48,9 @@ class ConditionEditorMenu(val player: Player, private val broadcast: BroadcastMe
                                 val gate: BroadcastCondition.LogicGate? = BroadcastCondition.LogicGate.values()
                                     .firstOrNull { it.displayName.equals(input, ignoreCase = true) }
 
-                                if (gate == null)
-                                {
+                                if (gate == null) {
                                     player.sendMessage(Chat.format("&cInvalid logic gate."))
-                                } else
-                                {
+                                } else {
                                     broadcast.conditions.remove(broadcastCondition)
                                     broadcastCondition.logicGate = gate
                                     broadcast.conditions.add(broadcastCondition)
@@ -67,8 +61,7 @@ class ConditionEditorMenu(val player: Player, private val broadcast: BroadcastMe
                                     ConditionEditorMenu(player, broadcast).updateMenu()
                                 }
                             }.start(player)
-                    } else
-                    {
+                    } else {
                         InputPrompt()
                             .withText(Chat.format("&eEnter the condition that you want this broadcast to have..."))
                             .acceptInput { input ->
@@ -82,8 +75,7 @@ class ConditionEditorMenu(val player: Player, private val broadcast: BroadcastMe
                                 ConditionEditorMenu(player, broadcast).updateMenu()
                             }.start(player)
                     }
-                } else if (clickType.isRightClick)
-                {
+                } else if (clickType.isRightClick) {
 
                     broadcast.conditions.remove(broadcastCondition)
 
@@ -98,8 +90,7 @@ class ConditionEditorMenu(val player: Player, private val broadcast: BroadcastMe
         return buttons
     }
 
-    override fun getHeaderItems(player: Player): MutableMap<Int, Button>
-    {
+    override fun getHeaderItems(player: Player): MutableMap<Int, Button> {
         return mutableMapOf(
             4 to SimpleActionButton(
                 Material.PAINTING,
@@ -125,8 +116,7 @@ class ConditionEditorMenu(val player: Player, private val broadcast: BroadcastMe
         )
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return "Editing Conditions..."
     }
 }

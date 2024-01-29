@@ -14,17 +14,14 @@ import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.metadata.FixedMetadataValue
 
-class FreezeCommand : BaseCommand()
-{
+class FreezeCommand : BaseCommand() {
 
     @CommandAlias("freeze|ss")
     @CommandPermission("alchemist.staffmode")
-    fun freeze(player: Player, @Name("target") targetString: String)
-    {
+    fun freeze(player: Player, @Name("target") targetString: String) {
         val target = Bukkit.getPlayer(targetString)
 
-        if (target == null)
-        {
+        if (target == null) {
             player.sendMessage(Chat.format("&cInvalid target"))
             return
         }
@@ -34,13 +31,11 @@ class FreezeCommand : BaseCommand()
         val displayExec = AlchemistAPI.getRankDisplay(player.uniqueId)
         val displayTarget = AlchemistAPI.getRankDisplay(target.uniqueId)
 
-        if (frozen)
-        {
+        if (frozen) {
             target.removeMetadata("frozen", AlchemistSpigotPlugin.instance)
             target.sendMessage(Chat.format("&aYou have been unfrozen"))
             AsynchronousRedisSender.send(StaffGeneralMessagePacket("&b[S] &3[$server] $displayExec &3has unfrozen $displayTarget"))
-        } else
-        {
+        } else {
             target.setMetadata("frozen", FixedMetadataValue(AlchemistSpigotPlugin.instance, true))
             target.sendMessage(Chat.format("&cYou have been frozen"))
             AsynchronousRedisSender.send(StaffGeneralMessagePacket("&b[S] &3[$server] $displayExec &3has frozen $displayTarget"))

@@ -3,40 +3,40 @@
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
     <title>Alchemist Rank Solution</title>
     <!-- plugins:css -->
-    <link rel="stylesheet" href="../static/vendors/mdi/css/materialdesignicons.min.css"
+    <link href="../static/vendors/mdi/css/materialdesignicons.min.css" rel="stylesheet"
           th:href="@{/vendors/mdi/css/materialdesignicons.min.css}">
-    <link rel="stylesheet" href="../static/vendors/css/vendor.bundle.base.css"
+    <link href="../static/vendors/css/vendor.bundle.base.css" rel="stylesheet"
           th:href="@{/vendors/css/vendor.bundle.base.css}">
     <!-- endinject -->
     <!-- Plugin css for this page -->
-    <link rel="stylesheet" href="../static/vendors/jvectormap/jquery-jvectormap.css"
+    <link href="../static/vendors/jvectormap/jquery-jvectormap.css" rel="stylesheet"
           th:href="@{/vendors/jvectormap/jquery-jvectormap.css}">
-    <link rel="stylesheet" href="../static/vendors/flag-icon-css/css/flag-icon.min.css"
+    <link href="../static/vendors/flag-icon-css/css/flag-icon.min.css" rel="stylesheet"
           th:href="@{/vendors/flag-icon-css/css/flag-icon.min.css}">
-    <link rel="stylesheet" href="../static/vendors/owl-carousel-2/owl.carousel.min.css"
+    <link href="../static/vendors/owl-carousel-2/owl.carousel.min.css" rel="stylesheet"
           th:href="@{/vendors/owl-carousel-2/owl.carousel.min.css}">
-    <link rel="stylesheet" href="../static/vendors/owl-carousel-2/owl.theme.default.min.css"
+    <link href="../static/vendors/owl-carousel-2/owl.theme.default.min.css" rel="stylesheet"
           th:href="@{/vendors/owl-carousel-2/owl.theme.default.min.css}">
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <!-- endinject -->
     <!-- Layout styles -->
-    <link rel="stylesheet" type="text/css" media="all"
-          href="../static/css/homepage.css" th:href="@{/css/homepage.css}"/>
+    <link href="../static/css/homepage.css" media="all" rel="stylesheet"
+          th:href="@{/css/homepage.css}" type="text/css"/>
     <!-- End layout styles -->
-    <link rel="shortcut icon" href="assets/images/favicon.png"/>
+    <link href="assets/images/favicon.png" rel="shortcut icon"/>
 </head>
 <body>
 <div class="container-scroller">
     <!-- partial:partials/_sidebar.html -->
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-            <a class="sidebar-brand brand-logo" href="index.html"><img src="assets/images/logo.svg" alt="logo"/></a>
-            <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="assets/images/logo-mini.svg"
-                                                                            alt="logo"/></a>
+            <a class="sidebar-brand brand-logo" href="index.html"><img alt="logo" src="assets/images/logo.svg"/></a>
+            <a class="sidebar-brand brand-logo-mini" href="index.html"><img alt="logo"
+                                                                            src="assets/images/logo-mini.svg"/></a>
         </div>
         <ul class="nav">
             <li class="nav-item profile">
@@ -52,11 +52,11 @@
                             <span>Administrator</span>
                         </div>
                     </div>
-                    <a href="#" id="profile-dropdown" data-bs-toggle="dropdown"><i
+                    <a data-bs-toggle="dropdown" href="#" id="profile-dropdown"><i
                             class="mdi mdi-dots-vertical"></i></a>
-                    <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list"
-                         aria-labelledby="profile-dropdown">
-                        <a href="#" class="dropdown-item preview-item">
+                    <div aria-labelledby="profile-dropdown"
+                         class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list">
+                        <a class="dropdown-item preview-item" href="#">
                             <div class="preview-thumbnail">
                                 <div class="preview-icon bg-dark rounded-circle">
                                     <i class="mdi mdi-settings text-primary"></i>
@@ -159,17 +159,17 @@
         <!-- partial:partials/_navbar.html -->
         <nav class="navbar p-0 fixed-top d-flex flex-row">
             <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
-                <a class="navbar-brand brand-logo-mini" href="index.html"><img src="assets/images/logo-mini.svg"
-                                                                               alt="logo"/></a>
+                <a class="navbar-brand brand-logo-mini" href="index.html"><img alt="logo"
+                                                                               src="assets/images/logo-mini.svg"/></a>
             </div>
             <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
-                <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+                <button class="navbar-toggler navbar-toggler align-self-center" data-toggle="minimize" type="button">
                     <span class="mdi mdi-menu"></span>
                 </button>
                 <ul class="navbar-nav w-100">
                     <li class="nav-item w-100">
                         <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
-                            <input type="text" class="form-control" placeholder="Search products">
+                            <input class="form-control" placeholder="Search products" type="text">
                         </form>
                     </li>
                 </ul>
@@ -180,7 +180,7 @@
                         </a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link" id="profileDropdown" href="#" data-bs-toggle="dropdown">
+                        <a class="nav-link" data-bs-toggle="dropdown" href="#" id="profileDropdown">
                             <div class="navbar-profile" th:if="${user} != null">
                                 <img class="img-xs rounded-circle"
                                      th:src="@{'https://visage.surgeplay.com/bust/48/' + ${user.getNiceUUID()} + '?overlay=true&scale=3'}">
@@ -188,8 +188,8 @@
                                 <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                             </div>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
-                             aria-labelledby="profileDropdown">
+                        <div aria-labelledby="profileDropdown"
+                             class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list">
                             <h6 class="p-3 mb-0">Profile</h6>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item preview-item">
@@ -218,8 +218,8 @@
                         </div>
                     </li>
                 </ul>
-                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
-                        data-toggle="offcanvas">
+                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" data-toggle="offcanvas"
+                        type="button">
                     <span class="mdi mdi-format-line-spacing"></span>
                 </button>
             </div>
@@ -232,8 +232,8 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/panel">Models</a></li>
-                            <li class="breadcrumb-item" aria-current="page">Users</li>
-                            <li class="breadcrumb-item active" th:text="${target.username}" aria-current="page"></li>
+                            <li aria-current="page" class="breadcrumb-item">Users</li>
+                            <li aria-current="page" class="breadcrumb-item active" th:text="${target.username}"></li>
                         </ol>
                     </nav>
                 </div>
@@ -247,8 +247,8 @@
                                      th:text="'Playing on ' + ${target.getNiceServerName()}"></div>
                                 <div th:if="${!target.isOnline()}">
                                     Last seen
-                                    <time th:datetime="${target.lastSeenAt}" data-format="ago"
-                                          data-toggle="tooltip"></time>
+                                    <time data-format="ago" data-toggle="tooltip"
+                                          th:datetime="${target.lastSeenAt}"></time>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -267,12 +267,18 @@
                     <div class="col-xl-12 col-sm-6 grid-margin stretch-card">
                         <div class="card card-profile">
                             <div class="card-header">
-                                <button type="button" class="btn btn-inverse-success btn-fw">General</button>
-                                <button type="button" class="btn btn-inverse-info btn-fw">Punishments</button>
-                                <button type="button" class="btn btn-inverse-info btn-fw">Grants</button>
-                                <button type="button" class="btn btn-inverse-info btn-fw">Tickets</button>
-                                <button th:if="${target.getHighestGlobalRank().staff}" type="button" class="btn btn-inverse-info btn-fw">Staff History</button>
-                                <button th:if="${target.getHighestGlobalRank().staff}" type="button" class="btn btn-inverse-info btn-fw">Staff Performance</button>
+                                <button class="btn btn-inverse-success btn-fw" type="button">General</button>
+                                <button class="btn btn-inverse-info btn-fw" type="button">Punishments</button>
+                                <button class="btn btn-inverse-info btn-fw" type="button">Grants</button>
+                                <button class="btn btn-inverse-info btn-fw" type="button">Tickets</button>
+                                <button class="btn btn-inverse-info btn-fw"
+                                        th:if="${target.getHighestGlobalRank().staff}"
+                                        type="button">Staff History
+                                </button>
+                                <button class="btn btn-inverse-info btn-fw"
+                                        th:if="${target.getHighestGlobalRank().staff}"
+                                        type="button">Staff Performance
+                                </button>
                             </div>
                         </div>
                     </div>

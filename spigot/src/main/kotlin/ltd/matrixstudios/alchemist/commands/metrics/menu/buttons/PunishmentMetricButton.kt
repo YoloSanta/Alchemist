@@ -15,24 +15,19 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 
-class PunishmentMetricButton : Button()
-{
+class PunishmentMetricButton : Button() {
 
-    override fun getMaterial(player: Player): Material
-    {
+    override fun getMaterial(player: Player): Material {
         return Material.REDSTONE
     }
 
-    override fun getDescription(player: Player): MutableList<String>
-    {
+    override fun getDescription(player: Player): MutableList<String> {
         val desc = mutableListOf<String>()
         desc.add(Chat.format("&7&m-------------------"))
         val average = MetricService.averageMS("Punishment Service")
-        if (average != Long.MAX_VALUE)
-        {
+        if (average != Long.MAX_VALUE) {
             desc.add(Chat.format("&eAverage ms/r: &c" + average + "ms"))
-        } else
-        {
+        } else {
             desc.add(Chat.format("&eAverage ms/r: &cN/A"))
         }
         val all = MetricService.getLast10("Punishment Service")
@@ -40,13 +35,11 @@ class PunishmentMetricButton : Button()
         desc.add(Chat.format("&eQuartile High: &c" + all.sortedByDescending { it.ms }.first().ms + "ms"))
         desc.add(" ")
         desc.add(Chat.format("&eLast 10 Entries"))
-        for (metric in all)
-        {
+        for (metric in all) {
             desc.add(Chat.format("&7→ &e" + metric.ms + "ms"))
         }
         desc.add(" ")
-        if (!all.isEmpty())
-        {
+        if (!all.isEmpty()) {
             desc.add(
                 Chat.format(
                     "&eLast Requested: &c" + TimeUtil.formatDuration(
@@ -54,8 +47,7 @@ class PunishmentMetricButton : Button()
                     ) + " ago"
                 )
             )
-        } else
-        {
+        } else {
             desc.add(Chat.format("&eLast Requested: &cNever!"))
         }
         desc.add(Chat.format("&7&m-------------------"))
@@ -63,18 +55,15 @@ class PunishmentMetricButton : Button()
         return desc
     }
 
-    override fun getDisplayName(player: Player): String
-    {
+    override fun getDisplayName(player: Player): String {
         return Chat.format("&6Punishment Metrics")
     }
 
-    override fun getData(player: Player): Short
-    {
+    override fun getData(player: Player): Short {
         return 0
     }
 
-    override fun onClick(player: Player, slot: Int, type: ClickType)
-    {
+    override fun onClick(player: Player, slot: Int, type: ClickType) {
 
     }
 }

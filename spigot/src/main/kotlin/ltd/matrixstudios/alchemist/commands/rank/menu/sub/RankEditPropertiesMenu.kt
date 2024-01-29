@@ -13,17 +13,14 @@ import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
-class RankEditPropertiesMenu(val player: Player, val rank: Rank) : Menu(player)
-{
+class RankEditPropertiesMenu(val player: Player, val rank: Rank) : Menu(player) {
 
-    init
-    {
+    init {
         placeholder = true
         staticSize = 27
     }
 
-    override fun getButtons(player: Player): MutableMap<Int, Button>
-    {
+    override fun getButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
 
         buttons[10] = SimpleActionButton(
@@ -45,11 +42,9 @@ class RankEditPropertiesMenu(val player: Player, val rank: Rank) : Menu(player)
                 .acceptInput {
                     var newPriority = 0
 
-                    try
-                    {
+                    try {
                         newPriority = Integer.parseInt(it)
-                    } catch (e: java.lang.NumberFormatException)
-                    {
+                    } catch (e: java.lang.NumberFormatException) {
                         player.sendMessage(Chat.format("&cThis is not a number!"))
                         return@acceptInput
                     }
@@ -210,8 +205,7 @@ class RankEditPropertiesMenu(val player: Player, val rank: Rank) : Menu(player)
     }
 
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return Chat.format("&7[Editor] ${rank.color + rank.displayName}")
     }
 }

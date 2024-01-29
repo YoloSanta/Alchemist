@@ -9,17 +9,14 @@ import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
-class MessageSettingsMenu(val player: Player) : Menu(player)
-{
+class MessageSettingsMenu(val player: Player) : Menu(player) {
 
-    init
-    {
+    init {
         staticSize = 27
         placeholder = true
     }
 
-    override fun getButtons(player: Player): MutableMap<Int, Button>
-    {
+    override fun getButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
 
         buttons[13] = SimpleActionButton(
@@ -78,8 +75,7 @@ class MessageSettingsMenu(val player: Player) : Menu(player)
         return buttons
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return "Editing your Settings"
     }
 }

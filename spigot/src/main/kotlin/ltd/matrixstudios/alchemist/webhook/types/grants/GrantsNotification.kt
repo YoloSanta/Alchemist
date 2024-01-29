@@ -17,11 +17,9 @@ import ltd.matrixstudios.alchemist.webhook.WebhookInformation
 import ltd.matrixstudios.alchemist.webhook.WebhookService
 import org.bukkit.Color
 
-class GrantsNotification(val rankGrant: RankGrant) : WebhookInformation()
-{
+class GrantsNotification(val rankGrant: RankGrant) : WebhookInformation() {
 
-    override fun getEmbed(): WebhookEmbed
-    {
+    override fun getEmbed(): WebhookEmbed {
         val embed = WebhookEmbedBuilder()
             .setColor(Color.ORANGE.asRGB())
             .setThumbnailUrl("https://minotar.net/avatar/${rankGrant.target}/75.png")
@@ -44,10 +42,8 @@ class GrantsNotification(val rankGrant: RankGrant) : WebhookInformation()
         return embed
     }
 
-    override fun send()
-    {
-        if (AlchemistSpigotPlugin.instance.config.getBoolean("discord.grants.enabled"))
-        {
+    override fun send() {
+        if (AlchemistSpigotPlugin.instance.config.getBoolean("discord.grants.enabled")) {
             WebhookService.sendInformation(this, WebhookService.rankGrantClient)
         }
     }

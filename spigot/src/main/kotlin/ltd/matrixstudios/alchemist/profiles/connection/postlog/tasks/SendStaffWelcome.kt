@@ -19,20 +19,16 @@ import java.util.*
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object SendStaffWelcome : BukkitPostLoginTask
-{
+object SendStaffWelcome : BukkitPostLoginTask {
 
-    override fun run(player: Player)
-    {
+    override fun run(player: Player) {
         Bukkit.getScheduler().runTaskLater(AlchemistSpigotPlugin.instance, {
             val config = AlchemistSpigotPlugin.instance.config
             val dateFormat = SimpleDateFormat("MM-dd-yyyy", Locale.getDefault())
 
-            if (player.hasPermission("alchemist.staff"))
-            {
+            if (player.hasPermission("alchemist.staff")) {
 
-                if (config.getBoolean("staffmode.sendWelcomeMessage"))
-                {
+                if (config.getBoolean("staffmode.sendWelcomeMessage")) {
                     player.sendMessage(" ")
                     player.sendMessage(Chat.format("&eWelcome back, " + AlchemistAPI.getRankDisplay(player.uniqueId)))
                     player.sendMessage(Chat.format("&eIt is currently &d" + dateFormat.format(Date(System.currentTimeMillis()))))
@@ -45,18 +41,15 @@ object SendStaffWelcome : BukkitPostLoginTask
                     StaffSuiteManager.isModModeOnJoin(player)
                     &&
                     AlchemistSpigotPlugin.instance.config.getBoolean("modules.staffmode")
-                )
-                {
+                ) {
                     player.sendMessage(Chat.format("&7&oYou have been put into ModMode automatically"))
                     StaffSuiteManager.setStaffMode(player)
                 }
 
                 val profile = player.getProfile()
 
-                if (profile != null)
-                {
-                    if (config.getBoolean("staffmode.sendSettingSummaryOnJoin"))
-                    {
+                if (profile != null) {
+                    if (config.getBoolean("staffmode.sendSettingSummaryOnJoin")) {
                         player.sendMessage(" ")
                         player.sendMessage(Chat.format("&6&lYour Settings"))
                         player.sendMessage(Chat.format("&7➥ &eReports: &f${if (RequestHandler.hasReportsEnabled(player)) "&aOn" else "&cOff"}"))

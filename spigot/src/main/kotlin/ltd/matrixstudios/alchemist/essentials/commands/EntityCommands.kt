@@ -10,8 +10,7 @@ import org.bukkit.Material
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
 
-object EntityCommands : BaseCommand()
-{
+object EntityCommands : BaseCommand() {
     val item = ItemBuilder.of(Material.BOOK)
         .name(Chat.format("&aEdit Entity &7(Left Click)"))
         .setLore(
@@ -26,10 +25,8 @@ object EntityCommands : BaseCommand()
 
     @CommandAlias("spawnentity")
     @CommandPermission("alchemist.essentials.spawnentity")
-    fun spawnEntity(sender: Player, @Name("entity") typeString: EntityType, @Name("name") name: String)
-    {
-        if (!typeString.isAlive || !typeString.isSpawnable || typeString == EntityType.PLAYER)
-        {
+    fun spawnEntity(sender: Player, @Name("entity") typeString: EntityType, @Name("name") name: String) {
+        if (!typeString.isAlive || !typeString.isSpawnable || typeString == EntityType.PLAYER) {
             sender.sendMessage(Chat.format("&cYou cannot spawn an entity that is not alive or not spawnable."))
             return
         }
@@ -42,8 +39,7 @@ object EntityCommands : BaseCommand()
 
     @CommandAlias("editentity")
     @CommandPermission("alchemist.essentials.editentity")
-    fun editEntity(player: Player)
-    {
+    fun editEntity(player: Player) {
         player.inventory.addItem(item)
         player.sendMessage(Chat.format("&eYou have been given an &aentity editor&e."))
     }

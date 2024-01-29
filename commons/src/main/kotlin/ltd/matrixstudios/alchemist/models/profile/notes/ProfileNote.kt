@@ -1,6 +1,6 @@
 package ltd.matrixstudios.alchemist.models.profile.notes
 
-import java.util.UUID
+import java.util.*
 
 data class ProfileNote(
     val author: UUID,

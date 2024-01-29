@@ -17,26 +17,22 @@ import org.bukkit.inventory.ItemStack
 import java.util.concurrent.TimeUnit
 
 class FriendsListMenu(val player: Player, val profile: GameProfile, val filter: FriendFilter) :
-    PaginatedMenu(18, player)
-{
+    PaginatedMenu(18, player) {
 
-    override fun getHeaderItems(player: Player): MutableMap<Int, Button>
-    {
+    override fun getHeaderItems(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
 
         buttons[4] = FilterButton(filter, profile)
         return buttons
     }
 
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
-    {
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
         var index = 0
 
         val filtered = get(profile, filter)
 
-        for (item in filtered)
-        {
+        for (item in filtered) {
             buttons[index++] = FriendButton(item)
         }
 
@@ -44,36 +40,29 @@ class FriendsListMenu(val player: Player, val profile: GameProfile, val filter: 
 
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return "Your Friends!"
     }
 
-    class FriendButton(val profile: GameProfile) : Button()
-    {
-        override fun getMaterial(player: Player): Material
-        {
+    class FriendButton(val profile: GameProfile) : Button() {
+        override fun getMaterial(player: Player): Material {
             return Material.DIRT
         }
 
-        override fun getDescription(player: Player): MutableList<String>
-        {
+        override fun getDescription(player: Player): MutableList<String> {
             val desc = mutableListOf<String>()
             val rank = AlchemistAPI.findRank(profile.uuid)
 
             desc.add(Chat.format("&7&m-------------------"))
             desc.add(Chat.format("&eRank: &f" + rank.color + rank.displayName))
             desc.add(Chat.format("&eTotal Friends: &f" + profile.friends.size))
-            if (profile.isOnline())
-            {
+            if (profile.isOnline()) {
                 desc.add(Chat.format("&ePlaying: &f" + profile.metadata.get("server").asString))
             }
             desc.add(" ")
-            if (profile.isOnline())
-            {
+            if (profile.isOnline()) {
                 desc.add(Chat.format("&aCurrently Online"))
-            } else
-            {
+            } else {
                 desc.add(Chat.format("&cCurrently Offline"))
                 desc.add(
                     Chat.format(
@@ -88,13 +77,11 @@ class FriendsListMenu(val player: Player, val profile: GameProfile, val filter: 
             return desc
         }
 
-        override fun getDisplayName(player: Player): String
-        {
+        override fun getDisplayName(player: Player): String {
             return "bing"
         }
 
-        override fun getButtonItem(player: Player): ItemStack
-        {
+        override fun getButtonItem(player: Player): ItemStack {
             val name = Chat.format(AlchemistAPI.getRankDisplay(profile.uuid))
             val desc = getDescription(player)
             val skullItem = SkullUtil.generate(profile.username, name)
@@ -102,39 +89,32 @@ class FriendsListMenu(val player: Player, val profile: GameProfile, val filter: 
             return ItemBuilder.copyOf(skullItem).setLore(desc.toList()).name(name).build()
         }
 
-        override fun getData(player: Player): Short
-        {
+        override fun getData(player: Player): Short {
             return 0
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType)
-        {
+        override fun onClick(player: Player, slot: Int, type: ClickType) {
 
         }
 
     }
 
-    fun get(profile: GameProfile, filter: FriendFilter): List<GameProfile>
-    {
+    fun get(profile: GameProfile, filter: FriendFilter): List<GameProfile> {
         if (filter == FriendFilter.ALL) return profile.supplyFriendsAsProfiles().get()
 
         val baseList = profile.supplyFriendsAsProfiles().get()
 
         //statuses
-        if (filter == FriendFilter.ONLINE)
-        {
+        if (filter == FriendFilter.ONLINE) {
             return baseList.filter { it.isOnline() }
-        } else if (filter == FriendFilter.OFFLINE)
-        {
+        } else if (filter == FriendFilter.OFFLINE) {
             return baseList.filter { !it.isOnline() }
         }
 
         //attributes
-        if (filter == FriendFilter.YOUR_SERVER)
-        {
+        if (filter == FriendFilter.YOUR_SERVER) {
             return baseList.filter { it.metadata.get("server").asString == profile.metadata.get("server").asString }
-        } else if (filter == FriendFilter.RECENTLY_JOINED)
-        {
+        } else if (filter == FriendFilter.RECENTLY_JOINED) {
             return baseList.filter { System.currentTimeMillis().minus(it.lastSeenAt) <= TimeUnit.MINUTES.toMillis(30L) }
         }
 

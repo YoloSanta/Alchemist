@@ -16,36 +16,30 @@ import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import java.util.*
 
-class ReportCommand : BaseCommand()
-{
+class ReportCommand : BaseCommand() {
 
     @CommandAlias("reports|viewreports")
     @CommandPermission("alchemist.staff")
-    fun viewReports(player: Player)
-    {
+    fun viewReports(player: Player) {
         ReportSelectCategoryMenu(player).openMenu()
     }
 
 
     @CommandAlias("report")
-    fun request(player: Player, @Name("player") other: String, @Name("reason") rzn: String)
-    {
-        if (RequestHandler.isOnReportCooldown(player))
-        {
+    fun request(player: Player, @Name("player") other: String, @Name("reason") rzn: String) {
+        if (RequestHandler.isOnReportCooldown(player)) {
             player.sendMessage(Chat.format("&cPlease wait before trying this again!"))
             return
         }
 
         val target = Bukkit.getPlayer(other)
 
-        if (target == null)
-        {
+        if (target == null) {
             player.sendMessage(Chat.format("&cInvalid target"))
             return
         }
 
-        if (player.name == target.name)
-        {
+        if (player.name == target.name) {
             player.sendMessage(Chat.format("&cYou cannot report yourself!"))
             return
         }

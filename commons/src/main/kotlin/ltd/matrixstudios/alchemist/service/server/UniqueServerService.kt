@@ -21,7 +21,7 @@ object UniqueServerService : GeneralizedService {
         }
     }
 
-    fun getValues() : Collection<UniqueServer> {
+    fun getValues(): Collection<UniqueServer> {
         return servers.values
     }
 
@@ -37,7 +37,7 @@ object UniqueServerService : GeneralizedService {
         Alchemist.globalServer = server
     }
 
-    fun byId(id: String) : UniqueServer? {
+    fun byId(id: String): UniqueServer? {
         if (servers.containsKey(id)) return servers[id]
 
         return handler.retrieve(id)

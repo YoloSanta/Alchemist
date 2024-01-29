@@ -9,8 +9,7 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent
  * @project Alchemist
  * @website https://solo.to/redis
  */
-interface BukkitPreLoginTask
-{
+interface BukkitPreLoginTask {
 
     fun run(event: AsyncPlayerPreLoginEvent)
 

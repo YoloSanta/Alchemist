@@ -12,17 +12,14 @@ import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
-class QueueEditAttributesMenu(val player: Player, val queue: QueueModel) : Menu(player)
-{
+class QueueEditAttributesMenu(val player: Player, val queue: QueueModel) : Menu(player) {
 
-    init
-    {
+    init {
         placeholder = true
         staticSize = 27
     }
 
-    override fun getButtons(player: Player): MutableMap<Int, Button>
-    {
+    override fun getButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
 
         buttons[10] = SimpleActionButton(
@@ -90,11 +87,9 @@ class QueueEditAttributesMenu(val player: Player, val queue: QueueModel) : Menu(
                 .acceptInput {
                     var limit = 1000
 
-                    try
-                    {
+                    try {
                         limit = Integer.parseInt(it)
-                    } catch (e: NumberFormatException)
-                    {
+                    } catch (e: NumberFormatException) {
                         player.sendMessage(Chat.format("&cThis is not a valid integer!"))
                     }
 
@@ -110,8 +105,7 @@ class QueueEditAttributesMenu(val player: Player, val queue: QueueModel) : Menu(
     }
 
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return Chat.format("&7[Editor] ${queue.displayName}")
     }
 }

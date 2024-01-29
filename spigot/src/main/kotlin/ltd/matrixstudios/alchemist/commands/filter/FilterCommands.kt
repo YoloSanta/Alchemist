@@ -9,32 +9,26 @@ import ltd.matrixstudios.alchemist.redis.cache.refresh.RefreshFiltersPacket
 import ltd.matrixstudios.alchemist.service.filter.FilterService
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.entity.Player
-import java.util.*
 
 @CommandAlias("filters|filter")
 @CommandPermission("alchemist.filters.admin")
-class FilterCommands : BaseCommand()
-{
+class FilterCommands : BaseCommand() {
 
     @HelpCommand
-    fun help(help: CommandHelp)
-    {
+    fun help(help: CommandHelp) {
         help.showHelp()
     }
 
     @Subcommand("editor")
-    fun create(player: Player)
-    {
+    fun create(player: Player) {
         FilterEditorMenu(player).updateMenu()
     }
 
     @Subcommand("delete")
-    fun delete(player: Player, @Name("word") word: String)
-    {
+    fun delete(player: Player, @Name("word") word: String) {
         val filter = FilterService.byWord(word.lowercase())
 
-        if (filter == null)
-        {
+        if (filter == null) {
             player.sendMessage(Chat.format("&cThis is not a filter!"))
             return
         }

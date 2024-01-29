@@ -12,12 +12,10 @@ import org.bukkit.event.player.PlayerJoinEvent
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class CoinShopLoadTransactionsListener : Listener
-{
+class CoinShopLoadTransactionsListener : Listener {
 
     @EventHandler
-    fun loadTransaction(event: PlayerJoinEvent)
-    {
+    fun loadTransaction(event: PlayerJoinEvent) {
         CoinShopManager.lookupTransactions(event.player.uniqueId).thenAccept {
             CoinShopManager.transactionMap[event.player.uniqueId] = it
         }

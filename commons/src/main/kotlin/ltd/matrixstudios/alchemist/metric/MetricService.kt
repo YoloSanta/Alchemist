@@ -15,7 +15,7 @@ object MetricService {
     }
 
 
-    fun averageMS(category: String) : Long {
+    fun averageMS(category: String): Long {
         val found = metrics.getOrDefault(category, mutableListOf())
 
         if (found.size == 0) return Long.MAX_VALUE

@@ -18,16 +18,13 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 
-class AutomaticAuditSetting(val profile: GameProfile) : Button()
-{
+class AutomaticAuditSetting(val profile: GameProfile) : Button() {
 
-    override fun getMaterial(player: Player): Material
-    {
+    override fun getMaterial(player: Player): Material {
         return Material.WOOL
     }
 
-    override fun getDescription(player: Player): MutableList<String>
-    {
+    override fun getDescription(player: Player): MutableList<String> {
         val desc = mutableListOf<String>()
         desc.add(" ")
         desc.add(Chat.format("&7Toggle this setting to make it so"))
@@ -37,11 +34,9 @@ class AutomaticAuditSetting(val profile: GameProfile) : Button()
         desc.add(Chat.format("&cThis setting requires a permission"))
         desc.add("")
         val hasMetadata = profile.hasMetadata("toggleAudit")
-        if (hasMetadata)
-        {
+        if (hasMetadata) {
             desc.add(Chat.format("&7► &eCurrently &aon"))
-        } else
-        {
+        } else {
             desc.add(Chat.format("&7► &eCurrently &coff"))
         }
         desc.add(" ")
@@ -50,27 +45,22 @@ class AutomaticAuditSetting(val profile: GameProfile) : Button()
         return desc
     }
 
-    override fun getDisplayName(player: Player): String
-    {
+    override fun getDisplayName(player: Player): String {
         return Chat.format("&eToggle Audit Logs on Join")
     }
 
-    override fun getData(player: Player): Short
-    {
+    override fun getData(player: Player): Short {
         return if (profile.hasMetadata("toggleAudit")) DyeColor.LIME.woolData.toShort() else DyeColor.RED.woolData.toShort()
     }
 
-    override fun onClick(player: Player, slot: Int, type: ClickType)
-    {
+    override fun onClick(player: Player, slot: Int, type: ClickType) {
         val hasMetadata = profile.hasMetadata("toggleAudit")
 
-        if (hasMetadata)
-        {
+        if (hasMetadata) {
             profile.metadata.remove("toggleAudit")
             player.sendMessage(Chat.format("&eYou have toggled your audit log on join &coff"))
             ProfileGameService.save(profile)
-        } else
-        {
+        } else {
             profile.metadata.addProperty("toggleAudit", true)
             player.sendMessage(Chat.format("&eYou have toggled your audit log on join &aon"))
             ProfileGameService.save(profile)

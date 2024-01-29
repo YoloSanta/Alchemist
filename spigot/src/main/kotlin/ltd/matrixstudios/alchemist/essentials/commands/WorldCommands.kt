@@ -12,23 +12,26 @@ import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.entity.Player
 
-class WorldCommands : BaseCommand()
-{
+class WorldCommands : BaseCommand() {
 
     @CommandAlias("world")
     @CommandPermission("alchemist.essentials.world")
-    fun world(player: Player, @Name("world") worldId: String)
-    {
+    fun world(player: Player, @Name("world") worldId: String) {
         val found = Bukkit.getWorld(worldId)
 
-        if (found == null)
-        {
+        if (found == null) {
             player.sendMessage(Chat.format("&cThe world with the name &e$worldId &cwas not found"))
             return
         }
 
         player.teleport(Location(found, found.spawnLocation.x, found.spawnLocation.y, found.spawnLocation.z))
         player.sendMessage(Chat.format("&6You were teleported to the world &f${found.name}"))
-        AsynchronousRedisSender.send(StaffActionAlertPacket("has teleported to the world $worldId", player.name, Alchemist.globalServer.id))
+        AsynchronousRedisSender.send(
+            StaffActionAlertPacket(
+                "has teleported to the world $worldId",
+                player.name,
+                Alchemist.globalServer.id
+            )
+        )
     }
 }

@@ -11,41 +11,33 @@ import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 import java.util.*
 
-class VoucherGrantsMenu(val player: Player, val vouchers: List<VoucherGrant>) : PaginatedMenu(18, player)
-{
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
-    {
+class VoucherGrantsMenu(val player: Player, val vouchers: List<VoucherGrant>) : PaginatedMenu(18, player) {
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
         var i = 0
 
-        for (voucher in vouchers)
-        {
+        for (voucher in vouchers) {
             buttons[i++] = VoucherButton(voucher)
         }
 
         return buttons
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return "Viewing Your Vouchers"
     }
 
-    class VoucherButton(val voucher: VoucherGrant) : Button()
-    {
-        override fun getMaterial(player: Player): Material
-        {
+    class VoucherButton(val voucher: VoucherGrant) : Button() {
+        override fun getMaterial(player: Player): Material {
             return Material.WOOL
         }
 
-        override fun getDescription(player: Player): MutableList<String>
-        {
+        override fun getDescription(player: Player): MutableList<String> {
             val desc = mutableListOf<String>()
             desc.add(Chat.format("&6&m-------------------------------------"))
             desc.add(Chat.format("&eFor: &f" + voucher.template.whatFor))
             desc.add(Chat.format("&eWill Expire: &f" + if (voucher.mustRedeemByTime) "&aYes" else "&cNo"))
-            if (voucher.mustRedeemByTime)
-            {
+            if (voucher.mustRedeemByTime) {
                 desc.add(Chat.format("&eExpires At: &f" + Date(voucher.redeemByDuration).toString()))
             }
             desc.add(Chat.format("&eGiven By: &f" + AlchemistAPI.getRankWithPrefix(voucher.executedBy)))
@@ -57,30 +49,25 @@ class VoucherGrantsMenu(val player: Player, val vouchers: List<VoucherGrant>) : 
             return desc
         }
 
-        override fun getDisplayName(player: Player): String
-        {
+        override fun getDisplayName(player: Player): String {
             return Chat.format(voucher.template.whatFor)
         }
 
-        override fun getData(player: Player): Short
-        {
+        override fun getData(player: Player): Short {
             if (System.currentTimeMillis() >= voucher.redeemByDuration) {
                 return 7
             }
 
-            if (voucher.completed)
-            {
+            if (voucher.completed) {
                 return 14
             }
 
             return 13
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType)
-        {
+        override fun onClick(player: Player, slot: Int, type: ClickType) {
             val completed = voucher.completed
-            if (!completed)
-            {
+            if (!completed) {
                 val command = voucher.template.commandToExecute
 
                 Bukkit.dispatchCommand(
@@ -89,8 +76,7 @@ class VoucherGrantsMenu(val player: Player, val vouchers: List<VoucherGrant>) : 
                 )
                 voucher.completed = true
                 player.sendMessage(Chat.format("&eYou have redeemed a ${voucher.template.whatFor} &evoucher!"))
-            } else
-            {
+            } else {
                 player.sendMessage(Chat.format("&cYou have already completed this voucher or it has expired!"))
             }
         }

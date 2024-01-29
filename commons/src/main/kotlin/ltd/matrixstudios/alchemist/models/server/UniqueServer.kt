@@ -2,7 +2,6 @@ package ltd.matrixstudios.alchemist.models.server
 
 import ltd.matrixstudios.alchemist.models.server.software.ServerSoftware
 import java.util.*
-import kotlin.collections.ArrayList
 
 data class UniqueServer(
     var id: String,
@@ -18,7 +17,7 @@ data class UniqueServer(
     var lastHeartbeat: Long,
     var serverSoftware: ServerSoftware? = null
 ) {
-    fun findServerSoftware() : ServerSoftware {
+    fun findServerSoftware(): ServerSoftware {
         if (serverSoftware != null) {
             return serverSoftware!!
         }

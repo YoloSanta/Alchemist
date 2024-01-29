@@ -12,8 +12,7 @@ import java.util.concurrent.CompletableFuture
 
 abstract class Menu(
     private val player: Player
-)
-{
+) {
 
     var staticSize: Int? = null
     var placeholder: Boolean = false
@@ -24,18 +23,14 @@ abstract class Menu(
     abstract fun getTitle(player: Player): String
 
 
-    fun getAllButtons(): MutableMap<Int, Button>
-    {
+    fun getAllButtons(): MutableMap<Int, Button> {
         return getButtons(player)
     }
 
-    open fun size(buttons: Map<Int, Button>): Int
-    {
+    open fun size(buttons: Map<Int, Button>): Int {
         var highest = 0
-        for (buttonValue in buttons.keys)
-        {
-            if (buttonValue > highest)
-            {
+        for (buttonValue in buttons.keys) {
+            if (buttonValue > highest) {
                 highest = buttonValue
             }
         }
@@ -44,61 +39,49 @@ abstract class Menu(
 
 
     //dont need to use update menu because it is just placing items in menu. If it gets to it ill do it
-    fun openMenu()
-    {
+    fun openMenu() {
         Bukkit.getScheduler().runTask(AlchemistSpigotPlugin.instance) {
             var finalSize = size(getButtons(player))
 
-            if (staticSize != null)
-            {
+            if (staticSize != null) {
                 finalSize = staticSize!!
             }
 
             val inventory: Inventory
-            if (customType != null)
-            {
+            if (customType != null) {
                 val type = customType
 
-                inventory = when (type)
-                {
-                    InventoryType.ANVIL ->
-                    {
+                inventory = when (type) {
+                    InventoryType.ANVIL -> {
                         Bukkit.createInventory(null, InventoryType.ANVIL, getTitle(player))
                     }
 
-                    else ->
-                    {
+                    else -> {
                         Bukkit.createInventory(null, finalSize, getTitle(player))
                     }
                 }
-            } else
-            {
+            } else {
                 inventory = Bukkit.createInventory(null, finalSize, getTitle(player))
             }
 
             val buttons = getAllButtons()
 
-            if (player.openInventory.topInventory != null)
-            {
+            if (player.openInventory.topInventory != null) {
                 player.closeInventory()
             }
 
-            if (MenuController.paginatedMenuMap.containsKey(player.uniqueId))
-            {
+            if (MenuController.paginatedMenuMap.containsKey(player.uniqueId)) {
                 MenuController.paginatedMenuMap.remove(player.uniqueId)
             }
 
 
             MenuController.addToMenuMap(player, this)
 
-            if (placeholder)
-            {
+            if (placeholder) {
                 val placeholder = PlaceholderButton(Material.STAINED_GLASS_PANE, mutableListOf(), "", 7)
 
-                for (index in 0 until staticSize!!)
-                {
-                    if (buttons[index] == null)
-                    {
+                for (index in 0 until staticSize!!) {
+                    if (buttons[index] == null) {
                         buttons[index] = placeholder
                         inventory.setItem(index, placeholder.constructItemStack(player))
                     }
@@ -106,13 +89,11 @@ abstract class Menu(
             }
 
             CompletableFuture.runAsync {
-                for (entry in buttons)
-                {
+                for (entry in buttons) {
                     inventory.setItem(entry.key, entry.value.constructItemStack(player))
                 }
             }.whenComplete { item, throwable ->
-                if (throwable != null)
-                {
+                if (throwable != null) {
                     throwable.printStackTrace()
                     player.sendMessage(
                         "${ChatColor.RED}Failed to open menu."

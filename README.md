@@ -1,4 +1,5 @@
 # Alchemist
+
 A swift and efficient rank core meant to work on all versions
 
 Made by 98ping, utilized projects from devrawr and aikiar
@@ -14,6 +15,7 @@ Made by 98ping, utilized projects from devrawr and aikiar
 # Features
 
 Alchemist's features are listed below:
+
 - Rank System
 - Friends System
 - Punishments System
@@ -24,30 +26,14 @@ Alchemist's features are listed below:
 - Rank conversion from other rank cores
 
 Soon to be added:
+
 - Full webhook implementation
 
 # Using
 
-You can implement it by compiling or head on over to JitPack and search up 98ping/Alchemist. You can use any of our versions from any tag there
-
-![Alt](https://repobeats.axiom.co/api/embed/1f4d288d4dcbdc05fc3d0dd7f31408ce08d5b260.svg "Repobeats analytics image")
+You can implement it by compiling or head on over to JitPack and search up 98ping/Alchemist. You can use any of our
+versions from any tag there
 
 ## Contributing Rules
 
 Contributions are always welcome!
-
-Please read the rules for Pulls and Pushes below
-
-```
-1. Please make sure you are pushing to the right branch. There are currently
-two main branches:
-- Dev [This is for Development and unstable builds]
-- Main [This is for Stable builds that are ready to be deployed]
-
-2. Make sure your commits contain useful information and are not stupid shit like "stuff"
-When you commit with this information its hard to find what you did. 
-
-3. If pushing to stable be sure to make sure the build is actually stable and-
-everything works.
-
-```

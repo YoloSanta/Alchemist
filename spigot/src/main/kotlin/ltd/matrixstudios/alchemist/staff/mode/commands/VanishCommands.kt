@@ -13,21 +13,23 @@ import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.entity.Player
 import org.bukkit.metadata.FixedMetadataValue
 
-class VanishCommands : BaseCommand()
-{
+class VanishCommands : BaseCommand() {
 
     @CommandAlias("vanish|v|byebye")
     @CommandPermission("alchemist.staffmode")
-    fun vanish(player: Player)
-    {
-        if (player.hasMetadata("vanish"))
-        {
+    fun vanish(player: Player) {
+        if (player.hasMetadata("vanish")) {
             player.removeMetadata("vanish", AlchemistSpigotPlugin.instance)
             StaffSuiteVisibilityHandler.onDisableVisbility(player)
             player.sendMessage(Chat.format("&cYou have came out of vanish!"))
-            AsynchronousRedisSender.send(StaffActionAlertPacket("has unvanished", player.name, Alchemist.globalServer.id))
-        } else
-        {
+            AsynchronousRedisSender.send(
+                StaffActionAlertPacket(
+                    "has unvanished",
+                    player.name,
+                    Alchemist.globalServer.id
+                )
+            )
+        } else {
             player.setMetadata("vanish", FixedMetadataValue(AlchemistSpigotPlugin.instance, true))
             StaffSuiteVisibilityHandler.onEnableVisibility(player)
             player.sendMessage(Chat.format("&aYou have entered vanish!"))
@@ -37,8 +39,7 @@ class VanishCommands : BaseCommand()
 
     @CommandAlias("?vis|qvis|amivanished|visible")
     @CommandPermission("alchemist.staffmode")
-    fun qvis(player: Player)
-    {
+    fun qvis(player: Player) {
         val modded = StaffSuiteManager.isModMode(player)
         val vanish = player.hasMetadata("vanish")
 

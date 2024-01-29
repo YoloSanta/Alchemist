@@ -14,18 +14,15 @@ import org.bukkit.conversations.*
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 
-class DurationMenu(val player: Player, val rank: Rank, val target: GameProfile) : Menu(player)
-{
+class DurationMenu(val player: Player, val rank: Rank, val target: GameProfile) : Menu(player) {
 
-    init
-    {
+    init {
         staticSize = AlchemistSpigotPlugin.instance.config.getInt("grants.durationMenuSize")
         placeholder = true
     }
 
 
-    override fun getButtons(player: Player): MutableMap<Int, Button>
-    {
+    override fun getButtons(player: Player): MutableMap<Int, Button> {
         val buttons = hashMapOf<Int, Button>()
 
         buttons[4] =
@@ -34,10 +31,8 @@ class DurationMenu(val player: Player, val rank: Rank, val target: GameProfile) 
             }
 
         //in case that redis has a stroke
-        if (GrantConfigurationService.grantDurationModels.isEmpty())
-        {
-            for (duration in GrantConfigurationService.getDefaultGrantDurationModels().values)
-            {
+        if (GrantConfigurationService.grantDurationModels.isEmpty()) {
+            for (duration in GrantConfigurationService.getDefaultGrantDurationModels().values) {
                 buttons[duration.menuSlot] = DurationButton(
                     duration.duration,
                     duration.data.toShort(),
@@ -52,8 +47,7 @@ class DurationMenu(val player: Player, val rank: Rank, val target: GameProfile) 
         }
 
         //normal processing
-        for (duration in GrantConfigurationService.grantDurationModels.values)
-        {
+        for (duration in GrantConfigurationService.grantDurationModels.values) {
             buttons[duration.menuSlot] = DurationButton(
                 duration.duration,
                 duration.data.toShort(),
@@ -67,8 +61,7 @@ class DurationMenu(val player: Player, val rank: Rank, val target: GameProfile) 
         return buttons
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return "Select a Duration"
     }
 
@@ -80,64 +73,49 @@ class DurationMenu(val player: Player, val rank: Rank, val target: GameProfile) 
         val rank: Rank,
         val target: GameProfile,
         val material: String
-    ) : Button()
-    {
-        override fun getMaterial(player: Player): Material
-        {
+    ) : Button() {
+        override fun getMaterial(player: Player): Material {
             return Material.getMaterial(material) ?: Material.WOOL
         }
 
-        override fun getDescription(player: Player): MutableList<String>
-        {
+        override fun getDescription(player: Player): MutableList<String> {
             return mutableListOf()
         }
 
-        override fun getDisplayName(player: Player): String
-        {
+        override fun getDisplayName(player: Player): String {
             return Chat.format(displayName)
         }
 
-        override fun getData(player: Player): Short
-        {
+        override fun getData(player: Player): Short {
             return data
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType)
-        {
-            if (time.equals("Custom", ignoreCase = true))
-            {
+        override fun onClick(player: Player, slot: Int, type: ClickType) {
+            if (time.equals("Custom", ignoreCase = true)) {
                 player.closeInventory()
                 val factory =
                     ConversationFactory(AlchemistSpigotPlugin.instance).withModality(true).withPrefix(
                         NullConversationPrefix()
                     )
-                        .withFirstPrompt(object : StringPrompt()
-                        {
-                            override fun getPromptText(context: ConversationContext): String
-                            {
+                        .withFirstPrompt(object : StringPrompt() {
+                            override fun getPromptText(context: ConversationContext): String {
                                 return Chat.format("&ePlease type a duration for this grant, (\"perm\" for permanent), or type &ccancel &eto cancel.")
                             }
 
-                            override fun acceptInput(context: ConversationContext, input: String): Prompt?
-                            {
-                                return if (input.equals("cancel", ignoreCase = true))
-                                {
+                            override fun acceptInput(context: ConversationContext, input: String): Prompt? {
+                                return if (input.equals("cancel", ignoreCase = true)) {
                                     context.forWhom.sendRawMessage(Chat.format("&cGrant process aborted."))
                                     END_OF_CONVERSATION
-                                } else
-                                {
+                                } else {
                                     var duration = 0L
 
-                                    duration = if (input == "perm" || input.equals("Permanent", ignoreCase = true))
-                                    {
+                                    duration = if (input == "perm" || input.equals("Permanent", ignoreCase = true)) {
                                         Long.MAX_VALUE
-                                    } else
-                                    {
+                                    } else {
                                         TimeUtil.parseTime(input).toLong() * 1000L
                                     }
 
-                                    if (duration <= 0)
-                                    {
+                                    if (duration <= 0) {
                                         player.sendMessage(Chat.format("&cInvalid time, grant process aborted."))
                                         return END_OF_CONVERSATION
                                     }
@@ -151,11 +129,9 @@ class DurationMenu(val player: Player, val rank: Rank, val target: GameProfile) 
                         .thatExcludesNonPlayersWithMessage("Go away evil console!")
                 val con: Conversation = factory.buildConversation(player)
                 player.beginConversation(con)
-            } else if (time.equals("Permanent", ignoreCase = true))
-            {
+            } else if (time.equals("Permanent", ignoreCase = true)) {
                 ReasonMenu(player, rank, target, Long.MAX_VALUE).openMenu()
-            } else
-            {
+            } else {
                 ReasonMenu(player, rank, target, TimeUtil.parseTime(time) * 1000L).openMenu()
             }
         }

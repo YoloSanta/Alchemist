@@ -9,18 +9,15 @@ data class ApplicablePermission(
     var node: String,
     var addedAt: Long = System.currentTimeMillis()
 ) {
-    fun isActive(bungee: Boolean) : Boolean
-    {
-        if (duration != Long.MAX_VALUE && (System.currentTimeMillis() - (addedAt + duration) > 0))
-        {
+    fun isActive(bungee: Boolean): Boolean {
+        if (duration != Long.MAX_VALUE && (System.currentTimeMillis() - (addedAt + duration) > 0)) {
             return false
         }
 
         if (bungee) return true
 
-        if (!global)
-        {
-             return scopes.any { it.equals(Alchemist.globalServer.id, ignoreCase = true) }
+        if (!global) {
+            return scopes.any { it.equals(Alchemist.globalServer.id, ignoreCase = true) }
         }
 
         return true

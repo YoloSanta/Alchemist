@@ -15,11 +15,9 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object CalculateGrantables : BukkitPreLoginTask
-{
+object CalculateGrantables : BukkitPreLoginTask {
 
-    override fun run(event: AsyncPlayerPreLoginEvent)
-    {
+    override fun run(event: AsyncPlayerPreLoginEvent) {
         val profileId = event.uniqueId
         val profile = AlchemistAPI.syncFindProfile(profileId) ?: return
 
@@ -38,8 +36,7 @@ object CalculateGrantables : BukkitPreLoginTask
         )
     }
 
-    override fun shouldBeLazy(): Boolean
-    {
+    override fun shouldBeLazy(): Boolean {
         return false
     }
 }

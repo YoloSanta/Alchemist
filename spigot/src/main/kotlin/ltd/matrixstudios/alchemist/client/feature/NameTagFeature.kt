@@ -15,10 +15,8 @@ import org.bukkit.entity.Player
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object NameTagFeature
-{
-    fun sendNameTag(target: Player, viewer: Player)
-    {
+object NameTagFeature {
+    fun sendNameTag(target: Player, viewer: Player) {
         LunarClientAPI.getInstance().overrideNametag(
             target,
             mutableListOf(
@@ -29,18 +27,13 @@ object NameTagFeature
         )
     }
 
-    fun startNametagUpdateTask()
-    {
+    fun startNametagUpdateTask() {
         Bukkit.getScheduler().runTaskTimer(
             AlchemistSpigotPlugin.instance, {
-                for (player in Bukkit.getOnlinePlayers())
-                {
-                    if (StaffSuiteManager.isModMode(player))
-                    {
-                        for (other in Bukkit.getOnlinePlayers())
-                        {
-                            if (StaffSuiteManager.isModMode(other))
-                            {
+                for (player in Bukkit.getOnlinePlayers()) {
+                    if (StaffSuiteManager.isModMode(player)) {
+                        for (other in Bukkit.getOnlinePlayers()) {
+                            if (StaffSuiteManager.isModMode(other)) {
                                 sendNameTag(player, other)
                             }
                         }
@@ -53,8 +46,7 @@ object NameTagFeature
         )
     }
 
-    fun removeNameTag(player: Player)
-    {
+    fun removeNameTag(player: Player) {
         Bukkit.getServer().onlinePlayers.forEach { staff ->
             LunarClientAPI.getInstance().resetNametag(player, staff)
         }

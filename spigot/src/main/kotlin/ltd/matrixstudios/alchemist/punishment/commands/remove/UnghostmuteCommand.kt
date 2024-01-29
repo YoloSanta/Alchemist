@@ -8,25 +8,25 @@ package ltd.matrixstudios.alchemist.punishment.commands.remove
  * @website https://solo.to/redis
  */
 import co.aikar.commands.BaseCommand
-import co.aikar.commands.annotation.*
+import co.aikar.commands.annotation.CommandAlias
+import co.aikar.commands.annotation.CommandCompletion
+import co.aikar.commands.annotation.CommandPermission
+import co.aikar.commands.annotation.Name
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import ltd.matrixstudios.alchemist.punishment.BukkitPunishmentFunctions
 import ltd.matrixstudios.alchemist.punishments.PunishmentType
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.command.CommandSender
 
-class UnghostmuteCommand : BaseCommand()
-{
+class UnghostmuteCommand : BaseCommand() {
 
     @CommandAlias("unghostmute|ungm")
     @CommandPermission("alchemist.punishments.unghostmute")
     @CommandCompletion("@gameprofile")
-    fun unghostmute(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("reason") reason: String)
-    {
+    fun unghostmute(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("reason") reason: String) {
         val punishments = gameProfile.getActivePunishments(PunishmentType.GHOST_MUTE)
 
-        if (punishments.isEmpty())
-        {
+        if (punishments.isEmpty()) {
             sender.sendMessage(Chat.format("&cNo punishments of this type"))
             return
         }

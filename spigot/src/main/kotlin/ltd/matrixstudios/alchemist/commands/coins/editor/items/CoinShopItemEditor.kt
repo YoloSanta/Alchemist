@@ -13,28 +13,23 @@ import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 import java.util.*
 
-class CoinShopItemEditor(val player: Player) : BorderedPaginatedMenu(player)
-{
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
-    {
+class CoinShopItemEditor(val player: Player) : BorderedPaginatedMenu(player) {
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
         var i = 0
 
-        for (item in CoinShopManager.itemMap.values)
-        {
+        for (item in CoinShopManager.itemMap.values) {
             buttons[i++] = CoinShopItemButton(item)
         }
 
         return buttons
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return Chat.format("&7[Editor] &eCoin Shop Items")
     }
 
-    override fun getHeaderItems(player: Player): MutableMap<Int, Button>
-    {
+    override fun getHeaderItems(player: Player): MutableMap<Int, Button> {
         return mutableMapOf(
             1 to Button.placeholder(),
             2 to Button.placeholder(),
@@ -86,15 +81,12 @@ class CoinShopItemEditor(val player: Player) : BorderedPaginatedMenu(player)
         )
     }
 
-    class CoinShopItemButton(val item: CoinShopItem) : Button()
-    {
-        override fun getMaterial(player: Player): Material
-        {
+    class CoinShopItemButton(val item: CoinShopItem) : Button() {
+        override fun getMaterial(player: Player): Material {
             return Material.getMaterial(item.displayMaterial) ?: return Material.PAPER
         }
 
-        override fun getDescription(player: Player): MutableList<String>
-        {
+        override fun getDescription(player: Player): MutableList<String> {
             val desc = mutableListOf<String>()
             desc.add(" ")
             desc.add(Chat.format("&6&l｜ &ePrice: &f$${item.price}"))
@@ -105,8 +97,7 @@ class CoinShopItemEditor(val player: Player) : BorderedPaginatedMenu(player)
             desc.add(Chat.format(" "))
             desc.add(Chat.format("&6&l｜ &eActive On: &f" + item.servers.size + " servers"))
             desc.add(Chat.format("&6&l｜ &eCommands:"))
-            for (server in item.commands)
-            {
+            for (server in item.commands) {
                 desc.add(Chat.format("&e- &f${server}"))
             }
             desc.add(" ")
@@ -114,18 +105,15 @@ class CoinShopItemEditor(val player: Player) : BorderedPaginatedMenu(player)
             return desc
         }
 
-        override fun getDisplayName(player: Player): String
-        {
+        override fun getDisplayName(player: Player): String {
             return Chat.format(item.displayName)
         }
 
-        override fun getData(player: Player): Short
-        {
+        override fun getData(player: Player): Short {
             return item.data
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType)
-        {
+        override fun onClick(player: Player, slot: Int, type: ClickType) {
             CoinShopItemAttributeEditor(player, item).openMenu()
         }
 

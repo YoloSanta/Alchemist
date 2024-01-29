@@ -27,11 +27,9 @@ class Hydrogen : Theme(
         "&eClick to select the &bHydrogen &etheme.",
         " "
     ), Material.WATER_BUCKET, 0
-)
-{
+) {
 
-    override fun getGrantsLore(player: Player, rankGrant: RankGrant): MutableList<String>
-    {
+    override fun getGrantsLore(player: Player, rankGrant: RankGrant): MutableList<String> {
         val desc = mutableListOf<String>()
         desc.add(Chat.format("&7&m-------------------------"))
         desc.add(Chat.format("&eBy: &f" + AlchemistAPI.getRankDisplay(rankGrant.executor)))
@@ -47,11 +45,9 @@ class Hydrogen : Theme(
         desc.add(Chat.format("&7&m-------------------------"))
         val expirable = rankGrant.expirable
 
-        if (expirable.duration == Long.MAX_VALUE)
-        {
+        if (expirable.duration == Long.MAX_VALUE) {
             desc.add(Chat.format("&eThis is a permanent grant!"))
-        } else
-        {
+        } else {
             desc.add(Chat.format("&eDuration: " + TimeUtil.formatDuration(rankGrant.expirable.duration)))
         }
         desc.add(" ")
@@ -62,18 +58,15 @@ class Hydrogen : Theme(
         return desc
     }
 
-    override fun getGrantsDisplayName(player: Player, rankGrant: RankGrant): String
-    {
+    override fun getGrantsDisplayName(player: Player, rankGrant: RankGrant): String {
         return Chat.format("&e" + Date(rankGrant.expirable.addedAt))
     }
 
-    override fun getGrantsData(player: Player, rankGrant: RankGrant): Short
-    {
+    override fun getGrantsData(player: Player, rankGrant: RankGrant): Short {
         return if (rankGrant.expirable.isActive()) DyeColor.LIME.woolData.toShort() else DyeColor.RED.woolData.toShort()
     }
 
-    override fun getGrantLore(player: Player, gameProfile: GameProfile, rank: Rank): MutableList<String>
-    {
+    override fun getGrantLore(player: Player, gameProfile: GameProfile, rank: Rank): MutableList<String> {
         val desc = mutableListOf<String>()
         desc.add(Chat.format("&7&m--------------------------------"))
         desc.add(
@@ -88,23 +81,19 @@ class Hydrogen : Theme(
         return desc
     }
 
-    override fun getGrantDisplayName(player: Player, rank: Rank): String
-    {
+    override fun getGrantDisplayName(player: Player, rank: Rank): String {
         return Chat.format(rank.color + rank.displayName)
     }
 
-    override fun getGrantData(player: Player, rank: Rank): Short
-    {
-        if (rank.woolColor != null)
-        {
+    override fun getGrantData(player: Player, rank: Rank): Short {
+        if (rank.woolColor != null) {
             return AlchemistAPI.getWoolColor(rank.woolColor!!).woolData.toShort()
         }
 
         return AlchemistAPI.getWoolColor(rank.color).woolData.toShort()
     }
 
-    override fun getHistoryLore(player: Player, punishment: Punishment): MutableList<String>
-    {
+    override fun getHistoryLore(player: Player, punishment: Punishment): MutableList<String> {
         val desc = mutableListOf<String>()
         desc.add(Chat.format("&7&m-------------------------"))
         desc.add(Chat.format("&eBy: &f" + AlchemistAPI.getRankDisplay(punishment.executor)))
@@ -119,11 +108,9 @@ class Hydrogen : Theme(
         desc.add(Chat.format("&7&m-------------------------"))
         val expirable = punishment.expirable
 
-        if (expirable.duration == Long.MAX_VALUE)
-        {
+        if (expirable.duration == Long.MAX_VALUE) {
             desc.add(Chat.format("&eThis is a permanent punishment!"))
-        } else
-        {
+        } else {
             desc.add(Chat.format("&eDuration: " + TimeUtil.formatDuration(punishment.expirable.duration)))
         }
         desc.add(" ")
@@ -134,13 +121,11 @@ class Hydrogen : Theme(
         return desc
     }
 
-    override fun getHistoryDisplayName(player: Player, punishment: Punishment): String
-    {
+    override fun getHistoryDisplayName(player: Player, punishment: Punishment): String {
         return Chat.format("&e" + Date(punishment.expirable.addedAt))
     }
 
-    override fun getHistoryData(player: Player, punishment: Punishment): Short
-    {
+    override fun getHistoryData(player: Player, punishment: Punishment): Short {
         return if (punishment.expirable.isActive()) DyeColor.LIME.woolData.toShort() else DyeColor.RED.woolData.toShort()
     }
 
@@ -148,18 +133,15 @@ class Hydrogen : Theme(
         player: Player,
         profile: GameProfile,
         punishment: PunishmentType
-    ): MutableList<String>
-    {
+    ): MutableList<String> {
         return mutableListOf()
     }
 
-    override fun getHistoryPlaceholderName(player: Player, profile: GameProfile, punishment: PunishmentType): String
-    {
+    override fun getHistoryPlaceholderName(player: Player, profile: GameProfile, punishment: PunishmentType): String {
         return Chat.format(punishment.color + punishment.niceName + "'s")
     }
 
-    override fun getHistoryPlaceholderData(player: Player, profile: GameProfile, punishment: PunishmentType): Short
-    {
+    override fun getHistoryPlaceholderData(player: Player, profile: GameProfile, punishment: PunishmentType): Short {
         return Chat.getDyeColor(punishment.color).woolData.toShort()
     }
 }

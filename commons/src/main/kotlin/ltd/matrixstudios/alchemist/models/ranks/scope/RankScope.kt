@@ -14,5 +14,5 @@ data class RankScope(
     var global: Boolean
 ) {
 
-    fun appliesOn(server: UniqueServer) : Boolean = servers.contains(server.id)
+    fun appliesOn(server: UniqueServer): Boolean = servers.contains(server.id)
 }

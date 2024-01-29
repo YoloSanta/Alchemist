@@ -17,155 +17,126 @@ import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerPickupItemEvent
 import org.bukkit.event.player.PlayerQuitEvent
 
-class GenericStaffmodePreventionListener : Listener
-{
+class GenericStaffmodePreventionListener : Listener {
 
     @EventHandler
-    fun breakBlock(e: BlockBreakEvent)
-    {
+    fun breakBlock(e: BlockBreakEvent) {
         val player = e.player
 
-        if (StaffSuiteManager.isModMode(player))
-        {
+        if (StaffSuiteManager.isModMode(player)) {
             if (!AlchemistSpigotPlugin.instance.config.getBoolean("staffmode.allowPermittedBlockModification") || !player.hasPermission(
                     "alchemist.staffmode.edit"
                 )
-            )
-            {
+            ) {
                 e.isCancelled = true
             }
         }
     }
 
     @EventHandler
-    fun placeBlock(e: BlockPlaceEvent)
-    {
+    fun placeBlock(e: BlockPlaceEvent) {
         val player = e.player
 
-        if (StaffSuiteManager.isModMode(player))
-        {
+        if (StaffSuiteManager.isModMode(player)) {
             if (!AlchemistSpigotPlugin.instance.config.getBoolean("staffmode.allowPermittedBlockModification") || !player.hasPermission(
                     "alchemist.staffmode.edit"
                 )
-            )
-            {
+            ) {
                 e.isCancelled = true
             }
         }
     }
 
     @EventHandler
-    fun interact(e: PlayerInteractEvent)
-    {
+    fun interact(e: PlayerInteractEvent) {
         val player = e.player
 
-        if (StaffSuiteManager.isModMode(player))
-        {
+        if (StaffSuiteManager.isModMode(player)) {
 
-            if (e.action == Action.PHYSICAL)
-            {
+            if (e.action == Action.PHYSICAL) {
                 e.isCancelled = true
                 return
             }
 
-            if (!player.hasPermission("alchemist.staffmode.edit"))
-            {
+            if (!player.hasPermission("alchemist.staffmode.edit")) {
                 e.isCancelled = true
             }
         }
     }
 
     @EventHandler
-    fun damage(e: EntityDamageEvent)
-    {
+    fun damage(e: EntityDamageEvent) {
         val player = e.entity
 
-        if (player is Player)
-        {
+        if (player is Player) {
 
-            if (StaffSuiteManager.isModMode(player))
-            {
+            if (StaffSuiteManager.isModMode(player)) {
                 e.isCancelled = true
             }
         }
     }
 
     @EventHandler
-    fun pickup(e: PlayerPickupItemEvent)
-    {
-        if (StaffSuiteManager.isModMode(e.player))
-        {
+    fun pickup(e: PlayerPickupItemEvent) {
+        if (StaffSuiteManager.isModMode(e.player)) {
             e.isCancelled = true
         }
     }
 
     @EventHandler
-    fun drop(e: PlayerDropItemEvent)
-    {
-        if (StaffSuiteManager.isModMode(e.player))
-        {
+    fun drop(e: PlayerDropItemEvent) {
+        if (StaffSuiteManager.isModMode(e.player)) {
             val item = e.itemDrop.itemStack
-            if (StaffItems.ITEMS_IN_LIST.any { it.isSimilar(item) })
-            {
+            if (StaffItems.ITEMS_IN_LIST.any { it.isSimilar(item) }) {
                 e.isCancelled = true
                 e.player.sendMessage(Chat.format("&cYou cannot drop staffmode related items!"))
                 return
             }
 
             // handle online staff separately
-            if (item.hasItemMeta() && item.itemMeta.hasDisplayName() && item.itemMeta.displayName.contains("Online Staff"))
-            {
+            if (item.hasItemMeta() && item.itemMeta.hasDisplayName() && item.itemMeta.displayName.contains("Online Staff")) {
                 e.isCancelled = true
                 e.player.sendMessage(Chat.format("&cYou cannot drop staffmode related items!"))
                 return
             }
 
-            if (!e.player.hasPermission("alchemist.staffmode.edit"))
-            {
+            if (!e.player.hasPermission("alchemist.staffmode.edit")) {
                 e.isCancelled = true
             }
         }
     }
 
     @EventHandler
-    fun playerQuit(e: PlayerQuitEvent)
-    {
-        if (StaffSuiteManager.isModMode(e.player))
-        {
+    fun playerQuit(e: PlayerQuitEvent) {
+        if (StaffSuiteManager.isModMode(e.player)) {
             StaffSuiteManager.removeStaffMode(e.player)
         }
     }
 
 
     @EventHandler
-    fun damagedBy(e: EntityDamageByEntityEvent)
-    {
+    fun damagedBy(e: EntityDamageByEntityEvent) {
         val player = e.entity
         val damager = e.damager
 
-        if (player is Player && damager is Player)
-        {
+        if (player is Player && damager is Player) {
 
-            if (StaffSuiteManager.isModMode(player))
-            {
+            if (StaffSuiteManager.isModMode(player)) {
                 e.isCancelled = true
             }
         }
     }
 
     @EventHandler
-    fun damagedFrom(e: EntityDamageByEntityEvent)
-    {
+    fun damagedFrom(e: EntityDamageByEntityEvent) {
         val player = e.entity
         val damager = e.damager
 
-        if (player is Player && damager is Player)
-        {
+        if (player is Player && damager is Player) {
 
             StaffItems.lastPvP = player.location
 
-            if (StaffSuiteManager.isModMode(damager))
-            {
+            if (StaffSuiteManager.isModMode(damager)) {
                 e.isCancelled = true
             }
         }

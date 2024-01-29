@@ -17,16 +17,13 @@ import org.bukkit.entity.Player
 import java.lang.reflect.Type
 import java.util.concurrent.CompletableFuture
 
-object DisguiseService
-{
+object DisguiseService {
     var commonSkins = mutableMapOf<String, Skin>()
     var commonNames = AlchemistSpigotPlugin.instance.config.getStringList("disguise.commonNames")
     var popularNames = AlchemistSpigotPlugin.instance.config.getStringList("disguise.popularNames")
-    val type: Type = object : TypeToken<MutableMap<String, Skin>>()
-    {}.type
+    val type: Type = object : TypeToken<MutableMap<String, Skin>>() {}.type
 
-    fun loadAllSkins()
-    {
+    fun loadAllSkins() {
         val start = System.currentTimeMillis()
         RedisPacketManager.pool.resource.use {
             val skins = it.get("Alchemist:Disguise:SkinCache")
@@ -42,12 +39,11 @@ object DisguiseService
         Bukkit.createWorld(WorldCreator.name("SkinUpdateWorld"))
     }
 
-    fun setupDisguise(player: Player, name: String, skin: Skin)
-    {
+    fun setupDisguise(player: Player, name: String, skin: Skin) {
         player.getProfile().apply {
-            if (this != null)
-            {
-                this.skinDisguiseAttribute = SkinDisguiseAttribute(name, System.currentTimeMillis(), name, skin.value, skin.signature)
+            if (this != null) {
+                this.skinDisguiseAttribute =
+                    SkinDisguiseAttribute(name, System.currentTimeMillis(), name, skin.value, skin.signature)
 
                 player.displayName = this.skinDisguiseAttribute!!.customName
                 player.playerListName = player.displayName
@@ -68,8 +64,7 @@ object DisguiseService
         }
     }
 
-    fun saveAll()
-    {
+    fun saveAll() {
         CompletableFuture.runAsync {
             RedisPacketManager.pool.resource.use {
                 it.set(

@@ -1,7 +1,6 @@
 package ltd.matrixstudios.website.user.loader
 
 import ltd.matrixstudios.website.user.service.UserService
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import javax.annotation.PostConstruct
 
@@ -16,14 +15,12 @@ import javax.annotation.PostConstruct
 @Service
 class UserServicesComponent {
 
-    companion object
-    {
+    companion object {
         lateinit var userService: UserService
     }
 
     @PostConstruct
-    fun postConstruct()
-    {
+    fun postConstruct() {
         userService = UserService()
     }
 }

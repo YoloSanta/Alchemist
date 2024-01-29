@@ -12,16 +12,13 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import java.util.concurrent.TimeUnit
 
-class ReportSelectCategoryMenu(val player: Player) : Menu(player)
-{
-    init
-    {
+class ReportSelectCategoryMenu(val player: Player) : Menu(player) {
+    init {
         staticSize = 9
         placeholder = true
     }
 
-    override fun getButtons(player: Player): MutableMap<Int, Button>
-    {
+    override fun getButtons(player: Player): MutableMap<Int, Button> {
         return mutableMapOf(
             0 to SimpleActionButton(
                 Material.ANVIL,
@@ -78,8 +75,7 @@ class ReportSelectCategoryMenu(val player: Player) : Menu(player)
         )
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return "Select a Report Category"
     }
 }

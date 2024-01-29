@@ -8,8 +8,7 @@ import java.util.*
 enum class PunishmentFilter(
     val displayName: String,
     val lambda: (Collection<Punishment>) -> List<Punishment>
-)
-{
+) {
     ALL("Every Punishment", { punishments -> punishments.toList() }),
     ACTIVE("Active", { punishments -> punishments.filter { it.expirable.isActive() } }),
     REMOVED(

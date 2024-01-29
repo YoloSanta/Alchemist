@@ -8,23 +8,19 @@ import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
-class RenameCommand : BaseCommand()
-{
+class RenameCommand : BaseCommand() {
 
     @CommandAlias("rename")
     @CommandPermission("alchemist.essentials.rename")
-    fun rename(player: Player, @Name("name...") name: String)
-    {
+    fun rename(player: Player, @Name("name...") name: String) {
         val inHand = player.inventory.itemInHand
 
-        if (inHand == null || inHand.type == Material.AIR)
-        {
+        if (inHand == null || inHand.type == Material.AIR) {
             player.sendMessage(Chat.format("&cYou must be holding an item to rename it!"))
             return
         }
 
-        if (!player.hasPermission("alchemist.essentials.rename") && name.contains("&"))
-        {
+        if (!player.hasPermission("alchemist.essentials.rename") && name.contains("&")) {
             player.sendMessage(Chat.format("&cYou do not have permissions to use color codes in your renames!"))
             return
         }

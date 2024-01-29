@@ -20,26 +20,22 @@ import org.bukkit.Location
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-object DisguiseCommand : BaseCommand()
-{
+object DisguiseCommand : BaseCommand() {
 
     @CommandAlias("reveal|realname|disguiseinfo")
     @CommandPermission("alchemist.disguise.reveal")
-    fun reveal(sender: CommandSender, @Name("target") target: OnlinePlayer)
-    {
+    fun reveal(sender: CommandSender, @Name("target") target: OnlinePlayer) {
         sender.sendMessage(" ")
         sender.sendMessage(Chat.format("&ePlayers that disguised as &6${target.player.displayName}&e:"))
         val profile = target.player.getProfile()
 
-        if (profile == null)
-        {
+        if (profile == null) {
             sender.sendMessage(Chat.format("&e• &cNone (Profile Not Found)"))
             sender.sendMessage(" ")
             return
         }
 
-        if (profile.username == target.player.name)
-        {
+        if (profile.username == target.player.name) {
             sender.sendMessage(Chat.format("&e• &cNot Disguised"))
             sender.sendMessage(" ")
             return
@@ -51,12 +47,10 @@ object DisguiseCommand : BaseCommand()
 
     @CommandAlias("undisguise|unnick")
     @CommandPermission("alchemist.disguise")
-    fun unDisguise(player: Player)
-    {
+    fun unDisguise(player: Player) {
         val profile = player.getProfile() ?: return
 
-        if (profile.skinDisguiseAttribute != null)
-        {
+        if (profile.skinDisguiseAttribute != null) {
             profile.skinDisguiseAttribute = null
             DisguiseAPI.getDefaultProvider().resetPlayer(player)
 
@@ -68,8 +62,7 @@ object DisguiseCommand : BaseCommand()
 
             player.sendMessage(Chat.format("&aSuccess! You have reset your name and skin."))
             ProfileGameService.save(profile)
-        } else
-        {
+        } else {
             throw ConditionFailedException(
                 "You are not currently disguised!"
             )
@@ -78,27 +71,22 @@ object DisguiseCommand : BaseCommand()
 
     @CommandAlias("disguise|nick")
     @CommandPermission("alchemist.disguise")
-    fun onDisguise(player: Player)
-    {
+    fun onDisguise(player: Player) {
         DisguiseSelectNameMenu(player).openMenu()
     }
 
     @CommandAlias("manualdisguise|manualnick")
     @CommandPermission("alchemist.disguise.manual")
-    fun onManualDisguise(player: Player, @Name("name") name: String)
-    {
-        if (!player.hasPermission("alchemist.disguise.custom.unrestricted"))
-        {
+    fun onManualDisguise(player: Player, @Name("name") name: String) {
+        if (!player.hasPermission("alchemist.disguise.custom.unrestricted")) {
 
-            if (name.length < 3)
-            {
+            if (name.length < 3) {
                 throw ConditionFailedException(
                     "This disguise is too short!"
                 )
             }
 
-            if (name.length >= 16)
-            {
+            if (name.length >= 16) {
                 throw ConditionFailedException(
                     "This disguise is too long!"
                 )
@@ -106,20 +94,18 @@ object DisguiseCommand : BaseCommand()
         }
 
         player.getProfile().apply {
-            if (this != null)
-            {
+            if (this != null) {
                 val skin: Skin?
-                try
-                {
+                try {
                     skin = DisguiseAPI.getSkinManager().getFromMojang(name)
-                } catch (e: UserNotFoundException)
-                {
+                } catch (e: UserNotFoundException) {
                     throw ConditionFailedException(
                         "This user does not have a Minecraft account!"
                     )
                 }
 
-                this.skinDisguiseAttribute = SkinDisguiseAttribute(name, System.currentTimeMillis(), name, skin.value, skin.signature)
+                this.skinDisguiseAttribute =
+                    SkinDisguiseAttribute(name, System.currentTimeMillis(), name, skin.value, skin.signature)
 
                 player.displayName = this.skinDisguiseAttribute!!.customName
                 player.playerListName = player.displayName

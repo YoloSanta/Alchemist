@@ -14,10 +14,8 @@ import java.util.*
  * @website https://solo.to/redis
  */
 class EditBroadcastLinesMenu(player: Player, private val broadcast: BroadcastMessage) :
-    TextEditorMenu(LinkedList(broadcast.lines), player)
-{
-    override fun onSave(player: Player, lines: LinkedList<String>)
-    {
+    TextEditorMenu(LinkedList(broadcast.lines), player) {
+    override fun onSave(player: Player, lines: LinkedList<String>) {
         val cached = BroadcastService.cached()
             ?: return
 

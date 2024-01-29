@@ -1,11 +1,8 @@
 package ltd.matrixstudios.alchemist.listeners
 
-import com.google.errorprone.annotations.concurrent.LockMethod
-import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.AlchemistBungee
 import ltd.matrixstudios.alchemist.lockdown.LockdownManager
 import ltd.matrixstudios.alchemist.packets.StaffMessagePacket
-import ltd.matrixstudios.alchemist.redis.BungeeRedisSender
 import ltd.matrixstudios.alchemist.service.expirable.RankGrantService
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import net.md_5.bungee.api.ChatColor
@@ -16,7 +13,6 @@ import net.md_5.bungee.api.event.ServerConnectEvent
 import net.md_5.bungee.api.event.ServerSwitchEvent
 import net.md_5.bungee.api.plugin.Listener
 import net.md_5.bungee.event.EventHandler
-import net.md_5.bungee.protocol.packet.Chat
 import java.util.concurrent.TimeUnit
 
 //no packets actually need to send through redis because bungee has all players already stored
@@ -36,14 +32,11 @@ class BungeeListener : Listener {
     }
 
     @EventHandler
-    fun handlePermissions(event: ServerConnectEvent)
-    {
+    fun handlePermissions(event: ServerConnectEvent) {
         val profile = ProfileGameService.byId(event.player.uniqueId) ?: return
 
-        for ((a, b) in profile.getPermissionsExclusivelyGlobal())
-        {
-            if (!b)
-            {
+        for ((a, b) in profile.getPermissionsExclusivelyGlobal()) {
+            if (!b) {
                 event.player.setPermission(a, true)
             }
         }
@@ -63,8 +56,7 @@ class BungeeListener : Listener {
     }
 
     @EventHandler
-    fun dc(event: PlayerDisconnectEvent)
-    {
+    fun dc(event: PlayerDisconnectEvent) {
         val player = event.player
 
         val profile = ProfileGameService.byId(player.uniqueId) ?: return
@@ -90,7 +82,14 @@ class BungeeListener : Listener {
                 if (LockdownManager.hasClearance(event.player)) {
                     StaffMessagePacket("&b✓ &a" + event.player.name + " has clearance for " + event.player.server.info.name).action()
                 } else {
-                    event.player.disconnect(TextComponent(ChatColor.translateAlternateColorCodes('&',"&cServer is on lockdown and you do not have clearance!")))
+                    event.player.disconnect(
+                        TextComponent(
+                            ChatColor.translateAlternateColorCodes(
+                                '&',
+                                "&cServer is on lockdown and you do not have clearance!"
+                            )
+                        )
+                    )
                 }
             }
         }, 100L, TimeUnit.MILLISECONDS)

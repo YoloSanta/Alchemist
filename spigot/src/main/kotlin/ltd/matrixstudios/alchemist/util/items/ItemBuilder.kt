@@ -11,55 +11,46 @@ import org.bukkit.inventory.meta.LeatherArmorMeta
 import java.util.*
 import java.util.stream.Collectors
 
-class ItemBuilder(private val item: ItemStack)
-{
+class ItemBuilder(private val item: ItemStack) {
 
     constructor(material: Material) : this(ItemStack(material))
     constructor(material: Material, amount: Int) : this(ItemStack(material, amount))
 
-    fun amount(amount: Int): ItemBuilder
-    {
+    fun amount(amount: Int): ItemBuilder {
         item.amount = amount
         return this
     }
 
-    fun data(data: Short): ItemBuilder
-    {
+    fun data(data: Short): ItemBuilder {
         item.durability = data
         return this
     }
 
-    fun enchant(enchantment: Enchantment, level: Int): ItemBuilder
-    {
+    fun enchant(enchantment: Enchantment, level: Int): ItemBuilder {
         item.addUnsafeEnchantment(enchantment, level)
         return this
     }
 
-    fun unenchant(enchantment: Enchantment): ItemBuilder
-    {
+    fun unenchant(enchantment: Enchantment): ItemBuilder {
         item.removeEnchantment(enchantment)
         return this
     }
 
-    fun name(displayName: String?): ItemBuilder
-    {
+    fun name(displayName: String?): ItemBuilder {
         val meta = item.itemMeta
         meta.displayName = if (displayName == null) null else ChatColor.translateAlternateColorCodes('&', displayName)
         item.itemMeta = meta
         return this
     }
 
-    fun addToLore(vararg parts: String): ItemBuilder
-    {
+    fun addToLore(vararg parts: String): ItemBuilder {
         var meta = item.itemMeta
-        if (meta == null)
-        {
+        if (meta == null) {
             meta = Bukkit.getItemFactory().getItemMeta(item.type)
         }
 
         var lore: MutableList<String>? = meta!!.lore
-        if (lore == null)
-        {
+        if (lore == null) {
             lore = arrayListOf()
         }
 
@@ -71,8 +62,7 @@ class ItemBuilder(private val item: ItemStack)
         return this
     }
 
-    fun setLore(l: Collection<String>): ItemBuilder
-    {
+    fun setLore(l: Collection<String>): ItemBuilder {
         val lore = ArrayList<String>()
         val meta = item.itemMeta
         lore.addAll(l.stream().map { part -> ChatColor.translateAlternateColorCodes('&', part) }
@@ -82,8 +72,7 @@ class ItemBuilder(private val item: ItemStack)
         return this
     }
 
-    fun color(color: Color): ItemBuilder
-    {
+    fun color(color: Color): ItemBuilder {
         val meta = item.itemMeta as? LeatherArmorMeta
             ?: throw UnsupportedOperationException("Cannot set color of a non-leather armor item.")
         meta.color = color
@@ -91,8 +80,7 @@ class ItemBuilder(private val item: ItemStack)
         return this
     }
 
-    fun addFlags(vararg flags: ItemFlag): ItemBuilder
-    {
+    fun addFlags(vararg flags: ItemFlag): ItemBuilder {
         val meta = item.itemMeta
         meta.addItemFlags(*flags)
         item.itemMeta = meta
@@ -100,34 +88,28 @@ class ItemBuilder(private val item: ItemStack)
     }
 
 
-    fun build(): ItemStack
-    {
+    fun build(): ItemStack {
         return item.clone()
     }
 
-    companion object
-    {
+    companion object {
         @JvmStatic
-        fun of(material: Material): ItemBuilder
-        {
+        fun of(material: Material): ItemBuilder {
             return ItemBuilder(material, 1)
         }
 
         @JvmStatic
-        fun of(material: Material, amount: Int): ItemBuilder
-        {
+        fun of(material: Material, amount: Int): ItemBuilder {
             return ItemBuilder(material, amount)
         }
 
         @JvmStatic
-        fun copyOf(builder: ItemBuilder): ItemBuilder
-        {
+        fun copyOf(builder: ItemBuilder): ItemBuilder {
             return ItemBuilder(builder.build())
         }
 
         @JvmStatic
-        fun copyOf(item: ItemStack): ItemBuilder
-        {
+        fun copyOf(item: ItemStack): ItemBuilder {
             return ItemBuilder(item.clone())
         }
     }

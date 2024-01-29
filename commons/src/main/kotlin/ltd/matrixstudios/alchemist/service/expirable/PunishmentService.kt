@@ -19,7 +19,7 @@ object PunishmentService : ExpiringService<Punishment>() {
 
     var grants = ConcurrentHashMap<UUID, MutableList<Punishment>>()
 
-    fun getValues() : CompletableFuture<Collection<Punishment>> {
+    fun getValues(): CompletableFuture<Collection<Punishment>> {
         return handler.retrieveAllAsync()
     }
 
@@ -53,14 +53,12 @@ object PunishmentService : ExpiringService<Punishment>() {
         findByTarget(playerId).thenApply { grants[playerId] = it }
     }
 
-    fun findExecutorPunishments(executor: UUID) : List<Punishment>
-    {
+    fun findExecutorPunishments(executor: UUID): List<Punishment> {
         val filter = Document("executor", executor.toString())
         val bson = collection.find(filter)
         val finalPunishments = mutableListOf<Punishment>()
 
-        for (document in bson)
-        {
+        for (document in bson) {
             val model = Alchemist.gson.fromJson(document.toJson(), Punishment::class.java)
 
             finalPunishments.add(model)
@@ -69,8 +67,7 @@ object PunishmentService : ExpiringService<Punishment>() {
         return finalPunishments
     }
 
-    fun searchFromId(punishmentId: String) : Punishment?
-    {
+    fun searchFromId(punishmentId: String): Punishment? {
         val filter = Document("easyFindId", punishmentId)
 
         val bson = collection.find(filter).first() ?: return null
@@ -78,14 +75,13 @@ object PunishmentService : ExpiringService<Punishment>() {
         return Alchemist.gson.fromJson(bson.toJson(), Punishment::class.java)
     }
 
-    fun findByTarget(target: UUID) : CompletableFuture<MutableList<Punishment>> {
+    fun findByTarget(target: UUID): CompletableFuture<MutableList<Punishment>> {
         return CompletableFuture.supplyAsync {
             val sorted = collection.find(Document("target", target.toString()))
 
             val toReturn = mutableListOf<Punishment>()
 
-            for (rawDoc in sorted)
-            {
+            for (rawDoc in sorted) {
                 val json = rawDoc.toJson()
                 val gson = Alchemist.gson.fromJson(json, Punishment::class.java)
 
@@ -96,15 +92,15 @@ object PunishmentService : ExpiringService<Punishment>() {
         }
     }
 
-    fun sortByActorType(actorType: ActorType) : List<Punishment> {
+    fun sortByActorType(actorType: ActorType): List<Punishment> {
         return getValues().get().filter { it.actor.actorType == actorType }
     }
 
-    fun sortByPunishmentType(punishmentType: PunishmentType) : List<Punishment> {
+    fun sortByPunishmentType(punishmentType: PunishmentType): List<Punishment> {
         return getValues().get().filter { it.punishmentType == punishmentType.name }
     }
 
 
-    override fun clearOutModels() { }
+    override fun clearOutModels() {}
 
 }

@@ -15,23 +15,18 @@ import java.util.*
 data class Cart(
     var player: UUID,
     var items: MutableList<CoinShopItem>
-)
-{
+) {
 
-    fun getCombinedPrice(): Double
-    {
+    fun getCombinedPrice(): Double {
         var price = 0.0
 
-        for (item in items)
-        {
+        for (item in items) {
             val p = item.price
             val d = item.discount
 
-            price += if (d != 0.0)
-            {
+            price += if (d != 0.0) {
                 (p - d)
-            } else
-            {
+            } else {
                 p
             }
         }
@@ -39,14 +34,12 @@ data class Cart(
         return price
     }
 
-    fun playerCanAfford(player: Player): Boolean
-    {
+    fun playerCanAfford(player: Player): Boolean {
         val profile = player.getProfile() ?: return false
 
         val coins = profile.coins
 
-        if (coins < getCombinedPrice())
-        {
+        if (coins < getCombinedPrice()) {
             return false
         }
 

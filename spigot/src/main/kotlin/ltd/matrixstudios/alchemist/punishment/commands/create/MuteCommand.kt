@@ -20,15 +20,13 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.*
 
-class MuteCommand : BaseCommand()
-{
+class MuteCommand : BaseCommand() {
 
     @CommandAlias("mute|pmute")
     @CommandPermission("alchemist.punishments.mute")
     @CommandCompletion("@gameprofile")
     @Syntax("<target> [-a] <reason>")
-    fun kick(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("reason") reason: String)
-    {
+    fun kick(sender: CommandSender, @Name("target") gameProfile: GameProfile, @Name("reason") reason: String) {
         val punishment = Punishment(
             PunishmentType.MUTE.name,
             UUID.randomUUID().toString().substring(0, 4),
@@ -46,21 +44,18 @@ class MuteCommand : BaseCommand()
 
         val hasPunishment = gameProfile.hasActivePunishment(PunishmentType.MUTE)
 
-        if (hasPunishment)
-        {
+        if (hasPunishment) {
             sender.sendMessage(Chat.format("&cPlayer is already muted!"))
             return
         }
 
-        if (sender is Player)
-        {
+        if (sender is Player) {
 
             val profile = AlchemistAPI.syncFindProfile(sender.uniqueId)!!
             val canExecute =
                 PunishmentLimitationUnderstander.canApplyPunishment(sender.uniqueId)
 
-            if (!canExecute)
-            {
+            if (!canExecute) {
                 sender.sendMessage(Chat.format("&cYou are currently on punishment cooldown."))
                 sender.sendMessage(
                     Chat.format(
@@ -73,8 +68,7 @@ class MuteCommand : BaseCommand()
                 return
             }
 
-            if (!BukkitPunishmentFunctions.playerCanPunishOther(profile, gameProfile))
-            {
+            if (!BukkitPunishmentFunctions.playerCanPunishOther(profile, gameProfile)) {
                 sender.sendMessage(Chat.format("&cYou are not eligible to punish this player!"))
                 AsynchronousRedisSender.send(OwnershipMessagePacket("&b[S] &3[${Alchemist.globalServer.displayName}] ${profile.getRankDisplay()} &3tried punishing a player with a rank weight higher than theirs"))
                 return

@@ -11,33 +11,28 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.metadata.FixedMetadataValue
 import java.util.*
 
-object StaffSuiteManager
-{
+object StaffSuiteManager {
 
     var modInventories = hashMapOf<UUID, Array<ItemStack?>>()
     var modArmor = hashMapOf<UUID, Array<ItemStack?>>()
 
     var modModePlayers = arrayListOf<UUID>()
 
-    fun isModMode(player: Player): Boolean
-    {
+    fun isModMode(player: Player): Boolean {
         return modModePlayers.contains(player.uniqueId)
     }
 
-    fun removeStaffMode(player: Player)
-    {
+    fun removeStaffMode(player: Player) {
         player.gameMode = GameMode.SURVIVAL
         player.inventory.clear()
 
-        if (modInventories.containsKey(player.uniqueId))
-        {
+        if (modInventories.containsKey(player.uniqueId)) {
             val items = modInventories[player.uniqueId]!!
 
             player.inventory.contents = items
         }
 
-        if (modArmor.containsKey(player.uniqueId))
-        {
+        if (modArmor.containsKey(player.uniqueId)) {
 
             val armor = modArmor[player.uniqueId]!!
 
@@ -53,8 +48,7 @@ object StaffSuiteManager
         StaffSuiteVisibilityHandler.onDisableVisbility(player)
 
 
-        if (LunarClientExtension.getModularConfigOption())
-        {
+        if (LunarClientExtension.getModularConfigOption()) {
             TeamViewFeature.clearTeamView(player)
             NameTagFeature.removeNameTag(player)
         }
@@ -64,22 +58,19 @@ object StaffSuiteManager
 
     }
 
-    fun hasStaffchatEnabled(player: Player): Boolean
-    {
+    fun hasStaffchatEnabled(player: Player): Boolean {
         val profile = ProfileGameService.byId(player.uniqueId) ?: return true
 
         return !profile.hasMetadata("toggleSC")
     }
 
-    fun isModModeOnJoin(player: Player): Boolean
-    {
+    fun isModModeOnJoin(player: Player): Boolean {
         val profile = ProfileGameService.byId(player.uniqueId) ?: return true
 
         return !profile.hasMetadata("toggleMM")
     }
 
-    fun setStaffMode(player: Player)
-    {
+    fun setStaffMode(player: Player) {
         player.gameMode = GameMode.CREATIVE
         player.health = 20.0
 

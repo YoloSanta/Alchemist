@@ -22,11 +22,9 @@ import java.util.*
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class GrantConfigureMenu(val player: Player, val category: GrantConfigCategory) : BorderedPaginatedMenu(player)
-{
+class GrantConfigureMenu(val player: Player, val category: GrantConfigCategory) : BorderedPaginatedMenu(player) {
 
-    override fun getHeaderItems(player: Player): MutableMap<Int, Button>
-    {
+    override fun getHeaderItems(player: Player): MutableMap<Int, Button> {
         val headers = mutableMapOf<Int, Button>(
             1 to SimpleActionButton(
                 Material.COMPASS,
@@ -82,15 +80,13 @@ class GrantConfigureMenu(val player: Player, val category: GrantConfigCategory) 
                 InputPrompt()
                     .withText(Chat.format("&aType in the new name for this new option (should not have color codes or spaces)"))
                     .acceptInput {
-                        if (category == GrantConfigCategory.DURATIONS)
-                        {
+                        if (category == GrantConfigCategory.DURATIONS) {
                             val model =
                                 GrantDurationModel(it.lowercase(Locale.getDefault()), "PAPER", 0, 0, "custom", it)
                             GrantConfigurationService.saveDurationModel(model)
                             player.sendMessage(Chat.format("&aCreated a new duration with the name &f$it"))
                             GrantConfigureMenu(player, GrantConfigCategory.DURATIONS).updateMenu()
-                        } else if (category == GrantConfigCategory.REASONS)
-                        {
+                        } else if (category == GrantConfigCategory.REASONS) {
                             val model = GrantReasonModel(it.lowercase(Locale.getDefault()), "PAPER", 0, 0, "custom", it)
                             GrantConfigurationService.saveReasonModel(model)
                             player.sendMessage(Chat.format("&aCreated a new reason with the name &f$it"))
@@ -117,23 +113,18 @@ class GrantConfigureMenu(val player: Player, val category: GrantConfigCategory) 
         return headers
     }
 
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
-    {
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
         var i = 0
 
-        if (category == GrantConfigCategory.DURATIONS)
-        {
-            for (dur in GrantConfigurationService.grantDurationModels.values)
-            {
+        if (category == GrantConfigCategory.DURATIONS) {
+            for (dur in GrantConfigurationService.grantDurationModels.values) {
                 buttons[i++] = DurationButton(dur)
             }
         }
 
-        if (category == GrantConfigCategory.REASONS)
-        {
-            for (dur in GrantConfigurationService.grantReasonModels.values)
-            {
+        if (category == GrantConfigCategory.REASONS) {
+            for (dur in GrantConfigurationService.grantReasonModels.values) {
                 buttons[i++] = ReasonButton(dur)
             }
         }
@@ -141,60 +132,48 @@ class GrantConfigureMenu(val player: Player, val category: GrantConfigCategory) 
         return buttons
     }
 
-    override fun getButtonPositions(): List<Int>
-    {
+    override fun getButtonPositions(): List<Int> {
         return listOf(
             19, 20, 21, 22, 23, 24, 25,
             28, 29, 30, 31, 32, 33, 34
         )
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return "Configuring Grants"
     }
 
-    class BooleanButton(val entry: Boolean) : Button()
-    {
-        override fun getMaterial(player: Player): Material
-        {
+    class BooleanButton(val entry: Boolean) : Button() {
+        override fun getMaterial(player: Player): Material {
             return Material.STAINED_GLASS_PANE
         }
 
-        override fun getDescription(player: Player): MutableList<String>
-        {
+        override fun getDescription(player: Player): MutableList<String> {
             return mutableListOf()
         }
 
-        override fun getDisplayName(player: Player): String
-        {
+        override fun getDisplayName(player: Player): String {
             return Chat.format("&f")
         }
 
-        override fun getData(player: Player): Short
-        {
-            return if (entry)
-            {
+        override fun getData(player: Player): Short {
+            return if (entry) {
                 5
             } else 7
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType)
-        {
+        override fun onClick(player: Player, slot: Int, type: ClickType) {
 
         }
 
     }
 
-    class DurationButton(val model: GrantDurationModel) : Button()
-    {
-        override fun getMaterial(player: Player): Material
-        {
+    class DurationButton(val model: GrantDurationModel) : Button() {
+        override fun getMaterial(player: Player): Material {
             return Material.getMaterial(model.item) ?: Material.PAPER
         }
 
-        override fun getDescription(player: Player): MutableList<String>
-        {
+        override fun getDescription(player: Player): MutableList<String> {
             val desc = mutableListOf<String>()
 
             desc.add(" ")
@@ -208,32 +187,26 @@ class GrantConfigureMenu(val player: Player, val category: GrantConfigCategory) 
             return desc
         }
 
-        override fun getDisplayName(player: Player): String
-        {
+        override fun getDisplayName(player: Player): String {
             return Chat.format(model.displayName)
         }
 
-        override fun getData(player: Player): Short
-        {
+        override fun getData(player: Player): Short {
             return model.data.toShort()
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType)
-        {
+        override fun onClick(player: Player, slot: Int, type: ClickType) {
             DurationEditorMenu(model, player).openMenu()
         }
 
     }
 
-    class ReasonButton(val model: GrantReasonModel) : Button()
-    {
-        override fun getMaterial(player: Player): Material
-        {
+    class ReasonButton(val model: GrantReasonModel) : Button() {
+        override fun getMaterial(player: Player): Material {
             return Material.getMaterial(model.item) ?: Material.PAPER
         }
 
-        override fun getDescription(player: Player): MutableList<String>
-        {
+        override fun getDescription(player: Player): MutableList<String> {
             val desc = mutableListOf<String>()
 
             desc.add(" ")
@@ -247,18 +220,15 @@ class GrantConfigureMenu(val player: Player, val category: GrantConfigCategory) 
             return desc
         }
 
-        override fun getDisplayName(player: Player): String
-        {
+        override fun getDisplayName(player: Player): String {
             return Chat.format(model.displayName)
         }
 
-        override fun getData(player: Player): Short
-        {
+        override fun getData(player: Player): Short {
             return model.data.toShort()
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType)
-        {
+        override fun onClick(player: Player, slot: Int, type: ClickType) {
             ReasonEditorMenu(model, player).openMenu()
         }
 

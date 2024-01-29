@@ -29,19 +29,15 @@ import org.bukkit.entity.Player
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class PlayerInformationMenu(val player: Player, val target: GameProfile) : Menu(player)
-{
+class PlayerInformationMenu(val player: Player, val target: GameProfile) : Menu(player) {
 
-    override fun size(buttons: Map<Int, Button>): Int
-    {
+    override fun size(buttons: Map<Int, Button>): Int {
         return 54
     }
 
-    override fun getButtons(player: Player): MutableMap<Int, Button>
-    {
+    override fun getButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
-        for (int in 0 until 54)
-        {
+        for (int in 0 until 54) {
             buttons[int] = PlaceholderButton(Material.STAINED_GLASS_PANE, mutableListOf(), "", 7)
         }
 
@@ -163,8 +159,7 @@ class PlayerInformationMenu(val player: Player, val target: GameProfile) : Menu(
         return buttons
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return Chat.format("&7Viewing: &r" + AlchemistAPI.getRankDisplay(target.uuid))
     }
 }

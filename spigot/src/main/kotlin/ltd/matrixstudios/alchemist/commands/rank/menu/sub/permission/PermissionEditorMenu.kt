@@ -21,28 +21,23 @@ import org.bukkit.event.inventory.ClickType
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class PermissionEditorMenu(val player: Player, val rank: Rank) : PaginatedMenu(36, player)
-{
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
-    {
+class PermissionEditorMenu(val player: Player, val rank: Rank) : PaginatedMenu(36, player) {
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
         var i = 0
         val map = mutableMapOf<Int, Button>()
 
-        for (permission in rank.permissions)
-        {
+        for (permission in rank.permissions) {
             map[i++] = PermissionButton(rank, permission)
         }
 
         return map
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return Chat.format("&7[Editor] &ePermissions")
     }
 
-    override fun getHeaderItems(player: Player): MutableMap<Int, Button>
-    {
+    override fun getHeaderItems(player: Player): MutableMap<Int, Button> {
         return mutableMapOf(
             1 to Button.placeholder(),
             2 to Button.placeholder(),
@@ -91,8 +86,7 @@ class PermissionEditorMenu(val player: Player, val rank: Rank) : PaginatedMenu(3
         )
     }
 
-    override fun getButtonPositions(): List<Int>
-    {
+    override fun getButtonPositions(): List<Int> {
         return listOf(
             10, 11, 12, 13, 14, 15, 16,
             19, 20, 21, 22, 23, 24, 25,
@@ -100,40 +94,32 @@ class PermissionEditorMenu(val player: Player, val rank: Rank) : PaginatedMenu(3
         )
     }
 
-    override fun getButtonsPerPage(): Int
-    {
+    override fun getButtonsPerPage(): Int {
         return 21
     }
 
-    class PermissionButton(val rank: Rank, val perm: String) : Button()
-    {
-        override fun getMaterial(player: Player): Material
-        {
+    class PermissionButton(val rank: Rank, val perm: String) : Button() {
+        override fun getMaterial(player: Player): Material {
             return Material.EMERALD
         }
 
-        override fun getDescription(player: Player): MutableList<String>
-        {
+        override fun getDescription(player: Player): MutableList<String> {
             val desc = mutableListOf<String>()
             desc.add(Chat.format("&c&lRight-Click &cto delete this permission"))
 
             return desc
         }
 
-        override fun getDisplayName(player: Player): String
-        {
+        override fun getDisplayName(player: Player): String {
             return Chat.format("&e$perm")
         }
 
-        override fun getData(player: Player): Short
-        {
+        override fun getData(player: Player): Short {
             return 0
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType)
-        {
-            if (type == ClickType.RIGHT)
-            {
+        override fun onClick(player: Player, slot: Int, type: ClickType) {
+            if (type == ClickType.RIGHT) {
                 rank.permissions.remove(perm)
                 RankService.save(rank)
                 AsynchronousRedisSender.send(RefreshRankPacket())

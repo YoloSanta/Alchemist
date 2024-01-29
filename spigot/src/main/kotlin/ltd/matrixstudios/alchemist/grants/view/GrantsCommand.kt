@@ -15,25 +15,21 @@ import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.entity.Player
 import java.util.concurrent.CompletableFuture
 
-object GrantsCommand : BaseCommand()
-{
+object GrantsCommand : BaseCommand() {
 
     @CommandAlias("grants")
     @CommandPermission("alchemist.grants.admin")
     @CommandCompletion("@gameprofile")
-    fun grants(player: Player, @Name("target") gameProfile: AsyncGameProfile): CompletableFuture<Void>
-    {
+    fun grants(player: Player, @Name("target") gameProfile: AsyncGameProfile): CompletableFuture<Void> {
         return gameProfile.use(player) {
             val all = RankGrantService.getFromCache(it.uuid).toMutableList()
             val grants = getViewableGrants(player, all)
 
-            if (!player.hasPermission("alchemist.grants.admin.viewAll") && all.isNotEmpty() && grants.isEmpty())
-            {
+            if (!player.hasPermission("alchemist.grants.admin.viewAll") && all.isNotEmpty() && grants.isEmpty()) {
                 player.sendMessage(Chat.format("&cThis player has grants in which you are unable to see due to your rank"))
             }
 
-            if (grants.isEmpty())
-            {
+            if (grants.isEmpty()) {
                 player.sendMessage(Chat.format("&cThe user &e${it.username} &chas no visible grants!"))
                 return@use
             }
@@ -47,10 +43,8 @@ object GrantsCommand : BaseCommand()
         }
     }
 
-    fun getViewableGrants(player: Player, grants: MutableList<RankGrant>): MutableList<RankGrant>
-    {
-        if (!player.hasPermission("alchemist.grants.admin.viewAll"))
-        {
+    fun getViewableGrants(player: Player, grants: MutableList<RankGrant>): MutableList<RankGrant> {
+        if (!player.hasPermission("alchemist.grants.admin.viewAll")) {
             return grants.filter {
                 it.getGrantable().weight <= player.getCurrentRank().weight
             }.toMutableList()

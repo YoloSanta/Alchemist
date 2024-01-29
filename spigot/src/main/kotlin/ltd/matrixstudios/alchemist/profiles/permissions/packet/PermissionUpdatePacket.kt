@@ -6,11 +6,9 @@ import ltd.matrixstudios.alchemist.redis.RedisPacket
 import org.bukkit.Bukkit
 import java.util.*
 
-class PermissionUpdatePacket(var player: UUID) : RedisPacket("permission-update")
-{
+class PermissionUpdatePacket(var player: UUID) : RedisPacket("permission-update") {
 
-    override fun action()
-    {
+    override fun action() {
         AlchemistAPI.quickFindProfile(player).thenAcceptAsync {
             if (it == null) return@thenAcceptAsync
 

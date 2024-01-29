@@ -20,14 +20,11 @@ import org.bukkit.scheduler.BukkitRunnable
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object LuckpermsRankConverter : IRankConverter
-{
-    override fun convert(player: Player)
-    {
+object LuckpermsRankConverter : IRankConverter {
+    override fun convert(player: Player) {
         val provider = Bukkit.getServicesManager().getRegistration(LuckPerms::class.java).provider
 
-        if (provider != null)
-        {
+        if (provider != null) {
 
             val weightedGroups =
                 provider.groupManager.loadedGroups.sortedByDescending { group -> group.weight.orElse(0) }
@@ -37,8 +34,7 @@ object LuckpermsRankConverter : IRankConverter
             val rankToGroup = hashMapOf<Rank, Group>()
 
             // create ranks from groups
-            for ((orderIndex, group) in weightedGroups.withIndex())
-            {
+            for ((orderIndex, group) in weightedGroups.withIndex()) {
                 val rank = Rank(
                     group.name,
                     group.name,
@@ -53,16 +49,12 @@ object LuckpermsRankConverter : IRankConverter
             }
 
             // setup rank inheritance
-            for ((rank, group) in rankToGroup)
-            {
+            for ((rank, group) in rankToGroup) {
                 val inherits = arrayListOf<String>()
 
-                for ((otherRank, otherGroup) in rankToGroup)
-                {
-                    if (rank != otherRank)
-                    {
-                        if (group.getInheritedGroups(QueryOptions.defaultContextualOptions()).contains(otherGroup))
-                        {
+                for ((otherRank, otherGroup) in rankToGroup) {
+                    if (rank != otherRank) {
+                        if (group.getInheritedGroups(QueryOptions.defaultContextualOptions()).contains(otherGroup)) {
                             inherits.add(otherRank.id)
                         }
                     }
@@ -72,8 +64,7 @@ object LuckpermsRankConverter : IRankConverter
             }
 
             // save newly created ranks
-            for (rank in rankToGroup.keys)
-            {
+            for (rank in rankToGroup.keys) {
                 RankService.save(rank)
             }
 
@@ -87,13 +78,10 @@ object LuckpermsRankConverter : IRankConverter
                         val rank = RankService.byId(user.primaryGroup)
 
                         // check if a rank by an id of the user's primary group exists
-                        if (rank != null)
-                        {
+                        if (rank != null) {
 
-                            object : BukkitRunnable()
-                            {
-                                override fun run()
-                                {
+                            object : BukkitRunnable() {
+                                override fun run() {
                                     Bukkit.dispatchCommand(
                                         Bukkit.getConsoleSender(),
                                         "nmgrant ${user.uniqueId} ${user.primaryGroup} perm Rank Conversion (LuckPerms)"
@@ -110,22 +98,17 @@ object LuckpermsRankConverter : IRankConverter
         }
     }
 
-    fun getLastColors(input: String): String
-    {
+    fun getLastColors(input: String): String {
         var result = ""
         val length = input.length
-        for (index in length - 1 downTo -1 + 1)
-        {
+        for (index in length - 1 downTo -1 + 1) {
             val section = input[index]
-            if (section.code == 167 && index < length - 1)
-            {
+            if (section.code == 167 && index < length - 1) {
                 val c = input[index + 1]
                 val color = ChatColor.getByChar(c)
-                if (color != null)
-                {
+                if (color != null) {
                     result = color.toString() + result
-                    if (color.isColor || color == ChatColor.RESET)
-                    {
+                    if (color.isColor || color == ChatColor.RESET) {
                         break
                     }
                 }

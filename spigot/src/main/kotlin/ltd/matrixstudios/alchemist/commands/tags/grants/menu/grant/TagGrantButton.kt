@@ -21,17 +21,14 @@ import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 
 
-class TagGrantButton(var tag: Tag, var gameProfile: GameProfile) : Button()
-{
+class TagGrantButton(var tag: Tag, var gameProfile: GameProfile) : Button() {
 
 
-    override fun getMaterial(player: Player): Material
-    {
+    override fun getMaterial(player: Player): Material {
         return Material.WOOL
     }
 
-    override fun getDescription(player: Player): MutableList<String>
-    {
+    override fun getDescription(player: Player): MutableList<String> {
         val desc = arrayListOf<String>()
 
         desc.add(Chat.format("&7&m--------------"))
@@ -44,41 +41,32 @@ class TagGrantButton(var tag: Tag, var gameProfile: GameProfile) : Button()
         return desc
     }
 
-    override fun getDisplayName(player: Player): String
-    {
+    override fun getDisplayName(player: Player): String {
         return Chat.format(tag.menuName)
     }
 
-    override fun getData(player: Player): Short
-    {
+    override fun getData(player: Player): Short {
         return AlchemistAPI.getWoolColor(tag.menuName).woolData.toShort()
     }
 
-    override fun onClick(player: Player, slot: Int, type: ClickType)
-    {
+    override fun onClick(player: Player, slot: Int, type: ClickType) {
         reasonConvo(player)
     }
 
-    fun reasonConvo(player: Player)
-    {
+    fun reasonConvo(player: Player) {
         player.closeInventory()
         val factory =
             ConversationFactory(AlchemistSpigotPlugin.instance).withModality(true).withPrefix(NullConversationPrefix())
-                .withFirstPrompt(object : StringPrompt()
-                {
-                    override fun getPromptText(context: ConversationContext): String
-                    {
+                .withFirstPrompt(object : StringPrompt() {
+                    override fun getPromptText(context: ConversationContext): String {
                         return Chat.format("&ePlease type a reason for this grant, or type &ccancel &eto cancel.")
                     }
 
-                    override fun acceptInput(context: ConversationContext, input: String): Prompt?
-                    {
-                        if (input.equals("cancel", ignoreCase = true))
-                        {
+                    override fun acceptInput(context: ConversationContext, input: String): Prompt? {
+                        if (input.equals("cancel", ignoreCase = true)) {
                             context.forWhom.sendRawMessage(Chat.format("&cGrant process aborted."))
                             return Prompt.END_OF_CONVERSATION
-                        } else
-                        {
+                        } else {
                             val reason = input
 
                             Bukkit.getScheduler().runTaskLater(AlchemistSpigotPlugin.instance, {
@@ -93,40 +81,31 @@ class TagGrantButton(var tag: Tag, var gameProfile: GameProfile) : Button()
         player.beginConversation(con)
     }
 
-    fun durationConversation(player: Player, reason: String)
-    {
+    fun durationConversation(player: Player, reason: String) {
         player.closeInventory()
         val factory =
             ConversationFactory(AlchemistSpigotPlugin.instance).withModality(true).withPrefix(NullConversationPrefix())
-                .withFirstPrompt(object : StringPrompt()
-                {
-                    override fun getPromptText(context: ConversationContext): String
-                    {
+                .withFirstPrompt(object : StringPrompt() {
+                    override fun getPromptText(context: ConversationContext): String {
                         return Chat.format("&ePlease type a duration for this grant, (\"perm\" for permanent), or type &ccancel &eto cancel.")
                     }
 
-                    override fun acceptInput(context: ConversationContext, input: String): Prompt?
-                    {
-                        return if (input.equals("cancel", ignoreCase = true))
-                        {
+                    override fun acceptInput(context: ConversationContext, input: String): Prompt? {
+                        return if (input.equals("cancel", ignoreCase = true)) {
                             context.forWhom.sendRawMessage(Chat.format("&cGrant process aborted."))
                             END_OF_CONVERSATION
-                        } else
-                        {
+                        } else {
 
 
                             var duration = 0L
 
-                            duration = if (input == "perm")
-                            {
+                            duration = if (input == "perm") {
                                 Long.MAX_VALUE
-                            } else
-                            {
+                            } else {
                                 TimeUtil.parseTime(input).toLong() * 1000L
                             }
 
-                            if (duration <= 0)
-                            {
+                            if (duration <= 0) {
                                 player.sendMessage(Chat.format("&cInvalid time, grant process aborted."))
                                 return END_OF_CONVERSATION
                             }

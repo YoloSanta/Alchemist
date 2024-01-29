@@ -16,30 +16,25 @@ import org.bukkit.entity.Player
 import java.util.*
 
 @CommandAlias("senv|env|environment")
-class ServerEnvironmentCommand : BaseCommand()
-{
+class ServerEnvironmentCommand : BaseCommand() {
 
     @HelpCommand
-    fun help(help: CommandHelp)
-    {
+    fun help(help: CommandHelp) {
         help.showHelp()
     }
 
     @Subcommand("menu")
     @CommandPermission("alchemist.servers.admin")
-    fun servermenu(player: Player)
-    {
+    fun servermenu(player: Player) {
         UniqueServerOverviewMenu(player).updateMenu()
     }
 
     @Subcommand("delete-model")
     @CommandPermission("alchemist.servers.admin")
-    fun delete(sender: Player, @Name("id") id: String)
-    {
+    fun delete(sender: Player, @Name("id") id: String) {
         val server = UniqueServerService.byId(id.lowercase(Locale.getDefault()))
 
-        if (server == null)
-        {
+        if (server == null) {
             sender.sendMessage(Chat.format("&cThis server does not exist!"))
             return
         }
@@ -53,21 +48,18 @@ class ServerEnvironmentCommand : BaseCommand()
                 )
             )
             .acceptInput {
-                if (it.equals("yes", ignoreCase = true))
-                {
+                if (it.equals("yes", ignoreCase = true)) {
                     sender.sendMessage(Chat.format("&aInput accepted. Deleting!"))
                     UniqueServerService.handler.deleteAsync(server.id)
                     AsynchronousRedisSender.send(RefreshServersPacket())
-                } else
-                {
+                } else {
                     sender.sendMessage(Chat.format("&cInput has been canceled!"))
                 }
             }.start(sender)
     }
 
     @Subcommand("dump")
-    fun dump(player: Player)
-    {
+    fun dump(player: Player) {
         player.sendMessage(" ")
         player.sendMessage(Chat.format("&eServer Monitor"))
         player.sendMessage(" ")
@@ -79,12 +71,10 @@ class ServerEnvironmentCommand : BaseCommand()
 
     @Subcommand("checkrelease")
     @CommandPermission("alchemist.servers.admin")
-    fun check(player: CommandSender)
-    {
+    fun check(player: CommandSender) {
         val server = Alchemist.globalServer
 
-        if (server.setToRelease == -1L)
-        {
+        if (server.setToRelease == -1L) {
             player.sendMessage(Chat.format("&cThere is no set time that this server is going to release!"))
             return
         }
@@ -100,8 +90,7 @@ class ServerEnvironmentCommand : BaseCommand()
 
     @Subcommand("releasetimer")
     @CommandPermission("alchemist.servers.admin")
-    fun release(sender: CommandSender, @Name("duration") time: String)
-    {
+    fun release(sender: CommandSender, @Name("duration") time: String) {
         val actualTime = TimeUtil.parseTime(time).toLong() * 1000L
         val server = Alchemist.globalServer
 

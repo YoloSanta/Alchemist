@@ -11,15 +11,12 @@ import java.util.*
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class QueueRemovePlayerPacket(val queueId: String, val player: UUID) : RedisPacket("queue-remove-player")
-{
-    override fun action()
-    {
+class QueueRemovePlayerPacket(val queueId: String, val player: UUID) : RedisPacket("queue-remove-player") {
+    override fun action() {
         QueueService.byId(queueId).thenAccept { queue ->
             if (queue == null) return@thenAccept
 
-            if (queue.containsPlayer(player))
-            {
+            if (queue.containsPlayer(player)) {
                 queue.removePlayer(player)
 
                 QueueService.saveQueue(queue)

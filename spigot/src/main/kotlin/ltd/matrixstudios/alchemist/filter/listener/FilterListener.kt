@@ -17,12 +17,10 @@ import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
 import java.util.*
 
-object FilterListener : Listener
-{
+object FilterListener : Listener {
 
     @EventHandler
-    fun chat(event: AsyncPlayerChatEvent)
-    {
+    fun chat(event: AsyncPlayerChatEvent) {
         val filter = FilterService.findInMessage(event.message)
         val player = event.player
 
@@ -30,18 +28,15 @@ object FilterListener : Listener
 
         event.isCancelled = true
 
-        if (filter.staffExempt)
-        {
+        if (filter.staffExempt) {
             val perm = filter.exemptPermission
 
-            if (event.player.hasPermission(perm))
-            {
+            if (event.player.hasPermission(perm)) {
                 return
             }
         }
 
-        if (filter.shouldPunish)
-        {
+        if (filter.shouldPunish) {
             val type = filter.punishmentType
 
             val punishment = Punishment(

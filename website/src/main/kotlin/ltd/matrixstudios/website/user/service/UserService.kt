@@ -14,7 +14,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import java.util.*
-import java.util.concurrent.CompletableFuture
 
 /**
  * Class created on 11/24/2023
@@ -24,10 +23,10 @@ import java.util.concurrent.CompletableFuture
  * @website https://solo.to/redis
  */
 @Service
-class UserService : UserDetailsService
-{
+class UserService : UserDetailsService {
 
-    @Autowired lateinit var encoder: BCryptPasswordEncoder
+    @Autowired
+    lateinit var encoder: BCryptPasswordEncoder
 
     fun findUserByName(name: String): AlchemistUser? {
         return WebProfileService.handler.retrieveAll().firstOrNull { it.username == name }
@@ -41,9 +40,9 @@ class UserService : UserDetailsService
      * This is gonna be one incredibly intensive function
      * because we need to transform their uuid. Yikes!
      */
-    fun findProfileByNiceUUID(niceUUID: String) : GameProfile? {
-         return ProfileGameService.handler.retrieveAll()
-             .firstOrNull { it.uuid.toString().replace("-", "") == niceUUID }
+    fun findProfileByNiceUUID(niceUUID: String): GameProfile? {
+        return ProfileGameService.handler.retrieveAll()
+            .firstOrNull { it.uuid.toString().replace("-", "") == niceUUID }
     }
 
     fun save(user: AlchemistUser) {
@@ -56,8 +55,7 @@ class UserService : UserDetailsService
      * @param user User to register
      */
     @Throws(Exception::class)
-    fun createUser(user: AlchemistUser)
-    {
+    fun createUser(user: AlchemistUser) {
         user.minecraft_uuid = MojangUtils.fetchUUID(user.username)!!
         user.username = user.username
         user.password = encoder.encode(user.password)
@@ -65,28 +63,22 @@ class UserService : UserDetailsService
     }
 
     @Throws(UsernameNotFoundException::class)
-    override fun loadUserByUsername(username: String): UserDetails
-    {
+    override fun loadUserByUsername(username: String): UserDetails {
         val user = findUserByName(username)
 
-        return if (user != null)
-        {
+        return if (user != null) {
             val authorities = getUserAuthority(user)
             buildUserForAuthentication(user, authorities)
-        } else
-        {
+        } else {
             throw UsernameNotFoundException("Username not found")
         }
     }
 
-    private fun getUserAuthority(user: AlchemistUser): List<GrantedAuthority>
-    {
+    private fun getUserAuthority(user: AlchemistUser): List<GrantedAuthority> {
         val permissions: MutableList<GrantedAuthority> = ArrayList()
 
-        for (permission in user.permissions)
-        {
-            if (permissions.none { it.authority == permission })
-            {
+        for (permission in user.permissions) {
+            if (permissions.none { it.authority == permission }) {
                 permissions.add(SimpleGrantedAuthority(permission));
             }
         }

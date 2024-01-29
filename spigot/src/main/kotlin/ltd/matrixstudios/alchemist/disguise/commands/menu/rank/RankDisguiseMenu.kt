@@ -9,7 +9,6 @@ import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.items.ItemBuilder
 import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
-import ltd.matrixstudios.alchemist.util.menu.buttons.SkullButton
 import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -23,29 +22,25 @@ import org.bukkit.inventory.ItemStack
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class RankDisguiseMenu(val player: Player) : PaginatedMenu(27, player)
-{
+class RankDisguiseMenu(val player: Player) : PaginatedMenu(27, player) {
 
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
-    {
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
         var i = 0
 
-        for (rank in RankService.getRanksInOrder().filter { AlchemistAPI.getRankWeight(player.uniqueId) >= it.weight })
-        {
+        for (rank in RankService.getRanksInOrder()
+            .filter { AlchemistAPI.getRankWeight(player.uniqueId) >= it.weight }) {
             buttons[i++] = RankDisguiseButton(rank)
         }
 
         return buttons
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return "Viewing Ranks"
     }
 
-    override fun getButtonPositions(): List<Int>
-    {
+    override fun getButtonPositions(): List<Int> {
         return listOf(
             10, 12, 14, 16,
             19, 21, 23, 25,
@@ -53,8 +48,7 @@ class RankDisguiseMenu(val player: Player) : PaginatedMenu(27, player)
         )
     }
 
-    override fun getHeaderItems(player: Player): MutableMap<Int, Button>
-    {
+    override fun getHeaderItems(player: Player): MutableMap<Int, Button> {
         return mutableMapOf(
             0 to Button.placeholder(),
             1 to Button.placeholder(),
@@ -108,16 +102,13 @@ class RankDisguiseMenu(val player: Player) : PaginatedMenu(27, player)
         )
     }
 
-    override fun getButtonsPerPage(): Int
-    {
+    override fun getButtonsPerPage(): Int {
         return 16
     }
 
-    class RankDisguiseButton(val rank: Rank) : Button()
-    {
+    class RankDisguiseButton(val rank: Rank) : Button() {
 
-        override fun getButtonItem(player: Player): ItemStack
-        {
+        override fun getButtonItem(player: Player): ItemStack {
             return ItemBuilder.of(getMaterial(player))
                 .setLore(getDescription(player))
                 .name(getDisplayName(player))
@@ -125,13 +116,11 @@ class RankDisguiseMenu(val player: Player) : PaginatedMenu(27, player)
                 .build()
         }
 
-        override fun getMaterial(player: Player): Material
-        {
+        override fun getMaterial(player: Player): Material {
             return Material.LEATHER_CHESTPLATE
         }
 
-        override fun getDescription(player: Player): MutableList<String>
-        {
+        override fun getDescription(player: Player): MutableList<String> {
             val desc = mutableListOf<String>()
             desc.add(" ")
             desc.add("&7Display Name: &f${rank.displayName}")
@@ -142,18 +131,15 @@ class RankDisguiseMenu(val player: Player) : PaginatedMenu(27, player)
             return desc.map { Chat.format(it) }.toMutableList()
         }
 
-        override fun getDisplayName(player: Player): String
-        {
+        override fun getDisplayName(player: Player): String {
             return Chat.format(rank.color + rank.displayName)
         }
 
-        override fun getData(player: Player): Short
-        {
+        override fun getData(player: Player): Short {
             return 0
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType)
-        {
+        override fun onClick(player: Player, slot: Int, type: ClickType) {
             player.closeInventory()
             val profile = AlchemistAPI.syncFindProfile(player.uniqueId)!!
             profile.rankDisguiseAttribute = RankDisguiseAttribute(rank.id, true)

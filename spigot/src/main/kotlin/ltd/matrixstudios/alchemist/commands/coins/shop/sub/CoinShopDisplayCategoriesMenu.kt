@@ -17,33 +17,27 @@ import org.bukkit.event.inventory.ClickType
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class CoinShopDisplayCategoriesMenu(val player: Player, val parent: CoinShopCategory) : PaginatedMenu(18, player)
-{
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
-    {
+class CoinShopDisplayCategoriesMenu(val player: Player, val parent: CoinShopCategory) : PaginatedMenu(18, player) {
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
         var i = 0
         val buttons = mutableMapOf<Int, Button>()
 
-        for (sibling in parent.getCategoriesThatParentThisOne())
-        {
+        for (sibling in parent.getCategoriesThatParentThisOne()) {
             buttons[i++] = CategoryDisplayButton(sibling)
         }
 
         return buttons
     }
 
-    override fun getButtonPositions(): List<Int>
-    {
+    override fun getButtonPositions(): List<Int> {
         return listOf(10, 11, 12, 13, 14, 15, 16)
     }
 
-    override fun getButtonsPerPage(): Int
-    {
+    override fun getButtonsPerPage(): Int {
         return 7
     }
 
-    override fun getHeaderItems(player: Player): MutableMap<Int, Button>
-    {
+    override fun getHeaderItems(player: Player): MutableMap<Int, Button> {
         return mutableMapOf(
             1 to Button.placeholder(),
             2 to Button.placeholder(),
@@ -73,35 +67,28 @@ class CoinShopDisplayCategoriesMenu(val player: Player, val parent: CoinShopCate
         )
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return Chat.format("&7Find a sub category")
     }
 
-    class CategoryDisplayButton(val category: CoinShopCategory) : Button()
-    {
-        override fun getMaterial(player: Player): Material
-        {
+    class CategoryDisplayButton(val category: CoinShopCategory) : Button() {
+        override fun getMaterial(player: Player): Material {
             return Material.getMaterial(category.displayItem) ?: Material.PAPER
         }
 
-        override fun getDescription(player: Player): MutableList<String>
-        {
+        override fun getDescription(player: Player): MutableList<String> {
             return category.desc.map { Chat.format(it) }.toMutableList()
         }
 
-        override fun getDisplayName(player: Player): String
-        {
+        override fun getDisplayName(player: Player): String {
             return Chat.format(category.displayName)
         }
 
-        override fun getData(player: Player): Short
-        {
+        override fun getData(player: Player): Short {
             return category.data
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType)
-        {
+        override fun onClick(player: Player, slot: Int, type: ClickType) {
             CoinShopDisplayProductsMenu(category, player).updateMenu()
         }
 

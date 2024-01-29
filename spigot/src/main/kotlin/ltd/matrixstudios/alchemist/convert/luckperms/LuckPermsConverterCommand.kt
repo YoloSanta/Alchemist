@@ -14,18 +14,14 @@ import org.bukkit.entity.Player
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class LuckPermsConverterCommand : BaseCommand()
-{
+class LuckPermsConverterCommand : BaseCommand() {
 
     @CommandAlias("convertluckperms")
     @CommandPermission("alchemist.owner")
-    fun convert(sender: Player)
-    {
-        if (Bukkit.getPluginManager().isPluginEnabled("LuckPerms"))
-        {
+    fun convert(sender: Player) {
+        if (Bukkit.getPluginManager().isPluginEnabled("LuckPerms")) {
             LuckpermsRankConverter.convert(sender)
-        } else
-        {
+        } else {
             sender.sendMessage(Chat.format("&cYou must be running &aLuck&2Perms &cto execute this!"))
         }
     }

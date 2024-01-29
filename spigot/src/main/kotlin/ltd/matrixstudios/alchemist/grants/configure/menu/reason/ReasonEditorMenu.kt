@@ -20,17 +20,14 @@ import org.bukkit.entity.Player
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class ReasonEditorMenu(val model: GrantReasonModel, val player: Player) : Menu(player)
-{
+class ReasonEditorMenu(val model: GrantReasonModel, val player: Player) : Menu(player) {
 
-    init
-    {
+    init {
         placeholder = true
         staticSize = 27
     }
 
-    override fun getButtons(player: Player): MutableMap<Int, Button>
-    {
+    override fun getButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
 
         buttons[10] = SimpleActionButton(
@@ -50,11 +47,9 @@ class ReasonEditorMenu(val model: GrantReasonModel, val player: Player) : Menu(p
                 .acceptInput {
                     var pos = 0
 
-                    try
-                    {
+                    try {
                         pos = Integer.parseInt(it)
-                    } catch (e: java.lang.NumberFormatException)
-                    {
+                    } catch (e: java.lang.NumberFormatException) {
                         player.sendMessage(Chat.format("&cThis is not a number!"))
                         return@acceptInput
                     }
@@ -127,11 +122,9 @@ class ReasonEditorMenu(val model: GrantReasonModel, val player: Player) : Menu(p
                 .acceptInput {
                     var pos = 0
 
-                    try
-                    {
+                    try {
                         pos = Integer.parseInt(it)
-                    } catch (e: java.lang.NumberFormatException)
-                    {
+                    } catch (e: java.lang.NumberFormatException) {
                         player.sendMessage(Chat.format("&cThis is not a number!"))
                         return@acceptInput
                     }
@@ -183,8 +176,7 @@ class ReasonEditorMenu(val model: GrantReasonModel, val player: Player) : Menu(p
         return buttons
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return "Edit Reason"
     }
 }

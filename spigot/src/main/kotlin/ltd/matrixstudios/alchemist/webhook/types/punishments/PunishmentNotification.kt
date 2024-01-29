@@ -9,11 +9,9 @@ import ltd.matrixstudios.alchemist.util.TimeUtil
 import ltd.matrixstudios.alchemist.webhook.WebhookInformation
 import ltd.matrixstudios.alchemist.webhook.WebhookService
 
-class PunishmentNotification(val punishment: Punishment) : WebhookInformation()
-{
+class PunishmentNotification(val punishment: Punishment) : WebhookInformation() {
 
-    override fun getEmbed(): WebhookEmbed
-    {
+    override fun getEmbed(): WebhookEmbed {
         val embed = WebhookEmbedBuilder()
             .setColor(punishment.getGrantable().hex)
             .setThumbnailUrl("https://minotar.net/avatar/${punishment.target}/75.png")
@@ -36,10 +34,8 @@ class PunishmentNotification(val punishment: Punishment) : WebhookInformation()
         return embed
     }
 
-    override fun send()
-    {
-        if (AlchemistSpigotPlugin.instance.config.getBoolean("discord.punishments.enabled"))
-        {
+    override fun send() {
+        if (AlchemistSpigotPlugin.instance.config.getBoolean("discord.punishments.enabled")) {
             WebhookService.sendInformation(this, WebhookService.punishmentClient)
         }
     }

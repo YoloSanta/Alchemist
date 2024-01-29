@@ -21,34 +21,28 @@ import java.util.concurrent.TimeUnit
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object BukkitProfileAdaptation
-{
+object BukkitProfileAdaptation {
 
     val backingCacheIpStore = mutableMapOf<UUID, String?>()
 
-    fun loadAllEvents()
-    {
+    fun loadAllEvents() {
 
-        for (task in BukkitPreLoginConnection.getAllTasks())
-        {
-            if (!task.shouldBeLazy())
-            {
+        for (task in BukkitPreLoginConnection.getAllTasks()) {
+            if (!task.shouldBeLazy()) {
                 BukkitPreLoginConnection.registerNewCallback {
                     task.run(it)
                 }
             } else BukkitPreLoginConnection.registerNewLazyCallback { task.run(it) }
         }
 
-        for (task in BukkitPostLoginConnection.getAllTasks())
-        {
+        for (task in BukkitPostLoginConnection.getAllTasks()) {
             BukkitPostLoginConnection.registerNewCallback {
                 task.run(it)
             }
         }
     }
 
-    fun initializeGrant(rankGrant: RankGrant, uuid: UUID)
-    {
+    fun initializeGrant(rankGrant: RankGrant, uuid: UUID) {
         RankGrantService.save(rankGrant).whenComplete { g, e ->
             val profile = ProfileGameService.byId(uuid) ?: return@whenComplete
 
@@ -59,17 +53,14 @@ object BukkitProfileAdaptation
 
     fun playerNeedsAuthenticating(
         profile: GameProfile, player: Player
-    ): Boolean
-    {
+    ): Boolean {
         val rank = profile.getCurrentRank()
 
-        if (rank.staff)
-        {
+        if (rank.staff) {
             val auth = profile.getAuthStatus()
 
             //player isnt bypassed and player doesnt have 2fa
-            if (!auth.authBypassed && !auth.hasSetup2fa)
-            {
+            if (!auth.authBypassed && !auth.hasSetup2fa) {
                 return true
             }
 
@@ -78,16 +69,13 @@ object BukkitProfileAdaptation
             //player has 2fa but it's been 3 days since last verification
             if (auth.hasSetup2fa && System.currentTimeMillis()
                     .minus(auth.lastAuthenticated) >= TimeUnit.DAYS.toMillis(3L)
-            )
-            {
+            ) {
                 return true
             }
 
-            val hexIp = if (backingCacheIpStore.containsKey(player.uniqueId))
-            {
+            val hexIp = if (backingCacheIpStore.containsKey(player.uniqueId)) {
                 backingCacheIpStore[player.uniqueId]
-            } else
-            {
+            } else {
                 val item = SHA.toHexString(player.address.hostString)
                 backingCacheIpStore[player.uniqueId] = item
 
@@ -95,8 +83,7 @@ object BukkitProfileAdaptation
             }
 
             //player has 2fa but ip's dont match
-            if (auth.hasSetup2fa && !auth.allowedIps.contains(hexIp))
-            {
+            if (auth.hasSetup2fa && !auth.allowedIps.contains(hexIp)) {
                 return true
             }
         }

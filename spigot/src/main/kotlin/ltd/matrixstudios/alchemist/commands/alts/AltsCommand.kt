@@ -9,14 +9,12 @@ import ltd.matrixstudios.alchemist.commands.alts.menu.AltsMenu
 import ltd.matrixstudios.alchemist.models.profile.GameProfile
 import org.bukkit.entity.Player
 
-class AltsCommand : BaseCommand()
-{
+class AltsCommand : BaseCommand() {
 
     @CommandAlias("alts")
     @CommandPermission("alchemist.alts")
     @CommandCompletion("@gameprofile")
-    fun listAll(player: Player, @Name("target") profile: GameProfile)
-    {
+    fun listAll(player: Player, @Name("target") profile: GameProfile) {
         profile.getAltAccounts().thenAccept { alts ->
             AltsMenu(player, profile, alts).updateMenu()
         }

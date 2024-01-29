@@ -9,8 +9,7 @@ import ltd.matrixstudios.alchemist.broadcasts.condition.types.UserRankCondition
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object ConditionTypeService
-{
+object ConditionTypeService {
     val allTypes = mutableMapOf(
         "rank" to UserRankCondition()
     )

@@ -10,14 +10,12 @@ import ltd.matrixstudios.alchemist.models.server.UniqueServer
 import ltd.matrixstudios.alchemist.redis.RedisPacketManager
 import ltd.matrixstudios.alchemist.service.filter.FilterService
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
-import ltd.matrixstudios.alchemist.service.queue.QueueService
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 import ltd.matrixstudios.alchemist.service.server.UniqueServerService
 import ltd.matrixstudios.alchemist.service.tags.TagService
 import kotlin.properties.Delegates
 
-object Alchemist
-{
+object Alchemist {
 
     //connection
     lateinit var MongoConnectionPool: MongoConnectionPool
@@ -31,14 +29,19 @@ object Alchemist
         .setLongSerializationPolicy(LongSerializationPolicy.STRING)
         .serializeNulls().create()
 
-    fun start(mongoConnectionPool: MongoConnectionPool, needsRedis: Boolean, redisHost: String, redisPort: Int, redisUsername: String?, redisPassword: String?)
-    {
+    fun start(
+        mongoConnectionPool: MongoConnectionPool,
+        needsRedis: Boolean,
+        redisHost: String,
+        redisPort: Int,
+        redisUsername: String?,
+        redisPassword: String?
+    ) {
         this.MongoConnectionPool = mongoConnectionPool
 
         this.dataHandler = DataHandler.withConnectionPool(mongoConnectionPool)
 
-        if (needsRedis)
-        {
+        if (needsRedis) {
             RedisPacketManager.load(redisHost, redisPort, redisPassword, redisUsername)
             redisConnectionPort = redisPort
         }
@@ -50,8 +53,7 @@ object Alchemist
 
         FilterService.loadIntoCache()
 
-        if (needsRedis)
-        {
+        if (needsRedis) {
             UUIDCache.loadAllFromRedis()
         }
     }

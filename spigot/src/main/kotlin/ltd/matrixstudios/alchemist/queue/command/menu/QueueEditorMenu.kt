@@ -21,16 +21,13 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import java.util.*
 
-class QueueEditorMenu(var player: Player) : PaginatedMenu(36, player)
-{
+class QueueEditorMenu(var player: Player) : PaginatedMenu(36, player) {
 
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
-    {
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
         val buttons = hashMapOf<Int, Button>()
 
         var index = 0
-        for (queue in QueueService.cache.values)
-        {
+        for (queue in QueueService.cache.values) {
             buttons[index++] = QueueButton(queue)
         }
 
@@ -38,8 +35,7 @@ class QueueEditorMenu(var player: Player) : PaginatedMenu(36, player)
         return buttons
     }
 
-    override fun getButtonPositions(): List<Int>
-    {
+    override fun getButtonPositions(): List<Int> {
         return listOf(
             10, 11, 12, 13, 14, 15, 16,
             19, 20, 21, 22, 23, 24, 25,
@@ -47,8 +43,7 @@ class QueueEditorMenu(var player: Player) : PaginatedMenu(36, player)
         )
     }
 
-    override fun getHeaderItems(player: Player): MutableMap<Int, Button>
-    {
+    override fun getHeaderItems(player: Player): MutableMap<Int, Button> {
         return mutableMapOf(
             1 to Button.placeholder(),
             2 to Button.placeholder(),
@@ -67,8 +62,7 @@ class QueueEditorMenu(var player: Player) : PaginatedMenu(36, player)
                     .withText(Chat.format("&eType in the name of the queue you want to create"))
                     .acceptInput { string ->
                         QueueService.byId(string.lowercase(Locale.getDefault())).thenAccept {
-                            if (it != null)
-                            {
+                            if (it != null) {
                                 player.sendMessage(Chat.format("&cThis queue already exists!"))
                                 return@thenAccept
                             }
@@ -103,13 +97,11 @@ class QueueEditorMenu(var player: Player) : PaginatedMenu(36, player)
         )
     }
 
-    override fun getButtonsPerPage(): Int
-    {
+    override fun getButtonsPerPage(): Int {
         return 21
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return Chat.format("&7[Editor] &eQueues")
     }
 }

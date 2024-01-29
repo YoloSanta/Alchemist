@@ -14,25 +14,19 @@ import java.util.*
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class RankScopeResolver : ContextResolver<RankScope, BukkitCommandExecutionContext>
-{
+class RankScopeResolver : ContextResolver<RankScope, BukkitCommandExecutionContext> {
 
-    override fun getContext(c: BukkitCommandExecutionContext?): RankScope?
-    {
+    override fun getContext(c: BukkitCommandExecutionContext?): RankScope? {
         val firstArg = c!!.popFirstArg() ?: return null
 
-        if (firstArg.contains(","))
-        {
+        if (firstArg.contains(",")) {
             val split = firstArg.split(",")
             val scopes = mutableListOf<String>()
 
-            for (server in split)
-            {
+            for (server in split) {
                 val id = server.lowercase(Locale.getDefault())
-                if (UniqueServerService.byId(id) != null)
-                {
-                    if (!scopes.contains(id))
-                    {
+                if (UniqueServerService.byId(id) != null) {
+                    if (!scopes.contains(id)) {
                         scopes.add(id)
                     }
                 }
@@ -41,14 +35,12 @@ class RankScopeResolver : ContextResolver<RankScope, BukkitCommandExecutionConte
             return RankScope(scopes, false)
         }
 
-        if (!firstArg.equals("global", ignoreCase = true))
-        {
+        if (!firstArg.equals("global", ignoreCase = true)) {
             val uniqueServer = UniqueServerService.byId(firstArg.lowercase())
                 ?: throw InvalidCommandArgument("You have not provided a valid scope!")
 
             return RankScope(mutableListOf(uniqueServer.id), false)
-        } else if (firstArg.equals("global", ignoreCase = true))
-        {
+        } else if (firstArg.equals("global", ignoreCase = true)) {
             return RankScope(mutableListOf(), true)
         }
 

@@ -11,31 +11,26 @@ import ltd.matrixstudios.alchemist.service.queue.QueueService
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.entity.Player
 
-class ModifyQueueCommands : BaseCommand()
-{
+class ModifyQueueCommands : BaseCommand() {
 
     @CommandAlias("joinqueue|jq|play|queuejoin")
-    fun joinQueue(player: Player, @Name("queue") queue: String)
-    {
+    fun joinQueue(player: Player, @Name("queue") queue: String) {
         val existing = QueueService.byId(queue.lowercase())
 
         existing.thenAccept {
-            if (it == null)
-            {
+            if (it == null) {
                 player.sendMessage(Chat.format("&cThis queue does not exist!"))
                 return@thenAccept
             }
 
-            if (it.playersInQueue.size == it.limit)
-            {
+            if (it.playersInQueue.size == it.limit) {
                 player.sendMessage(Chat.format("&cThis queue has reached full capacity!"))
                 return@thenAccept
             }
 
             val current = QueueService.playerAlreadyQueued(player.uniqueId)
 
-            if (current != null)
-            {
+            if (current != null) {
                 player.sendMessage(Chat.format("&cYou must leave your current queue in order to join a new one!"))
                 return@thenAccept
             }
@@ -49,12 +44,10 @@ class ModifyQueueCommands : BaseCommand()
     }
 
     @CommandAlias("checkqueue")
-    fun checkQueue(player: Player)
-    {
+    fun checkQueue(player: Player) {
         val current = QueueService.playerAlreadyQueued(player.uniqueId)
 
-        if (current == null)
-        {
+        if (current == null) {
             player.sendMessage(Chat.format("&cYou are not in a queue!"))
             return
         }
@@ -68,12 +61,10 @@ class ModifyQueueCommands : BaseCommand()
     }
 
     @CommandAlias("leavequeue|lq|queueleave")
-    fun leaveQueue(player: Player)
-    {
+    fun leaveQueue(player: Player) {
         val current = QueueService.playerAlreadyQueued(player.uniqueId)
 
-        if (current == null)
-        {
+        if (current == null) {
             player.sendMessage(Chat.format("&cYou are not in a queue so you are unable to leave it!"))
             return
         }

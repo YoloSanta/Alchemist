@@ -12,16 +12,13 @@ import ltd.matrixstudios.alchemist.util.menu.buttons.SkullButton
 import org.bukkit.entity.Player
 
 class ProofInputLinkMenu(val player: Player, val punishment: Punishment, val proofType: ProofEntry.ProofType) :
-    Menu(player)
-{
+    Menu(player) {
 
-    init
-    {
+    init {
         staticSize = 9
     }
 
-    override fun getButtons(player: Player): MutableMap<Int, Button>
-    {
+    override fun getButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
 
         buttons[3] = SkullButton(
@@ -32,8 +29,7 @@ class ProofInputLinkMenu(val player: Player, val punishment: Punishment, val pro
 
             val profile = AlchemistAPI.quickFindProfile(player.uniqueId).get()
 
-            if (profile == null)
-            {
+            if (profile == null) {
                 player.sendMessage(Chat.format("&cYour profile is not loaded!"))
                 return@setBody
             }
@@ -65,8 +61,7 @@ class ProofInputLinkMenu(val player: Player, val punishment: Punishment, val pro
         return buttons
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return "Input a Link"
     }
 }

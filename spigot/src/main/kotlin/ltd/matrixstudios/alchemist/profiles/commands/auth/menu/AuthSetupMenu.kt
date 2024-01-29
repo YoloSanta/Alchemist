@@ -19,17 +19,14 @@ import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.inventory.ItemStack
 
-class AuthSetupMenu(val player: Player) : Menu(player)
-{
+class AuthSetupMenu(val player: Player) : Menu(player) {
 
-    init
-    {
+    init {
         staticSize = 45
         placeholder = true
     }
 
-    override fun getButtons(player: Player): MutableMap<Int, Button>
-    {
+    override fun getButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
 
         buttons[11] = StepButton(
@@ -129,33 +126,27 @@ class AuthSetupMenu(val player: Player) : Menu(player)
         return buttons
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return "Setup your 2fa"
     }
 
-    class YourProfileButton : Button()
-    {
-        override fun getMaterial(player: Player): Material
-        {
+    class YourProfileButton : Button() {
+        override fun getMaterial(player: Player): Material {
             return Material.DIRT
         }
 
-        override fun getButtonItem(player: Player): ItemStack
-        {
+        override fun getButtonItem(player: Player): ItemStack {
             val skull = SkullUtil.generate(player.name, "")
 
             return ItemBuilder.copyOf(skull).setLore(getDescription(player).toList())
                 .name(Chat.format("&6&lYour Profile")).build()
         }
 
-        override fun getDescription(player: Player): MutableList<String>
-        {
+        override fun getDescription(player: Player): MutableList<String> {
             val desc = mutableListOf<String>()
             val profile = player.getProfile()
 
-            if (profile != null)
-            {
+            if (profile != null) {
                 desc.add(" ")
                 desc.add(Chat.format("&7Currently Bypassed: &f${profile.getAuthStatus().authBypassed}"))
                 desc.add(Chat.format("&7Needs Auth: &f${profile.getCurrentRank().staff}"))
@@ -168,52 +159,42 @@ class AuthSetupMenu(val player: Player) : Menu(player)
             return desc
         }
 
-        override fun getDisplayName(player: Player): String
-        {
+        override fun getDisplayName(player: Player): String {
             return ""
         }
 
-        override fun getData(player: Player): Short
-        {
+        override fun getData(player: Player): Short {
             return 0
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType)
-        {
+        override fun onClick(player: Player, slot: Int, type: ClickType) {
         }
 
     }
 
     class StepButton(var step: Int, var desc: MutableList<String>, var displayName: String, val material: Material) :
-        Button()
-    {
-        override fun getMaterial(player: Player): Material
-        {
+        Button() {
+        override fun getMaterial(player: Player): Material {
             return material
         }
 
-        override fun setCustomAmount(player: Player): Int
-        {
+        override fun setCustomAmount(player: Player): Int {
             return step
         }
 
-        override fun getDescription(player: Player): MutableList<String>
-        {
+        override fun getDescription(player: Player): MutableList<String> {
             return desc.map { Chat.format(it) }.toMutableList()
         }
 
-        override fun getDisplayName(player: Player): String
-        {
+        override fun getDisplayName(player: Player): String {
             return Chat.format(displayName)
         }
 
-        override fun getData(player: Player): Short
-        {
+        override fun getData(player: Player): Short {
             return 0
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType)
-        {
+        override fun onClick(player: Player, slot: Int, type: ClickType) {
         }
 
     }

@@ -14,11 +14,9 @@ import java.util.*
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object MojangUtils
-{
+object MojangUtils {
     @Throws(Exception::class)
-    fun fetchUUID(playerName: String?): UUID?
-    {
+    fun fetchUUID(playerName: String?): UUID? {
         val url = URL("https://api.minetools.eu/uuid/$playerName")
         val connection = url.openConnection() as HttpURLConnection
         connection.connect()
@@ -27,8 +25,7 @@ object MojangUtils
         val element = JsonParser().parse(bufferedReader)
         val `object` = element.asJsonObject
         val status = `object`["status"].asString
-        if (status.equals("ERR", ignoreCase = true))
-        {
+        if (status.equals("ERR", ignoreCase = true)) {
             return null
         }
         val uuidAsString = `object`["id"].asString
@@ -36,8 +33,7 @@ object MojangUtils
     }
 
     @Throws(Exception::class)
-    fun fetchName(uuid: UUID?): String?
-    {
+    fun fetchName(uuid: UUID?): String? {
         val url = URL("https://api.minetools.eu/profile/" + uuid.toString().replace("-", ""))
         val connection = url.openConnection() as HttpURLConnection
         connection.connect()
@@ -51,8 +47,7 @@ object MojangUtils
         return rawObject["name"].asString
     }
 
-    private fun parseUUIDFromString(uuidAsString: String): UUID
-    {
+    private fun parseUUIDFromString(uuidAsString: String): UUID {
         val parts = arrayOf(
             "0x" + uuidAsString.substring(0, 8),
             "0x" + uuidAsString.substring(8, 12),

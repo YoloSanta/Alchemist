@@ -9,35 +9,28 @@ import ltd.matrixstudios.alchemist.service.expirable.PunishmentService
 import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.entity.Player
 
-object WipePunishmentsCommand : BaseCommand()
-{
+object WipePunishmentsCommand : BaseCommand() {
 
     @CommandAlias("wipepunishments")
     @CommandPermission("alchemist.punishments.wipe")
-    fun wipePunishments(player: Player, @Name("type") typestr: String)
-    {
+    fun wipePunishments(player: Player, @Name("type") typestr: String) {
         var foundType: PunishmentType? = null
 
-        for (type in PunishmentType.values())
-        {
-            if (type.name.equals(typestr.uppercase(), ignoreCase = true))
-            {
+        for (type in PunishmentType.values()) {
+            if (type.name.equals(typestr.uppercase(), ignoreCase = true)) {
                 foundType = type
             }
         }
 
-        if (foundType == null)
-        {
+        if (foundType == null) {
             val matches = typestr.equals("all", ignoreCase = true)
 
-            if (!matches)
-            {
+            if (!matches) {
                 player.sendMessage(Chat.format("&cInvalid punishment type: BAN, BLACKLIST, ALL, MUTE, WARN, GHOST_MUTE"))
                 return
             }
 
-            for (punishment in PunishmentService.handler.retrieveAll())
-            {
+            for (punishment in PunishmentService.handler.retrieveAll()) {
                 PunishmentService.handler.deleteAsync(punishment.uuid)
                 PunishmentService.grants.clear()
 
@@ -50,13 +43,11 @@ object WipePunishmentsCommand : BaseCommand()
 
         val typedPunishment = PunishmentService.handler.retrieveAll().filter { it.getGrantable() == foundType }
 
-        for (punishment in typedPunishment)
-        {
+        for (punishment in typedPunishment) {
             PunishmentService.handler.deleteAsync(punishment.uuid)
         }
 
-        for (entry in PunishmentService.grants.entries)
-        {
+        for (entry in PunishmentService.grants.entries) {
             entry.value.removeIf { it.getGrantable() == foundType }
         }
 

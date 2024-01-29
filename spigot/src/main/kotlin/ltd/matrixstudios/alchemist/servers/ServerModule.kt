@@ -3,8 +3,6 @@ package ltd.matrixstudios.alchemist.servers
 import co.aikar.commands.BaseCommand
 import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
-import ltd.matrixstudios.alchemist.aikar.ACFCommandController
-import ltd.matrixstudios.alchemist.commands.vouchers.VoucherCommand
 import ltd.matrixstudios.alchemist.models.server.UniqueServer
 import ltd.matrixstudios.alchemist.models.server.software.ServerPlugin
 import ltd.matrixstudios.alchemist.models.server.software.ServerSoftware
@@ -28,15 +26,12 @@ import java.util.*
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object ServerModule : PluginModule
-{
-    override fun onLoad()
-    {
+object ServerModule : PluginModule {
+    override fun onLoad() {
         val config = AlchemistSpigotPlugin.instance.config
         val serversStart = System.currentTimeMillis()
 
-        if (UniqueServerService.byId(config.getString("server.id").lowercase(Locale.getDefault())) == null)
-        {
+        if (UniqueServerService.byId(config.getString("server.id").lowercase(Locale.getDefault())) == null) {
             val server = UniqueServer(
                 config.getString("server.id").lowercase(),
                 config.getString("server.id"),
@@ -58,8 +53,7 @@ object ServerModule : PluginModule
             setupPluginSoftware(server)
             UniqueServerService.save(server)
             UniqueServerService.updateGlobalServer(server)
-        } else
-        {
+        } else {
             val server = UniqueServerService.byId(config.getString("server.id").lowercase(Locale.getDefault()))!!
 
             Chat.sendConsoleMessage("&eFound server with the id " + server.id + " in your database")
@@ -87,8 +81,7 @@ object ServerModule : PluginModule
         )
     }
 
-    fun setupPluginSoftware(server: UniqueServer)
-    {
+    fun setupPluginSoftware(server: UniqueServer) {
         val version = Bukkit.getBukkitVersion()
         val plugins = Bukkit.getPluginManager().plugins.map {
             ServerPlugin(
@@ -102,23 +95,20 @@ object ServerModule : PluginModule
         server.serverSoftware = ServerSoftware(version, plugins.toMutableList())
     }
 
-    override fun getCommands(): MutableList<BaseCommand>
-    {
+    override fun getCommands(): MutableList<BaseCommand> {
         val commands = mutableListOf<BaseCommand>()
 
         commands.add(ServerEnvironmentCommand())
         commands.add(WhereAmICommand)
 
-        if (AlchemistSpigotPlugin.instance.config.getBoolean("hubCommand.enabled"))
-        {
+        if (AlchemistSpigotPlugin.instance.config.getBoolean("hubCommand.enabled")) {
             commands.add(HubCommand)
         }
 
         return commands
     }
 
-    override fun getModularConfigOption(): Boolean
-    {
+    override fun getModularConfigOption(): Boolean {
         return true
     }
 }

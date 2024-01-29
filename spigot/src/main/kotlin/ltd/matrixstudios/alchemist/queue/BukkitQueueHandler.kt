@@ -11,13 +11,10 @@ import ltd.matrixstudios.alchemist.queue.task.QueueSendTask
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object BukkitQueueHandler
-{
+object BukkitQueueHandler {
 
-    fun load()
-    {
-        if (AlchemistSpigotPlugin.instance.config.getBoolean("modules.queue"))
-        {
+    fun load() {
+        if (AlchemistSpigotPlugin.instance.config.getBoolean("modules.queue")) {
             QueueSendTask().runTaskTimerAsynchronously(
                 AlchemistSpigotPlugin.instance,
                 2 * 20L,

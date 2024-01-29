@@ -7,18 +7,15 @@ import ltd.matrixstudios.alchemist.util.menu.Button
 import ltd.matrixstudios.alchemist.util.menu.pagination.PaginatedMenu
 import org.bukkit.entity.Player
 
-class GrantHistoryViewGrants(val player: Player, val grants: MutableList<RankGrant>) : PaginatedMenu(18, player)
-{
+class GrantHistoryViewGrants(val player: Player, val grants: MutableList<RankGrant>) : PaginatedMenu(18, player) {
 
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
-    {
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
         val buttons = hashMapOf<Int, Button>()
 
         val time = System.currentTimeMillis()
 
         var index = 0
-        for (grant in grants)
-        {
+        for (grant in grants) {
             buttons[index++] = GrantsButton(grant)
         }
 
@@ -28,8 +25,7 @@ class GrantHistoryViewGrants(val player: Player, val grants: MutableList<RankGra
         return buttons
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return "Checking Grant History"
     }
 }

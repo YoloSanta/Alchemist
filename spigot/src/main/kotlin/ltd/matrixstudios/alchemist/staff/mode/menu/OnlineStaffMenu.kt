@@ -14,17 +14,13 @@ import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.inventory.ItemStack
 
-class OnlineStaffMenu(val player: Player) : PaginatedMenu(18, player)
-{
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
-    {
+class OnlineStaffMenu(val player: Player) : PaginatedMenu(18, player) {
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
         val buttons = hashMapOf<Int, Button>()
         var index = 0
 
-        for (p in Bukkit.getOnlinePlayers())
-        {
-            if (p.hasPermission("alchemist.staff"))
-            {
+        for (p in Bukkit.getOnlinePlayers()) {
+            if (p.hasPermission("alchemist.staff")) {
                 buttons[index++] = StaffDetailButton(p)
             }
         }
@@ -32,21 +28,17 @@ class OnlineStaffMenu(val player: Player) : PaginatedMenu(18, player)
         return buttons
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return "All Online Staff"
     }
 
 
-    class StaffDetailButton(val player: Player) : Button()
-    {
-        override fun getMaterial(player: Player): Material
-        {
+    class StaffDetailButton(val player: Player) : Button() {
+        override fun getMaterial(player: Player): Material {
             return Material.DIRT
         }
 
-        override fun getDescription(player: Player): MutableList<String>
-        {
+        override fun getDescription(player: Player): MutableList<String> {
             val desc = mutableListOf<String>()
             val profile = ProfileGameService.byId(this.player.uniqueId)
             desc.add(Chat.format("&7&m-------------------"))
@@ -67,28 +59,23 @@ class OnlineStaffMenu(val player: Player) : PaginatedMenu(18, player)
             return desc
         }
 
-        override fun getDisplayName(player: Player): String
-        {
+        override fun getDisplayName(player: Player): String {
             return ""
         }
 
-        override fun getButtonItem(player: Player): ItemStack
-        {
+        override fun getButtonItem(player: Player): ItemStack {
             val skull = SkullUtil.generate(this.player.name, "")
 
             return ItemBuilder.copyOf(skull).setLore(getDescription(player).toList())
                 .name(Chat.format(AlchemistAPI.getRankDisplay(this.player.uniqueId))).build()
         }
 
-        override fun getData(player: Player): Short
-        {
+        override fun getData(player: Player): Short {
             return 0
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType)
-        {
-            if (this.player.isOnline)
-            {
+        override fun onClick(player: Player, slot: Int, type: ClickType) {
+            if (this.player.isOnline) {
                 player.teleport(this.player)
             }
         }

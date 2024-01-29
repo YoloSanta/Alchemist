@@ -16,17 +16,14 @@ import ltd.matrixstudios.alchemist.util.menu.buttons.SimpleActionButton
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
-class ServerOptionsMenu(val player: Player, val server: UniqueServer) : Menu(player)
-{
+class ServerOptionsMenu(val player: Player, val server: UniqueServer) : Menu(player) {
 
-    init
-    {
+    init {
         staticSize = 27
         placeholder = true
     }
 
-    override fun getButtons(player: Player): MutableMap<Int, Button>
-    {
+    override fun getButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
         buttons[10] = SimpleActionButton(
             Material.ANVIL,
@@ -71,11 +68,9 @@ class ServerOptionsMenu(val player: Player, val server: UniqueServer) : Menu(pla
             AsynchronousRedisSender.send(UpdateGlobalServerPacket(server))
             AsynchronousRedisSender.send(RefreshServersPacket())
 
-            if (other)
-            {
+            if (other) {
                 player.sendMessage(Chat.format("&8[&eServer Monitor&8] &fSet rank lock status of " + server.id + " to true"))
-            } else
-            {
+            } else {
                 player.sendMessage(Chat.format("&8[&eServer Monitor&8] &fSet rank lock status of " + server.id + " to false"))
             }
 
@@ -93,8 +88,7 @@ class ServerOptionsMenu(val player: Player, val server: UniqueServer) : Menu(pla
         return buttons
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return "Editing a Server!"
     }
 }

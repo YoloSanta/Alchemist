@@ -29,8 +29,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.*
 
-class NonModelGrantCommand : BaseCommand()
-{
+class NonModelGrantCommand : BaseCommand() {
 
     @CommandAlias("nmgrant")
     @CommandPermission("alchemist.grants.admin")
@@ -41,8 +40,7 @@ class NonModelGrantCommand : BaseCommand()
         @Name("duration") duration: String,
         @Name("scope") scope: GrantScope,
         @Name("reason") reason: String
-    )
-    {
+    ) {
         val rankGrant = RankGrant(
             rank.id,
             uuid,

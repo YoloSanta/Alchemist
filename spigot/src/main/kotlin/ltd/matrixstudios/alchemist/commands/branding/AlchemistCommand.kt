@@ -14,24 +14,20 @@ import org.bukkit.entity.Player
 import java.util.concurrent.CompletableFuture
 
 @CommandAlias("alchemist")
-class AlchemistCommand : BaseCommand()
-{
+class AlchemistCommand : BaseCommand() {
 
     @Default
-    fun alchemist(player: Player)
-    {
+    fun alchemist(player: Player) {
         player.sendMessage(Chat.format("&7&m----------------------------------------"))
         player.sendMessage(Chat.format("&6&lAlchemist Rank Core"))
         player.sendMessage(Chat.format(" "))
         player.sendMessage(Chat.format("&eMade By&7: &f98ping"))
         player.sendMessage(Chat.format("&eGitHub&7: &fhttps://github.com/98ping/Alchemist"))
-        if (player.name.equals("98ping", ignoreCase = true))
-        {
+        if (player.name.equals("98ping", ignoreCase = true)) {
             player.sendMessage(Chat.format("&ePlugin Version: &f" + AlchemistSpigotPlugin.instance.description.version))
         }
 
-        if (player.hasPermission("alchemist.owner"))
-        {
+        if (player.hasPermission("alchemist.owner")) {
             player.sendMessage(" ")
             player.sendMessage(Chat.format("&6&lCommands"))
             player.sendMessage(Chat.format("&e/alchemist reload &7- Reloads the configuration."))
@@ -43,8 +39,7 @@ class AlchemistCommand : BaseCommand()
 
     @Subcommand("reload")
     @CommandPermission("alchemist.owner")
-    fun reload(sender: CommandSender)
-    {
+    fun reload(sender: CommandSender) {
         AlchemistSpigotPlugin.instance.reloadConfig()
         sender.sendMessage(Chat.format("&eAlchemist has been reloaded. Files affected: &aconfig.yml&e."))
     }
@@ -58,26 +53,22 @@ class AlchemistCommand : BaseCommand()
             DefaultArtifactVersion(version)
         )
 
-        if (newVersion.first == AlchemistRepositoryService.ResponseStatus.CouldNotLoad)
-        {
+        if (newVersion.first == AlchemistRepositoryService.ResponseStatus.CouldNotLoad) {
             sender.sendMessage(Chat.format("&cCould not load latest jar file because the repository did not respond."))
             return@runAsync
         }
 
-        if (newVersion.first == AlchemistRepositoryService.ResponseStatus.Latest)
-        {
+        if (newVersion.first == AlchemistRepositoryService.ResponseStatus.Latest) {
             sender.sendMessage(Chat.format("&eYou are currently running the &alatest &eversion of &6Alchemist &7(&a${version}&7)"))
             return@runAsync
-        } else
-        {
+        } else {
             sender.sendMessage(Chat.format("&eA new version of &6Alchemist &eis now available! &7(&c${version} &7-> &a${newVersion.second!!.name}&7)"))
         }
     }
 
     @Subcommand("refreshplaceholders")
     @CommandPermission("alchemist.owner")
-    fun reloadPlaceholders(sender: CommandSender)
-    {
+    fun reloadPlaceholders(sender: CommandSender) {
         AlchemistSpigotPlugin.instance.registerExpansion()
         sender.sendMessage(Chat.format("&eAlchemist has reloaded every active &aPlaceholder &efrom &bPlaceholderAPI&e."))
     }

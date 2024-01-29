@@ -12,17 +12,14 @@ import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.TimeUtil
 import org.bukkit.entity.Player
 
-class PunishmentLookupCommands : BaseCommand()
-{
+class PunishmentLookupCommands : BaseCommand() {
 
     @CommandAlias("punishmentlookup|plookup")
     @CommandPermission("alchemist.punishments.lookup")
-    fun lookup(player: Player, @Name("punishmentId") id: String)
-    {
+    fun lookup(player: Player, @Name("punishmentId") id: String) {
         val punishment = PunishmentService.searchFromId(id)
 
-        if (punishment == null)
-        {
+        if (punishment == null) {
             player.sendMessage(Chat.format("&cPunishment with this id was not found."))
             return
         }
@@ -43,11 +40,9 @@ class PunishmentLookupCommands : BaseCommand()
             )
         )
         val profile = ProfileGameService.getHighestGrant(punishment.executor)
-        if (profile == null)
-        {
+        if (profile == null) {
             player.sendMessage(Chat.format("&7- &eGot Staff: &fNever"))
-        } else
-        {
+        } else {
             player.sendMessage(Chat.format("&7- &eGot Staff: &f" + TimeUtil.formatDuration(System.currentTimeMillis() - profile.expirable.addedAt)))
         }
     }

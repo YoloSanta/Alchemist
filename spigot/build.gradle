@@ -1,19 +1,14 @@
-
 repositories {
     maven {
         url = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
     }
-
     maven {
         url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
     }
-
     maven {
         url = 'https://libraries.minecraft.net'
     }
-
     maven {
-        name = "gravemc-repo"
         url = "https://repo.gravemc.net/releases/"
     }
 }
@@ -61,11 +56,13 @@ publishing {
 }
 
 
-
 shadowJar {
     relocate 'redis.clients', 'ltd.matrixstudios.alchemist.relocated.redis'
     relocate 'kotlin', 'ltd.matrixstudios.alchemist.relocated.kotlin'
     relocate 'com.mongodb', 'ltd.matrixstudios.alchemist.relocated.mongo'
     relocate 'org.bson', 'ltd.matrixstudios.alchemist.relocated.bson'
     relocate 'net.kyori', 'ltd.matrixstudios.alchemist.relocated.adventure'
+
+
+    destinationDirectory.set(file("C:\\Users\\dev\\Desktop\\Server\\plugins"))
 }

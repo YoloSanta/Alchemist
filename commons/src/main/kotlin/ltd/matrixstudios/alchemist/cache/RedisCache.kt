@@ -13,8 +13,7 @@ abstract class RedisCache<A, B>(
     var aToBCache: MutableMap<A, B> = mutableMapOf()
     var btoACache: MutableMap<B, A> = mutableMapOf()
 
-    fun loadAllFromRedis() : CompletableFuture<Void>
-    {
+    fun loadAllFromRedis(): CompletableFuture<Void> {
         return CompletableFuture.runAsync {
             val type: Type = object : TypeToken<MutableMap<A, B>>() {}.type
             val otherType: Type = object : TypeToken<MutableMap<B, A>>() {}.type
@@ -24,8 +23,7 @@ abstract class RedisCache<A, B>(
                 val ex = it.exists("$redisKey:A")
 
                 //a -> b cache
-                if (ex)
-                {
+                if (ex) {
                     val all = it.get("$redisKey:A")
                     val gson = Alchemist.gson.fromJson<MutableMap<A, B>>(all, type)
 
@@ -35,8 +33,7 @@ abstract class RedisCache<A, B>(
                 val ex2 = it.exists("$redisKey:B")
 
                 //b -> a cache
-                if (ex2)
-                {
+                if (ex2) {
                     val all = it.get("$redisKey:B")
                     val gson = Alchemist.gson.fromJson<MutableMap<B, A>>(all, otherType)
 
@@ -49,8 +46,7 @@ abstract class RedisCache<A, B>(
         }
     }
 
-    fun addToFirstCache(key: A, value: B) : CompletableFuture<B>
-    {
+    fun addToFirstCache(key: A, value: B): CompletableFuture<B> {
         return CompletableFuture.supplyAsync {
             aToBCache[key] = value
 
@@ -64,8 +60,7 @@ abstract class RedisCache<A, B>(
         }
     }
 
-    fun addToSecondCache(key: B, value: A) : CompletableFuture<A>
-    {
+    fun addToSecondCache(key: B, value: A): CompletableFuture<A> {
         return CompletableFuture.supplyAsync {
             btoACache[key] = value
 

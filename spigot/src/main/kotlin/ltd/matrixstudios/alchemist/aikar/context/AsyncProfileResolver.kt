@@ -12,11 +12,9 @@ import java.util.*
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class AsyncProfileResolver : ContextResolver<AsyncGameProfile, BukkitCommandExecutionContext>
-{
+class AsyncProfileResolver : ContextResolver<AsyncGameProfile, BukkitCommandExecutionContext> {
 
-    override fun getContext(c: BukkitCommandExecutionContext): AsyncGameProfile?
-    {
+    override fun getContext(c: BukkitCommandExecutionContext): AsyncGameProfile? {
         val firstArg = c.popFirstArg() ?: return null
 
         return AsyncGameProfile.name(firstArg.lowercase(Locale.getDefault()))

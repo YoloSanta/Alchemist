@@ -7,11 +7,9 @@ import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.Bukkit
 import java.util.*
 
-class StaffMessagePacket(val message: String, val server: String, val sender: UUID) : RedisPacket("staff-message")
-{
+class StaffMessagePacket(val message: String, val server: String, val sender: UUID) : RedisPacket("staff-message") {
 
-    override fun action()
-    {
+    override fun action() {
         val name = AlchemistAPI.getRankDisplay(sender)
         val msg =
             AlchemistAPI.SC_FORMAT.replace("%server%", server).replace("%profile%", name).replace("%message%", message)

@@ -13,11 +13,9 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object BukkitPreLoginConnection : ConnectionMethod<AsyncPlayerPreLoginEvent>()
-{
+object BukkitPreLoginConnection : ConnectionMethod<AsyncPlayerPreLoginEvent>() {
 
-    fun getAllTasks(): List<BukkitPreLoginTask>
-    {
+    fun getAllTasks(): List<BukkitPreLoginTask> {
         return listOf(
             LoadProfile,
             HandlePunishments,

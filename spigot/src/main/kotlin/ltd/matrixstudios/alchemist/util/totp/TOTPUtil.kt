@@ -10,17 +10,14 @@ import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
 
-object TOTPUtil
-{
+object TOTPUtil {
     const val DEFAULT_TIME_STEP_SECONDS = 30
     private const val NUM_DIGITS_OUTPUT = 6
     private var blockOfZeros: String? = null
 
-    init
-    {
+    init {
         val chars = CharArray(NUM_DIGITS_OUTPUT)
-        for (i in chars.indices)
-        {
+        for (i in chars.indices) {
             chars[i] = '0'
         }
         blockOfZeros = String(chars)
@@ -30,13 +27,10 @@ object TOTPUtil
     private var SECURE_RANDOM: SecureRandom? = null
     private val BASE_32_ENCODER = Base32()
 
-    fun generateSecret(): String?
-    {
-        try
-        {
+    fun generateSecret(): String? {
+        try {
             SECURE_RANDOM = SecureRandom.getInstance("SHA1PRNG", "SUN")
-        } catch (e: Exception)
-        {
+        } catch (e: Exception) {
             return null
         }
 
@@ -45,38 +39,31 @@ object TOTPUtil
         return BASE_32_ENCODER.encodeToString(secretKey)
     }
 
-    fun qrImageUrl(secret: String, username: String): String
-    {
+    fun qrImageUrl(secret: String, username: String): String {
         return String.format(
             "https://www.google.com/chart?chs=200x200&chld=M%%7C0&cht=qr&chl=otpauth://totp/%s@%s%%3Fsecret%%3D%s",
             *arrayOf<Any>(username, URLEncoder.encode(AlchemistAPI.GENERIC_NAME, "UTF-8"), secret)
         )
     }
 
-    fun generateOtpAuthUrl(keyId: String, secret: String, username: String): String
-    {
+    fun generateOtpAuthUrl(keyId: String, secret: String, username: String): String {
         val sb = StringBuilder(64)
         addOtpAuthPart(keyId, username, secret, sb)
         return sb.toString()
     }
 
-    private fun addOtpAuthPart(keyId: String, username: String?, secret: String, sb: StringBuilder)
-    {
+    private fun addOtpAuthPart(keyId: String, username: String?, secret: String, sb: StringBuilder) {
         sb.append("otpauth://totp/$keyId:$username?secret=$secret&issuer=$keyId")
     }
 
-    fun generateBase32Secret(length: Int): String
-    {
+    fun generateBase32Secret(length: Int): String {
         val sb = StringBuilder(length)
         val random: Random = SecureRandom()
-        for (i in 0 until length)
-        {
+        for (i in 0 until length) {
             val `val`: Int = random.nextInt(32)
-            if (`val` < 26)
-            {
+            if (`val` < 26) {
                 sb.append(('A'.code + `val`).toChar())
-            } else
-            {
+            } else {
                 sb.append(('2'.code + (`val` - 26)).toChar())
             }
         }
@@ -84,8 +71,7 @@ object TOTPUtil
     }
 
     @Throws(GeneralSecurityException::class)
-    fun validateCurrentNumber(base32Secret: String, authNumber: Int, windowMillis: Int): Boolean
-    {
+    fun validateCurrentNumber(base32Secret: String, authNumber: Int, windowMillis: Int): Boolean {
         return validateCurrentNumber(
             base32Secret, authNumber, windowMillis, System.currentTimeMillis(),
             DEFAULT_TIME_STEP_SECONDS
@@ -96,22 +82,18 @@ object TOTPUtil
     fun validateCurrentNumber(
         base32Secret: String, authNumber: Int, windowMillis: Int, timeMillis: Long,
         timeStepSeconds: Int
-    ): Boolean
-    {
+    ): Boolean {
         var from = timeMillis
         var to = timeMillis
-        if (windowMillis > 0)
-        {
+        if (windowMillis > 0) {
             from -= windowMillis.toLong()
             to += windowMillis.toLong()
         }
         val timeStepMillis = (timeStepSeconds * 1000).toLong()
         var millis = from
-        while (millis <= to)
-        {
+        while (millis <= to) {
             val compare = generateNumber(base32Secret, millis, timeStepSeconds)
-            if (compare == authNumber.toLong())
-            {
+            if (compare == authNumber.toLong()) {
                 return true
             }
             millis += timeStepMillis
@@ -120,34 +102,29 @@ object TOTPUtil
     }
 
     @Throws(GeneralSecurityException::class)
-    fun generateCurrentNumberString(base32Secret: String): String?
-    {
+    fun generateCurrentNumberString(base32Secret: String): String? {
         return generateNumberString(base32Secret, System.currentTimeMillis(), DEFAULT_TIME_STEP_SECONDS)
     }
 
     @Throws(GeneralSecurityException::class)
-    fun generateNumberString(base32Secret: String, timeMillis: Long, timeStepSeconds: Int): String?
-    {
+    fun generateNumberString(base32Secret: String, timeMillis: Long, timeStepSeconds: Int): String? {
         val number = generateNumber(base32Secret, timeMillis, timeStepSeconds)
         return zeroPrepend(number, NUM_DIGITS_OUTPUT)
     }
 
     @Throws(GeneralSecurityException::class)
-    fun generateCurrentNumber(base32Secret: String): Long
-    {
+    fun generateCurrentNumber(base32Secret: String): Long {
         return generateNumber(base32Secret, System.currentTimeMillis(), DEFAULT_TIME_STEP_SECONDS)
     }
 
     @Throws(GeneralSecurityException::class)
-    fun generateNumber(base32Secret: String, timeMillis: Long, timeStepSeconds: Int): Long
-    {
+    fun generateNumber(base32Secret: String, timeMillis: Long, timeStepSeconds: Int): Long {
         val key: ByteArray = decodeBase32(base32Secret)
         val data = ByteArray(8)
         var value = timeMillis / 1000 / timeStepSeconds
         run {
             var i = 7
-            while (value > 0)
-            {
+            while (value > 0) {
                 data[i] = (value and 0xFFL).toByte()
                 value = value shr 8
                 i--
@@ -166,8 +143,7 @@ object TOTPUtil
 
         // We're using a long because Java hasn't got unsigned int.
         var truncatedHash: Long = 0
-        for (i in offset until offset + 4)
-        {
+        for (i in offset until offset + 4) {
             truncatedHash = truncatedHash shl 8
             // get the 4 bytes at the offset
             truncatedHash = truncatedHash or (hash[i].toInt() and 0xFF).toLong()
@@ -191,29 +167,24 @@ object TOTPUtil
      * @param secret
      * Secret string that will be used when generating the current number.
      */
-    fun generateOtpAuthUrl(keyId: String, secret: String): String
-    {
+    fun generateOtpAuthUrl(keyId: String, secret: String): String {
         val sb = StringBuilder(64)
         addOtpAuthPart(keyId, secret, sb)
         return sb.toString()
     }
 
-    private fun addOtpAuthPart(keyId: String, secret: String, sb: StringBuilder)
-    {
+    private fun addOtpAuthPart(keyId: String, secret: String, sb: StringBuilder) {
         sb.append("otpauth://totp/").append(keyId).append("%3Fsecret%3D").append(secret)
     }
 
     /**
      * Return the string prepended with 0s. Tested as 10x faster than String.format("%06d", ...); Exposed for testing.
      */
-    fun zeroPrepend(num: Long, digits: Int): String?
-    {
+    fun zeroPrepend(num: Long, digits: Int): String? {
         val numStr = java.lang.Long.toString(num)
-        return if (numStr.length >= digits)
-        {
+        return if (numStr.length >= digits) {
             numStr
-        } else
-        {
+        } else {
             val sb = StringBuilder(digits)
             val zeroCount = digits - numStr.length
             sb.append(blockOfZeros, 0, zeroCount)
@@ -222,8 +193,7 @@ object TOTPUtil
         }
     }
 
-    fun decodeBase32(string: String): ByteArray
-    {
+    fun decodeBase32(string: String): ByteArray {
         val BASE_32_ENCODER = Base32()
 
         return BASE_32_ENCODER.decode(string)

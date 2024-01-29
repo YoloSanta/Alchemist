@@ -8,16 +8,13 @@ import ltd.matrixstudios.alchemist.util.menu.Menu
 import ltd.matrixstudios.alchemist.util.menu.buttons.SkullButton
 import org.bukkit.entity.Player
 
-class ProofSelectTypeMenu(val player: Player, val punishment: Punishment) : Menu(player)
-{
+class ProofSelectTypeMenu(val player: Player, val punishment: Punishment) : Menu(player) {
 
-    init
-    {
+    init {
         staticSize = 9
     }
 
-    override fun getButtons(player: Player): MutableMap<Int, Button>
-    {
+    override fun getButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
 
         buttons[3] = SkullButton(
@@ -51,8 +48,7 @@ class ProofSelectTypeMenu(val player: Player, val punishment: Punishment) : Menu
 
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return "Select Proof Type"
     }
 }

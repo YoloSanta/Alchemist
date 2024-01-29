@@ -19,18 +19,15 @@ import org.bukkit.command.CommandSender
  */
 @CommandAlias("lunarclient|lc")
 @CommandPermission("alchemist.clients.lunar")
-object LunarClientCommands : BaseCommand()
-{
+object LunarClientCommands : BaseCommand() {
 
     @HelpCommand
-    fun help(help: CommandHelp)
-    {
+    fun help(help: CommandHelp) {
         help.showHelp()
     }
 
     @Subcommand("players")
-    fun players(player: CommandSender)
-    {
+    fun players(player: CommandSender) {
         val start = System.currentTimeMillis()
         val count = Bukkit.getOnlinePlayers().count {
             LunarClientAPI.getInstance().isRunningLunarClient(it)
@@ -43,8 +40,7 @@ object LunarClientCommands : BaseCommand()
 
     @Subcommand("check")
     @CommandCompletion("@players")
-    fun check(player: CommandSender, @Name("target") target: OnlinePlayer)
-    {
+    fun check(player: CommandSender, @Name("target") target: OnlinePlayer) {
         val isUsing = LunarClientAPI.getInstance().isRunningLunarClient(target.player)
 
         player.sendMessage(Chat.format("&r${AlchemistAPI.getRankDisplay(target.player.uniqueId)} &eis ${if (isUsing) "&acurrently" else "&cnot currently"} &eusing &bLunar Client&e."))

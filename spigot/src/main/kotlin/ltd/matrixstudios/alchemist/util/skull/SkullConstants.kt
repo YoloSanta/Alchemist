@@ -7,8 +7,7 @@ package ltd.matrixstudios.alchemist.util.skull
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object SkullConstants
-{
+object SkullConstants {
     val DARK_GREEN: String =
         "eyJ0aW1lc3RhbXAiOjE0ODgwNTIzNTMzMjcsInByb2ZpbGVJZCI6IjdkYTJhYjNhOTNjYTQ4ZWU4MzA0OGFmYzNiODBlNjhlIiwicHJvZmlsZU5hbWUiOiJHb2xkYXBmZWwiLCJzaWduYXR1cmVSZXF1aXJlZCI6dHJ1ZSwidGV4dHVyZXMiOnsiU0tJTiI6eyJ1cmwiOiJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2RhMTk1M2NkOWY3YmI4OWNlMDE5MTZmZTM2NDNmY2NkYTYxNzRjYWNhMGU1YzZhYmE5YzZjZWQzOGEzNzRlIn19fQ=="
     val AQUA: String =

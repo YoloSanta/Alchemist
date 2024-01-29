@@ -20,24 +20,20 @@ class GeneralPunishmentMenu(
     var punishments: MutableList<Punishment>,
     var punishmentFilter: PunishmentFilter,
     var player: Player
-) : PaginatedMenu(36, player)
-{
+) : PaginatedMenu(36, player) {
 
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
-    {
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
         val buttons = hashMapOf<Int, Button>()
 
         var index = 0
-        for (punishment in punishments.filter { it.getGrantable() == punishmentType })
-        {
+        for (punishment in punishments.filter { it.getGrantable() == punishmentType }) {
             buttons[index++] = GeneralPunishmentButton(punishment)
         }
 
         return buttons
     }
 
-    override fun getButtonPositions(): List<Int>
-    {
+    override fun getButtonPositions(): List<Int> {
         return listOf(
             10, 11, 12, 13, 14, 15, 16,
             19, 20, 21, 22, 23, 24, 25,
@@ -45,8 +41,7 @@ class GeneralPunishmentMenu(
         )
     }
 
-    override fun getHeaderItems(player: Player): MutableMap<Int, Button>
-    {
+    override fun getHeaderItems(player: Player): MutableMap<Int, Button> {
         return mutableMapOf(
             1 to Button.placeholder(),
             2 to Button.placeholder(),
@@ -63,8 +58,7 @@ class GeneralPunishmentMenu(
                 val next = (index + 1)
                 val limit = values.size - 1
 
-                if (next > limit)
-                {
+                if (next > limit) {
                     GeneralPunishmentMenu(
                         profile,
                         punishmentType,
@@ -104,17 +98,13 @@ class GeneralPunishmentMenu(
         )
     }
 
-    fun getFilterDesc(): MutableList<String>
-    {
+    fun getFilterDesc(): MutableList<String> {
         val desc = mutableListOf<String>()
         desc.add(" ")
-        for (filter in PunishmentFilter.values())
-        {
-            if (punishmentFilter == filter)
-            {
+        for (filter in PunishmentFilter.values()) {
+            if (punishmentFilter == filter) {
                 desc.add(Chat.format("&7- &a" + punishmentFilter.displayName))
-            } else
-            {
+            } else {
                 desc.add(Chat.format("&7- &7" + filter.displayName))
             }
         }
@@ -125,13 +115,11 @@ class GeneralPunishmentMenu(
         return desc
     }
 
-    override fun getButtonsPerPage(): Int
-    {
+    override fun getButtonsPerPage(): Int {
         return 21
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return Chat.format(punishmentType.color + punishmentType.niceName + "s")
     }
 }

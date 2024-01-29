@@ -2,13 +2,11 @@ package ltd.matrixstudios.alchemist.redis
 
 import java.util.concurrent.ForkJoinPool
 
-object AsynchronousRedisSender
-{
+object AsynchronousRedisSender {
 
     var totalPacketCount = 0
 
-    fun send(packet: RedisPacket)
-    {
+    fun send(packet: RedisPacket) {
         totalPacketCount++
         ForkJoinPool.commonPool().execute {
             RedisPacketManager.pool.resource.use { jedis ->

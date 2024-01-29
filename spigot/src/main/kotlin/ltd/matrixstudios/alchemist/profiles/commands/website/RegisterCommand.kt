@@ -3,7 +3,6 @@ package ltd.matrixstudios.alchemist.profiles.commands.website
 import co.aikar.commands.BaseCommand
 import co.aikar.commands.annotation.CommandAlias
 import co.aikar.commands.annotation.CommandPermission
-import co.aikar.commands.annotation.Name
 import ltd.matrixstudios.alchemist.models.website.AlchemistUser
 import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.alchemist.service.website.WebProfileService
@@ -11,28 +10,23 @@ import ltd.matrixstudios.alchemist.util.Chat
 import org.bukkit.entity.Player
 import java.util.*
 
-object RegisterCommand : BaseCommand()
-{
+object RegisterCommand : BaseCommand() {
     @CommandAlias("register")
     @CommandPermission("alchemist.website.register")
-    fun onRegister(player: Player)
-    {
+    fun onRegister(player: Player) {
         val profile = ProfileGameService.byId(player.uniqueId)
 
-        if (profile == null)
-        {
+        if (profile == null) {
             player.sendMessage(Chat.format("&cYou must have a profile in order to register for an account!"))
             return
         }
 
-        if (!profile.getCurrentRank().staff)
-        {
+        if (!profile.getCurrentRank().staff) {
             player.sendMessage(Chat.format("&cYou are unable to register for panel access if you are not a staff member!"))
             return
         }
 
-        if (profile.websiteNeedsVerification)
-        {
+        if (profile.websiteNeedsVerification) {
             player.sendMessage(Chat.format("&7[&bWebsite&7] &cYou have already tried to register a panel account under this username!"))
             return
         }

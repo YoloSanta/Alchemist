@@ -8,17 +8,14 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 
-class ModuleEditorMenu(val player: Player) : Menu(player)
-{
+class ModuleEditorMenu(val player: Player) : Menu(player) {
 
-    init
-    {
+    init {
         staticSize = 36
         placeholder = true
     }
 
-    override fun getButtons(player: Player): MutableMap<Int, Button>
-    {
+    override fun getButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
 
         buttons[10] = ModuleButton(
@@ -159,8 +156,7 @@ class ModuleEditorMenu(val player: Player) : Menu(player)
         return buttons
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return Chat.format("&cModules")
     }
 
@@ -170,17 +166,14 @@ class ModuleEditorMenu(val player: Player) : Menu(player)
         val item: Material,
         val desc: MutableList<String>,
         val data: Int
-    ) : Button()
-    {
+    ) : Button() {
 
         val enabled = AlchemistSpigotPlugin.instance.config.getBoolean(module)
-        override fun getMaterial(player: Player): Material
-        {
+        override fun getMaterial(player: Player): Material {
             return item
         }
 
-        override fun getDescription(player: Player): MutableList<String>
-        {
+        override fun getDescription(player: Player): MutableList<String> {
             val originalDesc = desc
 
             originalDesc.add(" ")
@@ -189,18 +182,15 @@ class ModuleEditorMenu(val player: Player) : Menu(player)
             return originalDesc
         }
 
-        override fun getDisplayName(player: Player): String
-        {
+        override fun getDisplayName(player: Player): String {
             return Chat.format(displayName)
         }
 
-        override fun getData(player: Player): Short
-        {
+        override fun getData(player: Player): Short {
             return 0
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType)
-        {
+        override fun onClick(player: Player, slot: Int, type: ClickType) {
 
         }
     }

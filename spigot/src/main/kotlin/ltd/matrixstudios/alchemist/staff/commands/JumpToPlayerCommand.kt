@@ -23,19 +23,16 @@ import java.util.*
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class JumpToPlayerCommand : BaseCommand()
-{
+class JumpToPlayerCommand : BaseCommand() {
 
     @CommandAlias("jumptoplayer|jtp|jumpto")
     @CommandPermission("alchemist.jtp")
-    fun jumpTo(player: Player, @Name("target") target: GameProfile)
-    {
+    fun jumpTo(player: Player, @Name("target") target: GameProfile) {
         val globalServer = Alchemist.globalServer
         val onlineServer = target.metadata.get("server").asString
         val uniqueServer = UniqueServerService.byId(onlineServer.lowercase(Locale.getDefault()))
 
-        if (uniqueServer == null || onlineServer.lowercase(Locale.getDefault()).equals("None", ignoreCase = true))
-        {
+        if (uniqueServer == null || onlineServer.lowercase(Locale.getDefault()).equals("None", ignoreCase = true)) {
             player.sendMessage(Chat.format("&6&lServer Jump Request"))
             player.sendMessage(Chat.format("&eTarget: &f" + AlchemistAPI.getRankDisplay(target.uuid)))
             player.sendMessage(Chat.format("&eDestination: &cNone"))
@@ -46,8 +43,7 @@ class JumpToPlayerCommand : BaseCommand()
 
         val rank = AlchemistAPI.findRank(target.uuid)
 
-        if (rank.weight < target.getCurrentRank().weight)
-        {
+        if (rank.weight < target.getCurrentRank().weight) {
             player.sendMessage(Chat.format("&cThis player has a higher rank weight than yours!"))
             return
         }

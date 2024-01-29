@@ -10,16 +10,13 @@ import org.bukkit.entity.Entity
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
 
-class EntityEditorMenu(val player: Player, val entity: Entity) : Menu(player)
-{
-    init
-    {
+class EntityEditorMenu(val player: Player, val entity: Entity) : Menu(player) {
+    init {
         placeholder = true
         staticSize = 27
     }
 
-    override fun getButtons(player: Player): MutableMap<Int, Button>
-    {
+    override fun getButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
 
         buttons[10] = SimpleActionButton(
@@ -54,8 +51,7 @@ class EntityEditorMenu(val player: Player, val entity: Entity) : Menu(player)
                 Chat.format("&7entity from it's current world!")
             ), Chat.format("&cRemove Entity"), 0
         ).setBody { player, i, clickType ->
-            if (entity.type == EntityType.PLAYER)
-            {
+            if (entity.type == EntityType.PLAYER) {
                 player.sendMessage(Chat.format("&cYou cannot remove a player!"))
                 return@setBody
             }
@@ -67,8 +63,7 @@ class EntityEditorMenu(val player: Player, val entity: Entity) : Menu(player)
         return buttons
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return "Edit This Entity"
     }
 }

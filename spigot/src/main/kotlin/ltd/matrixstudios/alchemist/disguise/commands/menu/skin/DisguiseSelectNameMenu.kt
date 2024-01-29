@@ -12,16 +12,13 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import java.util.concurrent.ThreadLocalRandom
 
-class DisguiseSelectNameMenu(val player: Player) : Menu(player)
-{
-    init
-    {
+class DisguiseSelectNameMenu(val player: Player) : Menu(player) {
+    init {
         staticSize = 9
         placeholder = true
     }
 
-    override fun getButtons(player: Player): MutableMap<Int, Button>
-    {
+    override fun getButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
 
         buttons[2] = SimpleActionButton(
@@ -63,23 +60,19 @@ class DisguiseSelectNameMenu(val player: Player) : Menu(player)
             InputPrompt()
                 .withText(Chat.format("&aType in a &ecustom name &ato disguise yourself as!"))
                 .acceptInput {
-                    if (it.length < 3)
-                    {
+                    if (it.length < 3) {
                         player.sendMessage(Chat.format("&cThis disguise is too short!"))
                         return@acceptInput
                     }
 
-                    if (it.length >= 16)
-                    {
+                    if (it.length >= 16) {
                         player.sendMessage(Chat.format("&cThis disguise is too long!"))
                         return@acceptInput
                     }
 
-                    try
-                    {
+                    try {
                         DisguiseAPI.getSkinManager().getFromMojang(it)
-                    } catch (e: UserNotFoundException)
-                    {
+                    } catch (e: UserNotFoundException) {
                         player.sendMessage(Chat.format("&cThis player does not exist! Please check the spelling of the name."))
                     }
 
@@ -113,8 +106,7 @@ class DisguiseSelectNameMenu(val player: Player) : Menu(player)
         return buttons
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return "Select a Name!"
     }
 }

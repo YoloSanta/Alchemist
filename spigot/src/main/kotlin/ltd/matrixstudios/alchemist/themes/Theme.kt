@@ -14,8 +14,7 @@ abstract class Theme(
     var lore: MutableList<String>,
     var material: Material,
     var data: Short
-)
-{
+) {
 
     //Grants Menu
     abstract fun getGrantsLore(player: Player, rankGrant: RankGrant): MutableList<String>

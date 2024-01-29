@@ -13,14 +13,12 @@ import org.bson.Document
 import org.bukkit.scheduler.BukkitRunnable
 import java.util.*
 
-object ClearOutExpirablesTask : BukkitRunnable()
-{
+object ClearOutExpirablesTask : BukkitRunnable() {
 
     private val rankGrantCollection = RankGrantService.collection
     private val punishmentCollection = PunishmentService.collection
 
-    override fun run()
-    {
+    override fun run() {
         val maxIntLong = Integer.MAX_VALUE.toLong()
 
         rankGrantCollection
@@ -34,15 +32,13 @@ object ClearOutExpirablesTask : BukkitRunnable()
                 val addedAt = unwindedDocument.getString("addedAt").toLong()
                 val duration = unwindedDocument.getString("duration").toLong()
 
-                if (duration != maxIntLong)
-                {
+                if (duration != maxIntLong) {
                     if (it["removedBy"] == null
                         &&
                         duration != -1L
                         &&
                         (addedAt + duration) - System.currentTimeMillis() <= 0
-                    )
-                    {
+                    ) {
                         val objectifiedGrant = Alchemist.gson.fromJson(it.toJson(), RankGrant::class.java)
 
                         objectifiedGrant.removedBy = UUID.fromString("00000000-0000-0000-0000-000000000000")
@@ -67,15 +63,13 @@ object ClearOutExpirablesTask : BukkitRunnable()
                 val addedAt = unwindedDocument.getString("addedAt").toLong()
                 val duration = unwindedDocument.getString("duration").toLong()
 
-                if (duration != maxIntLong)
-                {
+                if (duration != maxIntLong) {
                     if (it["removedBy"] == null
                         &&
                         duration != -1L
                         &&
                         (addedAt + duration) - System.currentTimeMillis() <= 0
-                    )
-                    {
+                    ) {
                         val objectifiedGrant = Alchemist.gson.fromJson(it.toJson(), Punishment::class.java)
 
                         objectifiedGrant.removedBy = UUID.fromString("00000000-0000-0000-0000-000000000000")

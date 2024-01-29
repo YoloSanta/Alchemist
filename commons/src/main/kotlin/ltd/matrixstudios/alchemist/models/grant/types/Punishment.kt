@@ -34,19 +34,16 @@ class Punishment(
     var easyFindId: String = easyFindId
     var proof: MutableList<ProofEntry> = proof
 
-    fun getIssuedByName() : String
-    {
+    fun getIssuedByName(): String {
         val profile = ProfileGameService.byId(this.executor)
-        if (profile == null)
-        {
+        if (profile == null) {
             return "Console"
         }
 
         return profile.username
     }
 
-    fun getTargetProfile() : GameProfile?
-    {
+    fun getTargetProfile(): GameProfile? {
         return ProfileGameService.byId(target)
     }
 

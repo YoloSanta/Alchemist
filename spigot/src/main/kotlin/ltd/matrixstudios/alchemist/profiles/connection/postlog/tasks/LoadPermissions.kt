@@ -15,11 +15,9 @@ import java.util.concurrent.CompletableFuture
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object LoadPermissions : BukkitPostLoginTask
-{
+object LoadPermissions : BukkitPostLoginTask {
 
-    override fun run(player: Player)
-    {
+    override fun run(player: Player) {
         val profile = ProfileGameService.byId(player.uniqueId) ?: return
 
         val startPerms = System.currentTimeMillis()

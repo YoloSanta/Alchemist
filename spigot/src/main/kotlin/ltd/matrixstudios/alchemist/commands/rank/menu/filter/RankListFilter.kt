@@ -9,8 +9,7 @@ package ltd.matrixstudios.alchemist.commands.rank.menu.filter
  */
 enum class RankListFilter(
     val displayName: String
-)
-{
+) {
     DEFAULT("Default Ranks"), STAFF("Staff Ranks"), ALL("Every Rank"), HAS_PARENTS("Ranks That Have Parents")
 
 

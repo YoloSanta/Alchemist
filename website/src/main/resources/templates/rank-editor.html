@@ -3,20 +3,21 @@
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    '
 
     <title>Alchemist Rank Solution</title>
     <!-- plugins:css -->
-    <link rel="stylesheet" href="../static/vendors/mdi/css/materialdesignicons.min.css"
+    <link href="../static/vendors/mdi/css/materialdesignicons.min.css" rel="stylesheet"
           th:href="@{/vendors/mdi/css/materialdesignicons.min.css}">
-    <link rel="stylesheet" href="../static/vendors/css/vendor.bundle.base.css"
+    <link href="../static/vendors/css/vendor.bundle.base.css" rel="stylesheet"
           th:href="@{/vendors/css/vendor.bundle.base.css}">
     <!-- endinject -->
     <!-- Plugin css for this page -->
-    <link rel="stylesheet" href="../static/vendors/select2/select2.min.css"
+    <link href="../static/vendors/select2/select2.min.css" rel="stylesheet"
           th:href="@{/vendors/select2/select2.min.css}">
-    <link rel="stylesheet" href="../static/vendors/select2-bootstrap-theme/select2-bootstrap.min.css"
+    <link href="../static/vendors/select2-bootstrap-theme/select2-bootstrap.min.css" rel="stylesheet"
           th:href="@{/vendors/select2-bootstrap-theme/select2-bootstrap.min.css}">
     <!-- Cool components that I wanna use -->
     <link rel="stylesheet" th:href="@{/scss/components/_checkbox-radio.scss}">
@@ -25,19 +26,19 @@
     <!-- inject:css -->
     <!-- endinject -->
     <!-- Layout styles -->
-    <link rel="stylesheet" type="text/css" media="all"
-          href="../static/css/homepage.css" th:href="@{/css/homepage.css}"/>
+    <link href="../static/css/homepage.css" media="all" rel="stylesheet"
+          th:href="@{/css/homepage.css}" type="text/css"/>
     <!-- End layout styles -->
-    <link rel="shortcut icon" href="assets/images/favicon.png"/>
+    <link href="assets/images/favicon.png" rel="shortcut icon"/>
 </head>
 <body>
 <div class="container-scroller">
     <!-- partial:partials/_sidebar.html -->
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-            <a class="sidebar-brand brand-logo" href="index.html"><img src="assets/images/logo.svg" alt="logo"/></a>
-            <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="assets/images/logo-mini.svg"
-                                                                            alt="logo"/></a>
+            <a class="sidebar-brand brand-logo" href="index.html"><img alt="logo" src="assets/images/logo.svg"/></a>
+            <a class="sidebar-brand brand-logo-mini" href="index.html"><img alt="logo"
+                                                                            src="assets/images/logo-mini.svg"/></a>
         </div>
         <ul class="nav">
             <li class="nav-item profile">
@@ -53,11 +54,11 @@
                             <span>Administrator</span>
                         </div>
                     </div>
-                    <a href="#" id="profile-dropdown" data-bs-toggle="dropdown"><i
+                    <a data-bs-toggle="dropdown" href="#" id="profile-dropdown"><i
                             class="mdi mdi-dots-vertical"></i></a>
-                    <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list"
-                         aria-labelledby="profile-dropdown">
-                        <a href="#" class="dropdown-item preview-item">
+                    <div aria-labelledby="profile-dropdown"
+                         class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list">
+                        <a class="dropdown-item preview-item" href="#">
                             <div class="preview-thumbnail">
                                 <div class="preview-icon bg-dark rounded-circle">
                                     <i class="mdi mdi-settings text-primary"></i>
@@ -160,17 +161,17 @@
         <!-- partial:partials/_navbar.html -->
         <nav class="navbar p-0 fixed-top d-flex flex-row">
             <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
-                <a class="navbar-brand brand-logo-mini" href="index.html"><img src="assets/images/logo-mini.svg"
-                                                                               alt="logo"/></a>
+                <a class="navbar-brand brand-logo-mini" href="index.html"><img alt="logo"
+                                                                               src="assets/images/logo-mini.svg"/></a>
             </div>
             <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
-                <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+                <button class="navbar-toggler navbar-toggler align-self-center" data-toggle="minimize" type="button">
                     <span class="mdi mdi-menu"></span>
                 </button>
                 <ul class="navbar-nav w-100">
                     <li class="nav-item w-100">
                         <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
-                            <input type="text" class="form-control" placeholder="Search products">
+                            <input class="form-control" placeholder="Search products" type="text">
                         </form>
                     </li>
                 </ul>
@@ -181,8 +182,8 @@
                         </a>
                     </li>
                 </ul>
-                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
-                        data-toggle="offcanvas">
+                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" data-toggle="offcanvas"
+                        type="button">
                     <span class="mdi mdi-format-line-spacing"></span>
                 </button>
             </div>
@@ -195,7 +196,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="/panel">Models</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Ranks</li>
+                            <li aria-current="page" class="breadcrumb-item active">Ranks</li>
                         </ol>
                     </nav>
                 </div>
@@ -203,30 +204,36 @@
                     <div class="col-md-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <p class="card-title" th:text="'Editing the ' + ${rank.displayName} + ' rank (' + ${rank.id} + ')'"></p>
+                                <p class="card-title"
+                                   th:text="'Editing the ' + ${rank.displayName} + ' rank (' + ${rank.id} + ')'"></p>
                                 <p class="card-description"> Input values to change them in Mongo.</p>
-                                <form class="forms-sample" th:action="@{'/api/change-rank/' + ${rank.id}}" method="post">
+                                <form class="forms-sample" method="post"
+                                      th:action="@{'/api/change-rank/' + ${rank.id}}">
                                     <div class="form-group">
                                         <label th:for="displayname">Display Name</label>
-                                        <input type="text" th:id="displayName" th:name="displayName" class="form-control"
-                                               th:placeholder="${rank.displayName}">
+                                        <input class="form-control" th:id="displayName" th:name="displayName"
+                                               th:placeholder="${rank.displayName}"
+                                               type="text">
                                     </div>
                                     <div class="form-group">
                                         <label th:for="prefix">Prefix</label>
-                                        <input type="text" th:id="prefix" th:name="prefix" class="form-control" id="prefix"
-                                               th:placeholder="${rank.prefix}">
+                                        <input class="form-control" id="prefix" th:id="prefix" th:name="prefix"
+                                               th:placeholder="${rank.prefix}"
+                                               type="text">
                                     </div>
                                     <div class="form-group">
                                         <label th:for="color">Color</label>
-                                        <input type="text" th:id="color" th:name="color" class="form-control" id="color"
-                                               th:placeholder="${rank.color}">
+                                        <input class="form-control" id="color" th:id="color" th:name="color"
+                                               th:placeholder="${rank.color}"
+                                               type="text">
                                     </div>
                                     <div class="form-group">
                                         <label th:for="weight">Weight</label>
-                                        <input type="text" th:id="weight" th:name="weight" class="form-control" id="weight"
-                                               th:placeholder="${rank.weight}">
+                                        <input class="form-control" id="weight" th:id="weight" th:name="weight"
+                                               th:placeholder="${rank.weight}"
+                                               type="text">
                                     </div>
-                                    <button type="submit" class="btn btn-primary me-2">Confirm Changes</button>
+                                    <button class="btn btn-primary me-2" type="submit">Confirm Changes</button>
                                     <button class="btn btn-dark">Cancel</button>
                                 </form>
                             </div>

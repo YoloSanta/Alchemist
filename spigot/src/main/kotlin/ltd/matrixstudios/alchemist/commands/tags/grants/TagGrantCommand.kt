@@ -22,14 +22,12 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.*
 
-class TagGrantCommand : BaseCommand()
-{
+class TagGrantCommand : BaseCommand() {
 
     @CommandAlias("taggrant|prefixgrant")
     @CommandPermission("alchemist.tags.admin")
     @CommandCompletion("@gameprofile")
-    fun tagGrant(player: Player, @Name("target") gameProfile: GameProfile)
-    {
+    fun tagGrant(player: Player, @Name("target") gameProfile: GameProfile) {
         TagGrantMenu(player, gameProfile).updateMenu()
     }
 
@@ -42,26 +40,21 @@ class TagGrantCommand : BaseCommand()
         @Name("tag") tag: String,
         @Name("duration") duration: String,
         @Name("reason") reason: String
-    )
-    {
+    ) {
         val time: Long
-        try
-        {
+        try {
             val parsed = TimeUtil.parseTime(duration)
-            time = if (parsed == Long.MAX_VALUE.toInt())
-            {
+            time = if (parsed == Long.MAX_VALUE.toInt()) {
                 Long.MAX_VALUE
             } else parsed * 1000L
-        } catch (e: Exception)
-        {
+        } catch (e: Exception) {
             sender.sendMessage(Chat.format("&cInvalid time!"))
             return
         }
 
         val found = TagService.byId(tag.lowercase(Locale.getDefault()))
 
-        if (found == null)
-        {
+        if (found == null) {
             sender.sendMessage(Chat.format("&cThis tag does not exist!"))
             return
         }

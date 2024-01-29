@@ -13,16 +13,13 @@ import org.bukkit.entity.Player
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object SendLoadedProfileMessage : BukkitPostLoginTask
-{
+object SendLoadedProfileMessage : BukkitPostLoginTask {
 
-    override fun run(player: Player)
-    {
+    override fun run(player: Player) {
         Bukkit.getScheduler().runTaskLater(AlchemistSpigotPlugin.instance, {
             val config = AlchemistSpigotPlugin.instance.config
 
-            if (config.getBoolean("profiles.load.sendMessage"))
-            {
+            if (config.getBoolean("profiles.load.sendMessage")) {
                 val msg = config.getString("profiles.load.message")
                 player.sendMessage(Chat.format(msg))
 

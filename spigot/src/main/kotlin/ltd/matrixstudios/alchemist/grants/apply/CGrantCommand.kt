@@ -23,8 +23,7 @@ import ltd.matrixstudios.alchemist.webhook.types.grants.GrantsNotification
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class CGrantCommand : BaseCommand()
-{
+class CGrantCommand : BaseCommand() {
 
     @CommandAlias("cgrant")
     @CommandPermission("alchemist.grants.admin")
@@ -36,8 +35,7 @@ class CGrantCommand : BaseCommand()
         @Name("duration") duration: String,
         @Name("scope") scope: GrantScope,
         @Name("reason") reason: String
-    )
-    {
+    ) {
         val rankGrant = RankGrant(
             rank.id,
             gameProfile.uuid,

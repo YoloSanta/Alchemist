@@ -6,11 +6,9 @@ import co.aikar.commands.contexts.ContextResolver
 import ltd.matrixstudios.alchemist.models.ranks.Rank
 import ltd.matrixstudios.alchemist.service.ranks.RankService
 
-class RankContextResolver : ContextResolver<Rank, BukkitCommandExecutionContext>
-{
+class RankContextResolver : ContextResolver<Rank, BukkitCommandExecutionContext> {
 
-    override fun getContext(c: BukkitCommandExecutionContext?): Rank?
-    {
+    override fun getContext(c: BukkitCommandExecutionContext?): Rank? {
         val firstArg = c!!.popFirstArg() ?: return null
 
         return RankService.byIdAnyCase(firstArg)

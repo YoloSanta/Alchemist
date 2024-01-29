@@ -4,8 +4,6 @@ import ltd.matrixstudios.alchemist.Alchemist
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.apache.maven.artifact.versioning.DefaultArtifactVersion
-import java.math.BigDecimal
-import kotlin.math.max
 
 
 /**
@@ -15,13 +13,11 @@ import kotlin.math.max
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object AlchemistRepositoryService
-{
+object AlchemistRepositoryService {
     var client: OkHttpClient = OkHttpClient()
 
 
-    fun checkLatestJarFile(version: DefaultArtifactVersion) : Pair<ResponseStatus, AlchemistRepositoryOverview.AlchemistJarFile?>
-    {
+    fun checkLatestJarFile(version: DefaultArtifactVersion): Pair<ResponseStatus, AlchemistRepositoryOverview.AlchemistJarFile?> {
         val request: Request = Request.Builder()
             .url("https://maven.matrixstudios.ltd/api/maven/details/public/ltd/matrixstudios/alchemist")
             .build()
@@ -37,18 +33,15 @@ object AlchemistRepositoryService
                 DefaultArtifactVersion(it.name)
             } ?: return Pair(ResponseStatus.CouldNotLoad, null)
 
-            if (DefaultArtifactVersion(latest.name) > version)
-            {
+            if (DefaultArtifactVersion(latest.name) > version) {
                 return Pair(ResponseStatus.NewerVersion, latest)
-            } else
-            {
+            } else {
                 return Pair(ResponseStatus.Latest, null)
             }
         }
     }
 
-    enum class ResponseStatus
-    {
+    enum class ResponseStatus {
         NewerVersion, CouldNotLoad, Latest
     }
 }

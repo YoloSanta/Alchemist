@@ -16,14 +16,11 @@ import java.util.*
  * @website https://solo.to/redis
  */
 class GrantMessageTargetPacket(val target: UUID, val rank: Rank, val duration: Long) :
-    RedisPacket("grant-message-target")
-{
-    override fun action()
-    {
+    RedisPacket("grant-message-target") {
+    override fun action() {
         val player = Bukkit.getPlayer(target)
 
-        if (player != null && player.isOnline)
-        {
+        if (player != null && player.isOnline) {
             val message = AlchemistSpigotPlugin.instance.config.getString("grant-message")
 
             player.sendMessage(

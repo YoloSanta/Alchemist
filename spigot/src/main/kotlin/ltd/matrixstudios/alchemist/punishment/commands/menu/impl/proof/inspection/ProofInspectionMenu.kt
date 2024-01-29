@@ -1,11 +1,9 @@
 package ltd.matrixstudios.alchemist.punishment.commands.menu.impl.proof.inspection
 
-import ltd.matrixstudios.alchemist.Alchemist
 import ltd.matrixstudios.alchemist.api.AlchemistAPI
 import ltd.matrixstudios.alchemist.models.grant.types.Punishment
 import ltd.matrixstudios.alchemist.models.grant.types.proof.ProofEntry
 import ltd.matrixstudios.alchemist.punishment.commands.menu.impl.proof.ProofMenu
-import ltd.matrixstudios.alchemist.punishment.commands.menu.impl.proof.sub.ProofSelectTypeMenu
 import ltd.matrixstudios.alchemist.service.expirable.PunishmentService
 import ltd.matrixstudios.alchemist.util.Chat
 import ltd.matrixstudios.alchemist.util.menu.Button
@@ -14,17 +12,14 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 
-class ProofInspectionMenu(val player: Player, val punishment: Punishment, val proofEntry: ProofEntry) : Menu(player)
-{
+class ProofInspectionMenu(val player: Player, val punishment: Punishment, val proofEntry: ProofEntry) : Menu(player) {
 
-    init
-    {
+    init {
         staticSize = 27
         placeholder = true
     }
 
-    override fun getButtons(player: Player): MutableMap<Int, Button>
-    {
+    override fun getButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
 
         buttons[12] = ProofInspectionButton(ProofEntry.ReviewStatus.ACCEPTED, punishment, proofEntry)
@@ -34,38 +29,35 @@ class ProofInspectionMenu(val player: Player, val punishment: Punishment, val pr
         return buttons
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return "Inspecting Proof..."
     }
 
 
-    class ProofInspectionButton(private val outcome: ProofEntry.ReviewStatus, val punishment: Punishment, val proofEntry: ProofEntry) : Button()
-    {
-        override fun getMaterial(player: Player): Material
-        {
+    class ProofInspectionButton(
+        private val outcome: ProofEntry.ReviewStatus,
+        val punishment: Punishment,
+        val proofEntry: ProofEntry
+    ) : Button() {
+        override fun getMaterial(player: Player): Material {
             return Material.WOOL
         }
 
-        override fun getDescription(player: Player): MutableList<String>?
-        {
+        override fun getDescription(player: Player): MutableList<String>? {
             return mutableListOf(
                 Chat.format("&aLeft-Click to set the status to ${outcome.displayName}")
             )
         }
 
-        override fun getDisplayName(player: Player): String?
-        {
+        override fun getDisplayName(player: Player): String? {
             return Chat.format(outcome.displayName)
         }
 
-        override fun getData(player: Player): Short
-        {
+        override fun getData(player: Player): Short {
             return AlchemistAPI.getWoolColor(outcome.displayName).woolData.toShort()
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType)
-        {
+        override fun onClick(player: Player, slot: Int, type: ClickType) {
             punishment.proof.remove(proofEntry)
 
             proofEntry.reviewStatus = outcome

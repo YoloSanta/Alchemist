@@ -11,8 +11,7 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 
-class PunishmentsButton(val theme: Theme, val player: Player) : Button()
-{
+class PunishmentsButton(val theme: Theme, val player: Player) : Button() {
 
     var fakeGrant = Punishment(
         PunishmentType.BAN.name,
@@ -25,28 +24,23 @@ class PunishmentsButton(val theme: Theme, val player: Player) : Button()
         DefaultActor(Executor.CONSOLE, ActorType.GAME)
     )
 
-    override fun getMaterial(player: Player): Material
-    {
+    override fun getMaterial(player: Player): Material {
         return Material.WOOL
     }
 
-    override fun getDescription(player: Player): MutableList<String>
-    {
+    override fun getDescription(player: Player): MutableList<String> {
         return theme.getHistoryLore(player, fakeGrant)
     }
 
-    override fun getDisplayName(player: Player): String
-    {
+    override fun getDisplayName(player: Player): String {
         return theme.getHistoryDisplayName(player, fakeGrant)
     }
 
-    override fun getData(player: Player): Short
-    {
+    override fun getData(player: Player): Short {
         return theme.getHistoryData(player, fakeGrant)
     }
 
-    override fun onClick(player: Player, slot: Int, type: ClickType)
-    {
+    override fun onClick(player: Player, slot: Int, type: ClickType) {
         return
     }
 }

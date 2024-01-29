@@ -12,42 +12,34 @@ class SkullButtonOnlyName(
     var owner: String,
     var displayName: String,
     var lore: MutableList<String>
-) : Button()
-{
+) : Button() {
     var body: ((Player, Int, ClickType) -> Unit)? = null
 
-    fun setBody(body: ((Player, Int, ClickType) -> Unit)?): SkullButtonOnlyName
-    {
+    fun setBody(body: ((Player, Int, ClickType) -> Unit)?): SkullButtonOnlyName {
         return this.apply { this.body = body }
     }
 
-    override fun getButtonItem(player: Player): ItemStack
-    {
+    override fun getButtonItem(player: Player): ItemStack {
         return ItemBuilder.copyOf(SkullUtil.generate(owner, Chat.format(displayName))).setLore(lore).build()
     }
 
-    override fun getMaterial(player: Player): Material
-    {
+    override fun getMaterial(player: Player): Material {
         return Material.DIAMOND_SWORD
     }
 
-    override fun getDescription(player: Player): MutableList<String>
-    {
+    override fun getDescription(player: Player): MutableList<String> {
         return mutableListOf()
     }
 
-    override fun getDisplayName(player: Player): String
-    {
+    override fun getDisplayName(player: Player): String {
         return "&cError"
     }
 
-    override fun getData(player: Player): Short
-    {
+    override fun getData(player: Player): Short {
         return 0
     }
 
-    override fun onClick(player: Player, slot: Int, type: ClickType)
-    {
+    override fun onClick(player: Player, slot: Int, type: ClickType) {
         TODO("Not yet implemented")
     }
 

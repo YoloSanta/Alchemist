@@ -24,18 +24,14 @@ import java.util.*
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class MyCartMenu(val player: Player) : BorderedPaginatedMenu(player)
-{
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
-    {
+class MyCartMenu(val player: Player) : BorderedPaginatedMenu(player) {
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
         val currentCart = CartHandler.carts[player.uniqueId]
         val buttons = mutableMapOf<Int, Button>()
         var i = 0
 
-        if (currentCart != null)
-        {
-            for (item in currentCart.items)
-            {
+        if (currentCart != null) {
+            for (item in currentCart.items) {
                 buttons[i++] = CartItem(item)
             }
         }
@@ -43,8 +39,7 @@ class MyCartMenu(val player: Player) : BorderedPaginatedMenu(player)
         return buttons
     }
 
-    override fun getHeaderItems(player: Player): MutableMap<Int, Button>
-    {
+    override fun getHeaderItems(player: Player): MutableMap<Int, Button> {
         return mutableMapOf(
             1 to Button.placeholder(),
             2 to Button.placeholder(),
@@ -56,14 +51,12 @@ class MyCartMenu(val player: Player) : BorderedPaginatedMenu(player)
                 0
             ).setBody { player, i, clickType ->
                 val currentCart = CartHandler.carts[player.uniqueId]
-                if (currentCart != null)
-                {
+                if (currentCart != null) {
                     val items = currentCart.items
                     val price = currentCart.getCombinedPrice()
                     val profile = player.getProfile()
 
-                    if (profile == null)
-                    {
+                    if (profile == null) {
                         player.sendMessage(Chat.format("&cYou cannot check out with an invalid profile!"))
                         player.closeInventory()
                         return@setBody
@@ -71,8 +64,7 @@ class MyCartMenu(val player: Player) : BorderedPaginatedMenu(player)
 
                     val coins = profile.coins
 
-                    if (coins < price)
-                    {
+                    if (coins < price) {
                         player.sendMessage(Chat.format("&cYou have insufficient funds! You need " + price.minus(coins) + " more coins to make this transaction"))
                         player.closeInventory()
                         return@setBody
@@ -82,12 +74,10 @@ class MyCartMenu(val player: Player) : BorderedPaginatedMenu(player)
                     profile.coins = (profile.coins - price.toInt())
                     ProfileGameService.save(profile)
 
-                    for (item in items)
-                    {
+                    for (item in items) {
                         val commands = item.commands
 
-                        for (command in commands)
-                        {
+                        for (command in commands) {
                             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("<target>", player.name))
                         }
                     }
@@ -127,12 +117,10 @@ class MyCartMenu(val player: Player) : BorderedPaginatedMenu(player)
         )
     }
 
-    fun getCheckoutDesc(cart: Cart): MutableList<String>
-    {
+    fun getCheckoutDesc(cart: Cart): MutableList<String> {
         val desc = mutableListOf<String>()
         desc.add(" ")
-        for (item in cart.items)
-        {
+        for (item in cart.items) {
             desc.add(
                 Chat.format(
                     "&7- &r${item.displayName} " +
@@ -151,35 +139,28 @@ class MyCartMenu(val player: Player) : BorderedPaginatedMenu(player)
         return desc
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return "Your Cart"
     }
 
-    class CartItem(val item: CoinShopItem) : Button()
-    {
-        override fun getMaterial(player: Player): Material
-        {
+    class CartItem(val item: CoinShopItem) : Button() {
+        override fun getMaterial(player: Player): Material {
             return Material.getMaterial(item.displayMaterial) ?: Material.PAPER
         }
 
-        override fun getDescription(player: Player): MutableList<String>
-        {
+        override fun getDescription(player: Player): MutableList<String> {
             return item.lore.map { Chat.format(it) }.toMutableList()
         }
 
-        override fun getDisplayName(player: Player): String
-        {
+        override fun getDisplayName(player: Player): String {
             return Chat.format(item.displayName)
         }
 
-        override fun getData(player: Player): Short
-        {
+        override fun getData(player: Player): Short {
             return item.data
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType)
-        {
+        override fun onClick(player: Player, slot: Int, type: ClickType) {
         }
 
     }

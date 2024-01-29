@@ -14,10 +14,8 @@ import java.util.*
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object TeamViewFeature
-{
-    fun sendStaffTeamView(player: Player)
-    {
+object TeamViewFeature {
+    fun sendStaffTeamView(player: Player) {
         //thanks @dash for code :D
         LunarClientAPI.getInstance().sendTeammates(player, LCPacketTeammates(
             player.uniqueId,
@@ -35,8 +33,7 @@ object TeamViewFeature
         ))
     }
 
-    fun clearTeamView(player: Player)
-    {
+    fun clearTeamView(player: Player) {
         LunarClientAPI.getInstance().sendTeammates(
             player, LCPacketTeammates(player.uniqueId, System.currentTimeMillis(), emptyMap())
         )

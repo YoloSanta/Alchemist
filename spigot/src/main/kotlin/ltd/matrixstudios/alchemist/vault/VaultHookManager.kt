@@ -3,14 +3,11 @@ package ltd.matrixstudios.alchemist.vault
 import ltd.matrixstudios.alchemist.AlchemistSpigotPlugin
 import ltd.matrixstudios.alchemist.vault.permission.VaultPermissionExtension
 
-object VaultHookManager
-{
+object VaultHookManager {
     private var using = false
 
-    fun loadVault()
-    {
-        if (AlchemistSpigotPlugin.instance.server.pluginManager.getPlugin("Vault") != null)
-        {
+    fun loadVault() {
+        if (AlchemistSpigotPlugin.instance.server.pluginManager.getPlugin("Vault") != null) {
             using = true
 
             val prov = VaultPermissionExtension()

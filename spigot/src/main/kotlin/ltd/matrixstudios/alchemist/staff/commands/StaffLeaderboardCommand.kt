@@ -20,12 +20,10 @@ import java.util.concurrent.CompletableFuture
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object StaffLeaderboardCommand : BaseCommand()
-{
+object StaffLeaderboardCommand : BaseCommand() {
     @CommandAlias("staffleaderboard")
     @CommandPermission("alchemist.staff.leaderboards")
-    fun staffLeaderboard(player: Player): CompletableFuture<Void>
-    {
+    fun staffLeaderboard(player: Player): CompletableFuture<Void> {
         player.sendMessage(Chat.format("&eOpening up the &astaff leaderboard&e! &ePlease wait, this may take a moment."))
 
         return ProfileGameService.handler.retrieveAllAsync().thenAcceptAsync {
@@ -47,13 +45,11 @@ object StaffLeaderboardCommand : BaseCommand()
     fun exclusivelyLoadEntries(
         types: List<PunishmentType>,
         users: MutableList<GameProfile>
-    ): CompletableFuture<MutableMap<Int, Button>>
-    {
+    ): CompletableFuture<MutableMap<Int, Button>> {
         val toLoad = mutableMapOf<Int, Button>()
         var i = 11
 
-        for (type in types)
-        {
+        for (type in types) {
             toLoad[i++] = StaffLeaderboardMenu.LeaderboardPunishmentButton(type, fetchFirst10Entries(type, users))
         }
 
@@ -63,8 +59,7 @@ object StaffLeaderboardCommand : BaseCommand()
 
     fun fetchFirst10Entries(
         type: PunishmentType, toPickFrom: MutableList<GameProfile>
-    ): MutableList<GameProfile>
-    {
+    ): MutableList<GameProfile> {
         return mutableListOf<GameProfile>().apply {
             val toAdd = toPickFrom
                 .sortedByDescending {

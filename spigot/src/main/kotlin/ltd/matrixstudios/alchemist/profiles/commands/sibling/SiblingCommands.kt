@@ -19,18 +19,15 @@ import org.bukkit.entity.Player
  */
 @CommandAlias("sibling")
 @CommandPermission("alchemist.siblings")
-class SiblingCommands : BaseCommand()
-{
+class SiblingCommands : BaseCommand() {
 
     @HelpCommand
-    fun help(help: CommandHelp)
-    {
+    fun help(help: CommandHelp) {
         help.showHelp()
     }
 
     @Subcommand("add")
-    fun add(sender: CommandSender, @Name("target") target: GameProfile, @Name("sibling") sibling: GameProfile)
-    {
+    fun add(sender: CommandSender, @Name("target") target: GameProfile, @Name("sibling") sibling: GameProfile) {
         target.getAllSiblings().add(sibling.uuid)
         sibling.getAllSiblings().add(target.uuid)
         ProfileGameService.save(target)
@@ -41,8 +38,7 @@ class SiblingCommands : BaseCommand()
     }
 
     @Subcommand("check")
-    fun check(player: Player, @Name("target") target: GameProfile)
-    {
+    fun check(player: Player, @Name("target") target: GameProfile) {
         SiblingCheckMenu(target, player).updateMenu()
     }
 }

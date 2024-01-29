@@ -15,28 +15,24 @@ import org.bukkit.command.CommandSender
 import java.util.*
 import java.util.concurrent.CompletableFuture
 
-class IpReportCommand : BaseCommand()
-{
+class IpReportCommand : BaseCommand() {
 
     @CommandAlias("ipreport")
     @CommandPermission("alchemist.ipreport")
-    fun ipreport(sender: CommandSender)
-    {
+    fun ipreport(sender: CommandSender) {
         loadIpReport().thenAccept {
             sender.sendMessage(Chat.format("&7[&f&oMuted Alt&7, &cBanned Alt&7, &4Blacklisted Alt&7]"))
             sender.sendMessage(Chat.format("&aEveryone's &ealts (&6${it.size}&e):"))
             val finalMessage = Component.text()
             val list = if (it.size > 350) it.take(350) else it
-            for (target in list)
-            {
+            for (target in list) {
                 val userComponent =
                     Component.text(Chat.format((target.getPunishmentedPrefix() + target.username) + "&7, "))
                         .hoverEvent(HoverEvent.showText(createHover(target)))
                 finalMessage.append(userComponent)
             }
 
-            if (it.size > 350)
-            {
+            if (it.size > 350) {
                 sender.sendMessage(Chat.format("&c(Only displaying first 350 entries...)"))
             }
 
@@ -49,8 +45,7 @@ class IpReportCommand : BaseCommand()
             .mapNotNull { it.getProfile() }
     }
 
-    fun createHover(target: GameProfile): Component
-    {
+    fun createHover(target: GameProfile): Component {
         val hoverComponent =
             Component.text("Name: ").color(NamedTextColor.YELLOW).append(
                 Component.text(target.username).color(Chat.findTextColorFromString(target.getCurrentRank().color))

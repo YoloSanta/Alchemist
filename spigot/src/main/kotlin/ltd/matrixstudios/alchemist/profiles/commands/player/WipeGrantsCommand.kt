@@ -18,14 +18,12 @@ import java.util.concurrent.CompletableFuture
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object WipeGrantsCommand : BaseCommand()
-{
+object WipeGrantsCommand : BaseCommand() {
 
     @CommandAlias("wipegrants")
     @CommandCompletion("@gameprofile")
     @CommandPermission("alchemist.profiles.admin")
-    fun wipeGrants(sender: CommandSender, @Name("target") gameProfile: GameProfile): CompletableFuture<Void>
-    {
+    fun wipeGrants(sender: CommandSender, @Name("target") gameProfile: GameProfile): CompletableFuture<Void> {
         val ms = System.currentTimeMillis()
         val future = RankGrantService.findByTarget(gameProfile.uuid).thenAccept { collection ->
             for (found in collection) RankGrantService.remove(found)

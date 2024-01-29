@@ -1,7 +1,7 @@
 name: 💡 Request a Feature
 description: Suggest a feature you want to see in Alchemist!
 title: "[Idea]: "
-labels: ["Type: Idea"]
+labels: [ "Type: Idea" ]
 body:
   - type: markdown
     attributes:

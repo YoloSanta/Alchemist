@@ -15,27 +15,21 @@ import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 import java.util.logging.Level
 
-class LookupCommand : BaseCommand()
-{
+class LookupCommand : BaseCommand() {
 
     @CommandAlias("lookup|find|whereis|seen")
     @CommandPermission("alchemist.staff")
     @CommandCompletion("@gameprofile")
-    fun lookup(player: Player, @Name("target") gameProfile: GameProfile)
-    {
+    fun lookup(player: Player, @Name("target") gameProfile: GameProfile) {
         val start = System.currentTimeMillis()
         player.sendMessage(Chat.format("&aLooking up player..."))
-        object : BukkitRunnable()
-        {
-            override fun run()
-            {
+        object : BukkitRunnable() {
+            override fun run() {
                 val serverFromProfile = gameProfile.metadata.get("server")
 
-                if (serverFromProfile != null && !serverFromProfile.asString.equals("None", ignoreCase = true))
-                {
+                if (serverFromProfile != null && !serverFromProfile.asString.equals("None", ignoreCase = true)) {
                     player.sendMessage(Chat.format(AlchemistAPI.getRankDisplay(gameProfile.uuid) + " &ewas found on &f${serverFromProfile.asString}"))
-                } else
-                {
+                } else {
                     player.sendMessage(
                         Chat.format(
                             AlchemistAPI.getRankDisplay(gameProfile.uuid) + " &ewas last online &f${

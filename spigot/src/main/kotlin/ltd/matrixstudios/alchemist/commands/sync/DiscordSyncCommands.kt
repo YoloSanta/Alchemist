@@ -10,19 +10,16 @@ import org.bukkit.entity.Player
 import java.util.*
 
 @CommandAlias("sync")
-object DiscordSyncCommands : BaseCommand()
-{
+object DiscordSyncCommands : BaseCommand() {
 
     @Default
-    fun sync(sender: Player)
-    {
+    fun sync(sender: Player) {
         val gameProfile = ProfileGameService.byId(sender.uniqueId)
             ?: throw ConditionFailedException("You do not currently have a profile!")
 
         val currentCode = gameProfile.syncCode
 
-        if (currentCode != null)
-        {
+        if (currentCode != null) {
             sender.sendMessage(Chat.format("&eYour sync code is &a${currentCode}&e! Use it in our &6Discord Server &ein order to link your in-game rank and your discord rank."))
             return
         }
@@ -38,8 +35,7 @@ object DiscordSyncCommands : BaseCommand()
     @Subcommand("check")
     @CommandCompletion("@gameprofile")
     @CommandPermission("alchemist.sync.admin")
-    fun check(sender: Player, @Name("target") gameProfile: GameProfile)
-    {
+    fun check(sender: Player, @Name("target") gameProfile: GameProfile) {
         val syncCode = gameProfile.syncCode
             ?: throw ConditionFailedException("This player does not have a a sync code!")
 
@@ -49,8 +45,7 @@ object DiscordSyncCommands : BaseCommand()
     @Subcommand("delete")
     @CommandCompletion("@players")
     @CommandPermission("alchemist.sync.admin")
-    fun delete(sender: Player, @Name("username") targetUsername: String)
-    {
+    fun delete(sender: Player, @Name("username") targetUsername: String) {
         val targetGameProfile = ProfileGameService.byId(sender.uniqueId)
             ?: throw ConditionFailedException("This player does not have a profile!")
 
@@ -61,8 +56,7 @@ object DiscordSyncCommands : BaseCommand()
         sender.sendMessage(Chat.format("&aThe sync code has been deleted from &r${targetGameProfile.getRankDisplay()}&a."))
     }
 
-    private fun generateUniqueCode(): String
-    {
+    private fun generateUniqueCode(): String {
         val characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         val random = Random()
         return (1..7).map { characters[random.nextInt(characters.length)] }.joinToString("")

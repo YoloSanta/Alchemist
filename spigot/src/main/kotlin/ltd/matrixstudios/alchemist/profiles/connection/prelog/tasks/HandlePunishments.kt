@@ -16,16 +16,13 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object HandlePunishments : BukkitPreLoginTask
-{
+object HandlePunishments : BukkitPreLoginTask {
 
-    override fun run(event: AsyncPlayerPreLoginEvent)
-    {
+    override fun run(event: AsyncPlayerPreLoginEvent) {
         val profileId = event.uniqueId
         val profile = AlchemistAPI.syncFindProfile(profileId) ?: return
 
-        if (profile.hasActivePunishment(PunishmentType.BAN) || profile.hasActivePunishment(PunishmentType.BLACKLIST))
-        {
+        if (profile.hasActivePunishment(PunishmentType.BAN) || profile.hasActivePunishment(PunishmentType.BLACKLIST)) {
             val option = profile.hasActivePunishment(PunishmentType.BAN)
             val punishment =
                 profile.getActivePunishments(if (option) PunishmentType.BAN else PunishmentType.BLACKLIST).firstOrNull()
@@ -48,8 +45,7 @@ object HandlePunishments : BukkitPreLoginTask
             return
         }
 
-        if (profile.alternateAccountHasBlacklist())
-        {
+        if (profile.alternateAccountHasBlacklist()) {
             val detectedPunishment: Punishment = profile.getFirstBlacklistFromAlts() ?: return
 
             val msgs = AlchemistSpigotPlugin.instance.config.getStringList("blacklisted-join-related")
@@ -74,8 +70,7 @@ object HandlePunishments : BukkitPreLoginTask
         }
     }
 
-    override fun shouldBeLazy(): Boolean
-    {
+    override fun shouldBeLazy(): Boolean {
         return true
     }
 }

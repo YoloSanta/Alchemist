@@ -6,8 +6,8 @@ import ltd.matrixstudios.alchemist.models.website.AlchemistUser
 import ltd.matrixstudios.alchemist.service.GeneralizedService
 import org.bson.Document
 import java.util.*
-object WebProfileService : GeneralizedService
-{
+
+object WebProfileService : GeneralizedService {
     var handler = Alchemist.dataHandler.createStoreType<UUID, AlchemistUser>(DataStoreType.MONGO)
     val collection = Alchemist.MongoConnectionPool.getCollection("alchemistuser")
 

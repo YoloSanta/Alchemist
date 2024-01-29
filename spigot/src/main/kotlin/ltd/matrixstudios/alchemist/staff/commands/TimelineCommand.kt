@@ -11,13 +11,11 @@ import org.bukkit.entity.Player
 import java.text.SimpleDateFormat
 import java.util.*
 
-class TimelineCommand : BaseCommand()
-{
+class TimelineCommand : BaseCommand() {
 
     @CommandAlias("timeline|stafftimeline")
     @CommandPermission("alchemist.staff")
-    fun timeline(player: Player)
-    {
+    fun timeline(player: Player) {
         val profile = AlchemistAPI.syncFindProfile(player.uniqueId) ?: return
         val grants = RankGrantService.getFromCache(profile.uuid).filter { it.getGrantable().staff }
             .sortedByDescending { System.currentTimeMillis().minus(it.expirable.addedAt) }
@@ -28,17 +26,14 @@ class TimelineCommand : BaseCommand()
         player.sendMessage(Chat.format("&7&m------------------------"))
         player.sendMessage(Chat.format("&6&lStaff Timeline"))
         player.sendMessage(" ")
-        if (grants.isEmpty())
-        {
+        if (grants.isEmpty()) {
             player.sendMessage(Chat.format("&cNo previous staff ranks!"))
         }
 
-        for (grant in grants)
-        {
+        for (grant in grants) {
             val rank = grant.getGrantable()
 
-            if (alreadyShownRanks.contains(rank))
-            {
+            if (alreadyShownRanks.contains(rank)) {
                 continue
             }
 

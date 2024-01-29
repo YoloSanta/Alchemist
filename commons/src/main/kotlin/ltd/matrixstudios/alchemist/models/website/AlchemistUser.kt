@@ -1,6 +1,6 @@
 package ltd.matrixstudios.alchemist.models.website
 
-import java.util.UUID
+import java.util.*
 
 /**
  * Class created on 11/24/2023
@@ -19,11 +19,11 @@ data class AlchemistUser(
     var authenticated: Boolean = false,
     var permissions: MutableList<String> = mutableListOf()
 ) {
-    fun hasPermission(permission: String) : Boolean {
+    fun hasPermission(permission: String): Boolean {
         return permissions.contains(permission);
     }
 
-    fun getNiceUUID() : String {
+    fun getNiceUUID(): String {
         return minecraft_uuid.toString().replace("-", "")
     }
 }

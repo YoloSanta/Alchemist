@@ -19,10 +19,8 @@ import java.util.logging.Level
  * @project Alchemist
  * @website https://solo.to/redis
  */
-object LoadProfile : BukkitPreLoginTask
-{
-    override fun run(event: AsyncPlayerPreLoginEvent)
-    {
+object LoadProfile : BukkitPreLoginTask {
+    override fun run(event: AsyncPlayerPreLoginEvent) {
         val start = System.currentTimeMillis()
         val profile = ProfileGameService.loadProfile(event.uniqueId, event.name)
 
@@ -44,8 +42,7 @@ object LoadProfile : BukkitPreLoginTask
         profile.lowercasedUsername = event.name.lowercase(Locale.getDefault())
         profile.ip = output
 
-        if (profile.currentSession == null)
-        {
+        if (profile.currentSession == null) {
             profile.currentSession = profile.createNewSession(currentServer)
         }
 
@@ -55,8 +52,7 @@ object LoadProfile : BukkitPreLoginTask
         ProfileGameService.saveSync(profile)
     }
 
-    override fun shouldBeLazy(): Boolean
-    {
+    override fun shouldBeLazy(): Boolean {
         return false
     }
 }

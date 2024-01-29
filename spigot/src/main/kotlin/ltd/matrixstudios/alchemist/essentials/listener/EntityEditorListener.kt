@@ -6,19 +6,15 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerInteractEntityEvent
 
-class EntityEditorListener : Listener
-{
+class EntityEditorListener : Listener {
 
     @EventHandler
-    fun onEntityClick(e: PlayerInteractEntityEvent)
-    {
+    fun onEntityClick(e: PlayerInteractEntityEvent) {
         val entity = e.rightClicked ?: return
         val item = e.player.itemInHand
 
-        if (item.isSimilar(EntityCommands.item))
-        {
-            if (e.player.hasPermission("alchemist.essentials.editentity"))
-            {
+        if (item.isSimilar(EntityCommands.item)) {
+            if (e.player.hasPermission("alchemist.essentials.editentity")) {
                 EntityEditorMenu(e.player, entity).openMenu()
             }
         }

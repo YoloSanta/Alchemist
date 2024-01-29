@@ -12,28 +12,23 @@ import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 import java.util.*
 
-class CoinShopCategoryEditor(val player: Player) : BorderedPaginatedMenu(player)
-{
-    override fun getPagesButtons(player: Player): MutableMap<Int, Button>
-    {
+class CoinShopCategoryEditor(val player: Player) : BorderedPaginatedMenu(player) {
+    override fun getPagesButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
         var i = 0
 
-        for (item in CoinShopManager.categoryMap.values)
-        {
+        for (item in CoinShopManager.categoryMap.values) {
             buttons[i++] = CoinShopCategoryButton(item)
         }
 
         return buttons
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return Chat.format("&7[Editor] &eCoin Shop Categories")
     }
 
-    override fun getHeaderItems(player: Player): MutableMap<Int, Button>
-    {
+    override fun getHeaderItems(player: Player): MutableMap<Int, Button> {
         return mutableMapOf(
             1 to Button.placeholder(),
             2 to Button.placeholder(),
@@ -85,15 +80,12 @@ class CoinShopCategoryEditor(val player: Player) : BorderedPaginatedMenu(player)
         )
     }
 
-    class CoinShopCategoryButton(val item: CoinShopCategory) : Button()
-    {
-        override fun getMaterial(player: Player): Material
-        {
+    class CoinShopCategoryButton(val item: CoinShopCategory) : Button() {
+        override fun getMaterial(player: Player): Material {
             return Material.getMaterial(item.displayItem) ?: return Material.PAPER
         }
 
-        override fun getDescription(player: Player): MutableList<String>
-        {
+        override fun getDescription(player: Player): MutableList<String> {
             val desc = mutableListOf<String>()
             desc.add(" ")
             desc.add(Chat.format("&6&l｜ &eItem: &f${item.displayItem}"))
@@ -115,18 +107,15 @@ class CoinShopCategoryEditor(val player: Player) : BorderedPaginatedMenu(player)
             return desc
         }
 
-        override fun getDisplayName(player: Player): String
-        {
+        override fun getDisplayName(player: Player): String {
             return Chat.format(item.displayName)
         }
 
-        override fun getData(player: Player): Short
-        {
+        override fun getData(player: Player): Short {
             return item.data
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType)
-        {
+        override fun onClick(player: Player, slot: Int, type: ClickType) {
             EditCategoryAttributesMenu(player, item).openMenu()
         }
 

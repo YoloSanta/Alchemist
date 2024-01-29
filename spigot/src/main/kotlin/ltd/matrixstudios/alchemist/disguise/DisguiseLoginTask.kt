@@ -10,22 +10,20 @@ import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.entity.Player
 
-object DisguiseLoginTask :  BukkitPostLoginTask
-{
-    override fun run(player: Player)
-    {
+object DisguiseLoginTask : BukkitPostLoginTask {
+    override fun run(player: Player) {
         Bukkit.getScheduler().runTaskLater(AlchemistSpigotPlugin.instance, Runnable {
             val profile = player.getProfile()
                 ?: return@Runnable
             val attribute = profile.skinDisguiseAttribute
 
-            if (attribute != null)
-            {
+            if (attribute != null) {
                 player.displayName = attribute.customName
                 player.playerListName = player.displayName
                 player.customName = player.displayName
 
-                DisguiseAPI.getDefaultProvider().updatePlayer(player, Skin(attribute.texture, attribute.signature), attribute.customName)
+                DisguiseAPI.getDefaultProvider()
+                    .updatePlayer(player, Skin(attribute.texture, attribute.signature), attribute.customName)
                 val location = player.location
 
                 // refresh player skin

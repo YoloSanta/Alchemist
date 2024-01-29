@@ -1,6 +1,5 @@
 package ltd.matrixstudios.website.login.handling
 
-import ltd.matrixstudios.alchemist.service.profiles.ProfileGameService
 import ltd.matrixstudios.website.user.loader.UserServicesComponent
 import org.springframework.security.core.Authentication
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
@@ -9,6 +8,7 @@ import java.io.IOException
 import javax.servlet.ServletException
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
+
 /**
  * Class created on 11/24/2023
 
@@ -17,18 +17,17 @@ import javax.servlet.http.HttpServletResponse
  * @website https://solo.to/redis
  */
 @Component
-class AuthSuccessHandler : AuthenticationSuccessHandler
-{
+class AuthSuccessHandler : AuthenticationSuccessHandler {
 
     @Throws(IOException::class, ServletException::class)
     override fun onAuthenticationSuccess(
         request: HttpServletRequest,
         response: HttpServletResponse, authentication: Authentication
-    )
-    {
+    ) {
         // set our response to OK status
         response.status = HttpServletResponse.SC_OK
-        val user = UserServicesComponent.userService.findUserByName(authentication.name) ?: throw RuntimeException("Authentication not found")
+        val user = UserServicesComponent.userService.findUserByName(authentication.name)
+            ?: throw RuntimeException("Authentication not found")
 
         request.session.setAttribute("user", user)
         println("Success! User is $user")

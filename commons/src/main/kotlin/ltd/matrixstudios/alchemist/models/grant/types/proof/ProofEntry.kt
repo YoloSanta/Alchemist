@@ -1,7 +1,6 @@
 package ltd.matrixstudios.alchemist.models.grant.types.proof
 
-import ltd.matrixstudios.alchemist.models.profile.GameProfile
-import java.util.UUID
+import java.util.*
 
 data class ProofEntry(
     val link: String,
@@ -16,8 +15,7 @@ data class ProofEntry(
 
     enum class ProofType(
         val displayName: String,
-    )
-    {
+    ) {
         VIDEO("&6Videos"),
         IMAGES("&6Images"),
         STAFF_SUPERVISION("&6Classified")
@@ -25,8 +23,7 @@ data class ProofEntry(
 
     enum class ReviewStatus(
         val displayName: String
-    )
-    {
+    ) {
         ACCEPTED("&aAccepted"), REPUNISHED("&6Change Punishment"), REJECTED("&cRejected")
     }
 }

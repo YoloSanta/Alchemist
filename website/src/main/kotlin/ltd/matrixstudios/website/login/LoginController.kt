@@ -17,15 +17,13 @@ import org.springframework.web.servlet.ModelAndView
  * @website https://solo.to/redis
  */
 @Controller
-class LoginController
-{
+class LoginController {
 
     @RequestMapping(value = ["/login"], method = [RequestMethod.GET])
     fun onLoginRequest(): ModelAndView = ModelAndView("login")
 
     @RequestMapping(value = ["/register"], method = [RequestMethod.GET])
-    fun onRegistrationRequest(): ModelAndView
-    {
+    fun onRegistrationRequest(): ModelAndView {
         val modelAndView = ModelAndView()
         val user = AlchemistUser()
         modelAndView.addObject("user", user)
@@ -34,13 +32,11 @@ class LoginController
     }
 
     @RequestMapping(value = ["/register"], method = [RequestMethod.POST])
-    fun createNewUser(form: AlchemistFormSubmission?, bindingResult: BindingResult): ModelAndView
-    {
+    fun createNewUser(form: AlchemistFormSubmission?, bindingResult: BindingResult): ModelAndView {
         val modelAndView = ModelAndView("register")
-        val existing =  UserServicesComponent.userService.findUserByName(form!!.username)
+        val existing = UserServicesComponent.userService.findUserByName(form!!.username)
 
-        if (existing == null)
-        {
+        if (existing == null) {
             bindingResult
                 .rejectValue(
                     "username", "error.user",
@@ -50,8 +46,7 @@ class LoginController
             return modelAndView
         }
 
-        if (existing.authenticated)
-        {
+        if (existing.authenticated) {
             bindingResult
                 .rejectValue(
                     "username", "error.user",
@@ -64,10 +59,8 @@ class LoginController
 
         val secret = form.secret ?: return modelAndView
 
-        if (secret == existing.secret)
-        {
-            if (!bindingResult.hasErrors())
-            {
+        if (secret == existing.secret) {
+            if (!bindingResult.hasErrors()) {
                 modelAndView.viewName = "login"
 
                 // Set passwords up and encode

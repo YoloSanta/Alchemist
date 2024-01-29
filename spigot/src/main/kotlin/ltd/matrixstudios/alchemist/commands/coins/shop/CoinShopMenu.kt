@@ -23,23 +23,18 @@ import org.bukkit.event.inventory.ClickType
  * @project Alchemist
  * @website https://solo.to/redis
  */
-class CoinShopMenu(val player: Player) : Menu(player)
-{
+class CoinShopMenu(val player: Player) : Menu(player) {
 
-    init
-    {
+    init {
         staticSize = 45
         placeholder = true
     }
 
-    override fun getButtons(player: Player): MutableMap<Int, Button>
-    {
+    override fun getButtons(player: Player): MutableMap<Int, Button> {
         val buttons = mutableMapOf<Int, Button>()
 
-        for (category in CoinShopManager.categoryMap.values)
-        {
-            if (category.activeOn.contains(Alchemist.globalServer.id) && category.parentCategory == null)
-            {
+        for (category in CoinShopManager.categoryMap.values) {
+            if (category.activeOn.contains(Alchemist.globalServer.id) && category.parentCategory == null) {
                 buttons[category.menuSlot] = CategoryDisplayButton(category)
             }
         }
@@ -81,42 +76,33 @@ class CoinShopMenu(val player: Player) : Menu(player)
         return buttons
     }
 
-    override fun getTitle(player: Player): String
-    {
+    override fun getTitle(player: Player): String {
         return "Coin Shop"
     }
 
-    class CategoryDisplayButton(val category: CoinShopCategory) : Button()
-    {
-        override fun getMaterial(player: Player): Material
-        {
+    class CategoryDisplayButton(val category: CoinShopCategory) : Button() {
+        override fun getMaterial(player: Player): Material {
             return Material.getMaterial(category.displayItem) ?: Material.PAPER
         }
 
-        override fun getDescription(player: Player): MutableList<String>
-        {
+        override fun getDescription(player: Player): MutableList<String> {
             return category.desc.map { Chat.format(it) }.toMutableList()
         }
 
-        override fun getDisplayName(player: Player): String
-        {
+        override fun getDisplayName(player: Player): String {
             return Chat.format(category.displayName)
         }
 
-        override fun getData(player: Player): Short
-        {
+        override fun getData(player: Player): Short {
             return category.data
         }
 
-        override fun onClick(player: Player, slot: Int, type: ClickType)
-        {
+        override fun onClick(player: Player, slot: Int, type: ClickType) {
             val existing = category.getCategoriesThatParentThisOne()
 
-            if (existing.isEmpty())
-            {
+            if (existing.isEmpty()) {
                 CoinShopDisplayProductsMenu(category, player).updateMenu()
-            } else
-            {
+            } else {
                 CoinShopDisplayCategoriesMenu(player, category).updateMenu()
             }
         }
